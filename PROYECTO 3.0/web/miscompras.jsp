@@ -16,8 +16,13 @@
         }
         
         BD bd = new BD();
-        String q = "select numero_boleta, sum(total_venta), TO_CHAR(FECHA_BOLETA, 'DD-MM-YYYY') AS FECHA_BOLETA, ESTADO_ID_ESTADO from venta where usuario_id_usuario = "
-                + usu.getId_user() + " group by numero_boleta, FECHA_BOLETA, ESTADO_ID_ESTADO";
+        String q = "select numero_boleta, sum(total_venta) as total_boleta, TO_CHAR(FECHA_BOLETA, 'DD-MM-YYYY') AS FECHA_BOLETA, NOMBRE_ESTADO, NOMBRE_TVT, estado_id_estado from venta VE " +
+                    " JOIN ESTADO ES "+
+                    " ON (VE.ESTADO_ID_ESTADO = ES.ID_ESTADO) " +
+                    " JOIN TIPO_VENTA TI " +
+                    " ON (VE.TIPO_VENTA_IDTIPOVENTA = TI.ID_TIPOVENTA) " +
+                    " where USUARIO_ID_USUARIO = " + usu.getId_user() +
+                    " group by numero_boleta, FECHA_BOLETA, NOMBRE_ESTADO, NOMBRE_TVT, estado_id_estado ";
         ResultSet res = bd.read(q);
         
 
@@ -52,31 +57,17 @@
                             {%>
                             <thead>
                                 <tr>
-                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th><th><b>VER DETALLE</b></th><th><b>ANULAR</b></th>
+                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th>
+                                    <th><b>TIPO VENTA</b></th>
+                                    <th><b>VER DETALLE</b></th><th><b>ANULAR</b></th>
                                 </tr>
                             </thead>
-                               <% String estado = "";
+                               <% 
                                 do {
-                                     estado = res.getString("ESTADO_ID_ESTADO");
-                                     if(estado.equals("1"))
-                                     {
-                                         estado = "Pendiente";
-                                     }
-                                     if(estado.equals("-1"))
-                                     {
-                                         estado = "Anulado";
-                                     }
-                                     if(estado.equals("3"))
-                                     {
-                                         estado = "Enviado";
-                                     }
-                                     if(estado.equals("4"))
-                                     {
-                                         estado = "Pagado";
-                                     }
                                     %>
                                   <tr>
-                                    <td><%= res.getString("numero_boleta") %></td><td><%= res.getString("fecha_boleta") %></td><td><%= res.getString("sum(total_venta)") %></td><td><%= estado %></td>
+                                      <td><%= res.getString("numero_boleta") %></td><td><%= res.getString("fecha_boleta") %></td><td><%= res.getString("total_boleta") %></td><td><%= res.getString("nombre_estado") %></td>
+                                      <td><%= res.getString("nombre_tvt") %></td>
                                     <td>
                                     <form method="post" action="EspecificacionBoleta">
                                         <input type="submit" value="Ver detalle" name="submitboleta" id="submitboleta"><input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>">
@@ -89,16 +80,21 @@
                                     </td>
                                   </tr>
                                 <% } while (res.next()); %>
-                            <%}else
-                            {%>
-                            <h4>No hay compras, compra aquí: </h4><a href="catalogo.jsp">Catálogo</a>
-                            <%}%>
-                          
-                            <tfoot>
+                                
+                                <tfoot>
                                 <tr>
-                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th><th><b>VER DETALLE</b></th><th><b>ANULAR</b></th>
+                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th>
+                                    <th><b>TIPO VENTA</b></th>
+                                    <th><b>VER DETALLE</b></th><th><b>ANULAR</b></th>
                                 </tr>
                             </tfoot>
+                                
+                            <%}else
+                            {%>
+                            <h4>No hay compras, compra aquí: <a href="catalogo.jsp"> Catálogo</a></h4>
+                            <%}%>
+                          
+                            
         
                       
                       
