@@ -40,6 +40,12 @@
             return true;
         }
         
+        $(document).ready(function() {
+            $('#tablaproductos').DataTable( {
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+            } );
+        } );
+        
     </script>
     
     <body>
@@ -62,9 +68,9 @@
                 if(res.next())
                 {%>
                 <div style="overflow-x:auto;">  
-                    <table class="table table-bordered">
+                    <table id="tablaproductos" class="display" style="width:100%">
                         <tr>
-                            <td><b>ID PRODUCTO</b></td><td><b>NOMBRE PRODUCTO</b></td><td><b>PRECIO UNITARIO</b></td><td><b>PRECIO COMPRA</b></td><td><b>PRECIO COMPRA + IVA</b></td><td><b>STOCK</b></td>
+                            <td><b>ID PRODUCTO</b></td><td><b>NOMBRE PRODUCTO</b></td><td><b>PRECIO UNITARIO</b></td><td><b>PRECIO COMPRA</b></td><td><b>PRECIO COMPRA + IVA</b></td><td><b>STOCK</b></td><td><b>ACCIONES</b></td>
                         </tr>
 
 
