@@ -44,6 +44,77 @@
     
     <script type='text/javascript'>
         
+        //validacion nombre
+        function validarnombre()
+        {
+            var nombre = document.getElementById("nombre").value;
+            if(nombre.length <= 1)
+            {
+                document.getElementById("pnombre").innerHTML = "* El nombre no es válido";
+                return false;
+            }else
+            {
+                document.getElementById("pnombre").innerHTML = "* ";
+                return true;
+            }   
+        }
+        //fin validacion nombre
+        
+        function validardescripcion()
+        {
+            var descripcion = document.getElementById("descripcion").value;
+            if(descripcion.length < 10)
+            {
+                document.getElementById("pdescripcion").innerHTML = "* La descripcion no es válida";
+                return false;
+            }else
+            {
+                document.getElementById("pdescripcion").innerHTML = "* ";
+                return true;
+            }   
+        }
+        
+        function validarpreciou()
+        {
+            var preciou = document.getElementById("preciou").value;
+            if(preciou.length < 1)
+            {
+                document.getElementById("ppreciou").innerHTML = "* El precio unitario no es válido";
+                return false;
+            }else
+            {
+                document.getElementById("ppreciou").innerHTML = "* ";
+                return true;
+            }   
+        }
+        
+        function validarstock()
+        {
+            var stock = document.getElementById("stock").value;
+            if(stock.length < 1)
+            {
+                document.getElementById("pstock").innerHTML = "* El stock no es válido";
+                return false;
+            }else
+            {
+                document.getElementById("pstock").innerHTML = "* ";
+                return true;
+            }   
+        }
+        
+        function activarfecha()
+        {
+            if(document.getElementById("aplica").checked === true)
+            {
+                $("#fecha").prop('disabled', true);
+            }else
+            {
+                $("#fecha").prop('disabled', false);
+            }
+            
+        }
+        
+        
         function sortSelectOptions(selectElement) {
             var options = $(selectElement + " option");
 
@@ -58,6 +129,24 @@
         
         $(window).on('load', function()
         {
+            
+
+            $("#nombre").on("paste keyup input", function() {
+                validarnombre();
+            });
+            
+            $("#descripcion").on("paste keyup input", function() {
+                validardescripcion();
+            });
+            
+            $("#stock").on("paste keyup input", function() {
+                validarstock();
+            });
+            
+            $("#preciou").on("paste keyup input", function() {
+                validarpreciou();
+            });
+            
             var relleno = "<%= relleno %>";
             var relleno2 = "<%= relleno2 %>";
             $('#selectproveedores').html(relleno);
@@ -65,6 +154,38 @@
             sortSelectOptions('#selectproveedores');
             sortSelectOptions('#selecttipo');
         });
+        
+        function validar()
+        {
+            var valido = true;
+            if(!validarnombre())
+            {
+                valido = false;
+            }
+            
+            if(!validardescripcion())
+            {
+                valido = false;
+            }
+            
+            if(!validarstock())
+            {
+                valido = false;
+            }
+            
+            if(!validarpreciou())
+            {
+                valido = false;
+            }
+            if(valido)
+            {
+                jQuery("#submitn").prop('disabled', false);
+            }else
+            {
+                jQuery("#submitn").prop('disabled', true);
+            }
+            return valido;
+        }
     </script>
     
     <body>
@@ -75,41 +196,41 @@
         <div id="registroDiv1">
             <h5>Agregar producto</h5>
             <div id="registroDiv">
-                <form method="post" action="AgregarProd" enctype = "multipart/form-data">
+                <form method="post" action="AgregarProd" enctype = "multipart/form-data" onsubmit="return validar()">
                     <table class="table">
                         <tr>
-                            <td>Nombre:</td><td><input type="text" name="nombre"><label ><font color="red" id="pnombre">* </font> </label></td>
+                            <td>Nombre:</td><td><input type="text" name="nombre" id="nombre"><label ><font color="red" id="pnombre">* </font> </label></td>
                         </tr>
 
                         <tr>
-                            <td>Descripción:</td><td><textarea type="textarea" name="descripcion" >Escriba o pegue aquí...</textarea><label ><font color="red" id="prut" name="prut">* </font> </label></td>
+                            <td>Descripción:</td><td><textarea type="textarea" name="descripcion" id="descripcion">Escriba o pegue aquí...</textarea><label ><font color="red" id="pdescripcion">* </font> </label></td>
                         </tr>
 
                         <tr>
-                            <td>Precio unitario:</td><td><input type="number" name="preciou" ><label ><font color="red" id="prut" name="prut">* </font> </label></td>
+                            <td>Precio unitario:</td><td><input type="number" name="preciou" id="preciou"><label ><font color="red" id="ppreciou">* </font> </label></td>
                         </tr>
                         
                         <tr>
-                            <td>Stock:</td><td><input type="number" name="stock" ><label ><font color="red" id="prut" name="prut">* </font> </label></td>
+                            <td>Stock:</td><td><input type="number" name="stock" id="stock"><label ><font color="red" id="pstock">* </font> </label></td>
                         </tr>
                         
                         <tr>
-                            <td>Tipo de producto:</td><td><select id="selecttipo" name="selecttipo"></select><label ><font color="red" id="prut" name="prut">* </font> </label></td>
+                            <td>Tipo de producto:</td><td><select id="selecttipo" name="selecttipo"></select><label ><font color="red" id="ptipo">* </font> </label></td>
                         </tr>
                         
                         <tr>
-                            <td>Imagen:</td><td><input type="file" name="imagen" ><label ><font color="red" id="prut" name="prut">* </font> </label></td>
+                            <td>Imagen:</td><td><input type="file" name="imagen" id="imagen" required><label ><font color="red" id="pimagen">* </font> </label></td>
                         </tr>
 
                         <tr>
-                            <td>Fecha de vencimiento:</td><td><input type="date" name="fecha"> <input type="checkbox" name="aplica" value="no"> No aplica</td>
+                            <td>Fecha de vencimiento:</td><td><input type="date" name="fecha" id="fecha" required> <input type="checkbox" id="aplica" name="aplica" value="no" onclick="activarfecha()"> No aplica</td>
                         </tr>
                         
                         <tr>
-                            <td>Proveedor:</td><td><select id="selectproveedores" name="selectproveedores"></select><label ><font color="red" id="prut" name="prut">* </font> </label></td>
+                            <td>Proveedor:</td><td><select id="selectproveedores" name="selectproveedores"></select><label ><font color="red" id="pproveedor">* </font> </label></td>
                         </tr>
                         <tr>
-                            <td><a href="javascript:window.history.back();">&laquo; Volver</a></td><td><input type="submit" value="Enviar" name="submitn"><label ><font color="red" id="prut" name="prut">* </font> </label></td>
+                            <td><a href="javascript:window.history.back();">&laquo; Volver</a></td><td><input type="submit" value="Enviar" name="submitn"></td>
                         </tr>
                     </table>
                 </form>

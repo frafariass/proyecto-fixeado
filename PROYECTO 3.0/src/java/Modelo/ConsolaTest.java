@@ -16,8 +16,11 @@ public class ConsolaTest {
     public static void main(String[] args) throws FileNotFoundException
     {
         BD bd = new BD();
-      System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\PROYECTO 2.0\\images\\tipo_producto\\cable.jpg",
+        
+      System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\FINAL\\proyecto-fixeado\\images\\tipo_producto\\tuercas.jpg",
                "tipo_producto", "tipoprod_imagen", "104", "id_tipoprod"));
+      
+      
               System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\PROYECTO 2.0\\images\\tipo_producto\\clavos.jpg",
             "tipo_producto", "tipoprod_imagen", "101", "id_tipoprod"));
                System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\PROYECTO 2.0\\images\\tipo_producto\\tornillos.jpg",

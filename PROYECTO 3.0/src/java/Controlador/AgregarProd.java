@@ -199,7 +199,9 @@ public class AgregarProd extends HttpServlet {
                 bd.update(q);
                 if(bd.insertarImagen(rutaarchivosubido, "producto", "imagen",  idproducto, "id_producto"))
                 {
-                    response.sendRedirect("index.jsp");
+                    Error error = new Error("El producto se ha agregado con éxito");
+                    request.getSession().setAttribute("error1", error);
+                    response.sendRedirect("error.jsp");
                 }
                 
                 
