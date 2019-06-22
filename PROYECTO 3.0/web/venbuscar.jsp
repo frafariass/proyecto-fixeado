@@ -37,7 +37,7 @@
     %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Mis compras</title>
+        <title>Buscar ventas</title>
     </head>
     <script type="text/javascript">
         $(document).ready(function() {

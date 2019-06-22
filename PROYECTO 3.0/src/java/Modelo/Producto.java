@@ -39,6 +39,18 @@ public class Producto {
     }
     
     public Producto() {
+        this.id_producto = "";
+        this.desc_producto = "";
+        this.precio_unitario = 0;
+        this.precio_compra = 0;
+        this.stock = 0;
+        this.stock_critico = 0;
+        this.fecha_venc = "";
+        this.tipo_producto_id_tipoprod = 0;
+        this.estado_id_estado = 0;
+        this.base64Image = "";
+        this.nombre = "";
+        this.usuario_id_proveedor = 0;
     }
 
     public int getUsuario_id_proveedor() {

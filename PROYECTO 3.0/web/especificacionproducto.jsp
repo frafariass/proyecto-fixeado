@@ -27,13 +27,30 @@
 
     <script type="text/javascript">
         
+        function validarcantidad()
+        {
+            var cantidad = $('#cantidad').val();
+            if(cantidad >= 1)
+            {
+                return true;
+            }else
+            {
+                $('#pcantidad').html('La cantidad debe ser mayor a 0');
+                return false;
+            }
+        }
+        
+        function submitform()
+        {
+            $('form#formulariocarro').submit();
+        }
+        
         function submitfamilia()
         {
             $('form#catalogofamilia').submit();
         }
         
     </script>
-    
     <div class="row">
 
       <div class="col-lg-3">
@@ -87,21 +104,25 @@
                     
                     <%}
                 }%>
-                        
+                <form method='post' action='AgregarAlCarro' id="formulariocarro" onsubmit="return validarcantidad()">
                                 <img class='card-img-top img-fluid' src='data:image/jpg;base64,<% out.println(prod.getBase64Image()); %>' alt=''>
                                 
                                     <h5 class='card-text' style='font-size: small'>Código de producto: <% out.println(prod.getId_producto()); %></h5>
-                                    <h3 class='card-title'><% out.println(prod.getNombre()); %></h3>
+                                    <input type="hidden" style="display: none" name="codprod" id="codprod" value="<% out.println(prod.getId_producto()); %>" >
+                                    <h3 class='card-title' ><% out.println(prod.getNombre()); %></h3>
+                                    <input type="hidden" style="display: none" name="nombre" id="nombre" value="<% out.println(prod.getNombre()); %>">
                                     <h4>Stock: <% out.println(prod.getStock());%> unidades</h4>
-                                    <h4>Valor: $<% out.println(Math.round(prod.getPrecio_compra()*1.19));%></h4>
+                                    <input type="hidden" style="display: none" name="stock" id="stock" value="<% out.println(prod.getStock()); %>" >
+                                    <h4 >Valor: $<% out.println(Math.round(prod.getPrecio_compra()*1.19));%></h4>
+                                    <input type="hidden" style="display: none" name="preciocompra" id="preciocompra" value="<% out.println(prod.getPrecio_compra()); %>" >
                                     <p class='card-text'><% out.println(prod.getDesc_producto()); %></p>
-                                    <aside>
-                                    <form method='post' action='AgregarAlCarro'>
                                     <div class='quantity'>
-                                        Cantidad <input type='number' name='cantidad' width='100px'>
+                                        <label>Cantidad: </label><input type='number' name='cantidad' id="cantidad" value="1" width='100px'>      <a onclick="submitform()" class='btn btn-success'>      +</a> Agregar al Carro
+                                        <br>
+                                        <font color="red" id="pcantidad"></font>
                                     </div>
-                                    </form>
-                                    <a href='#' class='btn btn-success'>+</a> Agregar al Carro
+                            </form>
+                                    
                                 
                             
                    <% 

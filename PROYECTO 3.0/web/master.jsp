@@ -3,6 +3,8 @@
     Created on : 15-06-2019, 5:17:05
     Author     : lordp
 --%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="Modelo.Estado"%>
 <%@page import="Modelo.Rubro"%>
 <%@page import="Modelo.Rol"%>
@@ -20,12 +22,21 @@
 <%@page import="Modelo.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% Usuario usu = (Usuario)request.getSession().getAttribute("usu1");%> 
+<% List<Producto> listaproductos = (List<Producto>)request.getSession().getAttribute("listaproductos1");
+    
+    if(listaproductos == null)
+    {
+        listaproductos = new ArrayList<Producto>();
+        request.getSession().setAttribute("listaproductos1", listaproductos);
+    }
+
+%>
 <!DOCTYPE html>
 <html>
     <head>
         
         <!-- 
-        Todo esto debe estar en cada JSP (html) en el head, son referencias a bootstrap, jquery y popper
+        Al crear una pagina, referenciar esta masterpage.jsp
         -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -38,12 +49,11 @@
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
         <link rel="stylesheet" href="css/estilosmaster.css">
         
-        <script src="js/contador.js"></script>
         <script src="js/sha1.js"></script>
         <script src="js/cifrado.js"></script>
     </head>
     
-    <body onload="inicio()">
+    <body>
         <!-- Navigation -->
         
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -65,6 +75,12 @@
           <li class="nav-item">
               <a class="nav-link" id="contador" href="carro.jsp"></a>
           </li>
+          
+          <script type="text/javascript">
+              $(window).on('load', function(){
+                   document.getElementById("contador").innerHTML = "🛒 (" + <%= listaproductos.size()%> + ")";
+              });
+          </script>
           <%
               if(usu == null)
                     {%>

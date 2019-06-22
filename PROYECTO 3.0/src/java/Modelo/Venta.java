@@ -21,11 +21,12 @@ public class Venta {
     private int id_venta;
     private int usuario_id_usuario;
     private int precio_unitario_producto;
+    private int tipo_venta_idtipoventa;
 
     public Venta() {
     }
 
-    public Venta(String fecha_boleta, int total_venta, int tipo_venta_id_tipoventa, int estado_id_estado, int cantidad, String producto_id_producto, int numero_boleta, int id_venta, int usuario_id_usuario, int precio_unitario_producto) {
+    public Venta(String fecha_boleta, int total_venta, int tipo_venta_id_tipoventa, int estado_id_estado, int cantidad, String producto_id_producto, int numero_boleta, int id_venta, int usuario_id_usuario, int precio_unitario_producto, int tipo_venta_idtipoventa) {
         this.fecha_boleta = fecha_boleta;
         this.total_venta = total_venta;
         this.tipo_venta_id_tipoventa = tipo_venta_id_tipoventa;
@@ -36,6 +37,7 @@ public class Venta {
         this.id_venta = id_venta;
         this.usuario_id_usuario = usuario_id_usuario;
         this.precio_unitario_producto = precio_unitario_producto;
+        this.tipo_venta_idtipoventa = tipo_venta_idtipoventa;
     }
 
     public String getFecha_boleta() {
@@ -117,6 +119,16 @@ public class Venta {
     public void setPrecio_unitario_producto(int precio_unitario_producto) {
         this.precio_unitario_producto = precio_unitario_producto;
     }
+
+    public int getTipo_venta_idtipoventa() {
+        return tipo_venta_idtipoventa;
+    }
+
+    public void setTipo_venta_idtipoventa(int tipo_venta_idtipoventa) {
+        this.tipo_venta_idtipoventa = tipo_venta_idtipoventa;
+    }
+
+    
 
     
     

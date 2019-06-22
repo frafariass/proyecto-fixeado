@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Buscar usuario</title>
+        <title>Buscar usuarios</title>
     </head>
     <%
         if(usu == null)

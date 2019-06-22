@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Buscar producto</title>
+        <title>Buscar productos</title>
     </head>
     <%
         if(usu == null)
