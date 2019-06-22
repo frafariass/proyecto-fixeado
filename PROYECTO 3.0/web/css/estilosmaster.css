@@ -1,0 +1,62 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14-05-2019, 4:46:52
+    Author     : lordp
+
+    Modificar todos los estilos aqui
+*/
+
+body {
+  padding-top: 56px;
+}
+
+.tableformat
+{
+    width: 500px;
+}
+
+.quantity input {
+    width: 45px;
+}
+
+.formularioregistro
+{
+    margin: 0 auto;
+    padding: 20px;
+    width: 500px;
+}
+
+.formularioregistro input{
+    
+}
+
+#cantid {
+    width: 60px;
+}
+
+.list-group-item
+{
+    font-size: small;
+    width: 215px;
+    padding: 15px;
+}
+
+.vfcx
+{
+    width: 247px;
+    height: 247px;
+    border: 1px solid black;
+     
+}
+
+#sidebar
+{
+    font-size:small;
+}
+
+
+
