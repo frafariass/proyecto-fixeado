@@ -8,7 +8,9 @@
 <%@ include file="master.jsp" %>
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title>Modificar producto</title>
+    </head>
     <%
         if(usu == null)
         {

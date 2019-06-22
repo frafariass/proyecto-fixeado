@@ -14,7 +14,9 @@
 %> 
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title>Detalle usuario</title>
+    </head>
     <%
         if(usu == null)
         {

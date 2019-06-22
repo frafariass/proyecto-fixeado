@@ -7,7 +7,9 @@
 <%@ include file="master.jsp" %>
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title>Buscar orden de compra</title>
+    </head>
     <%
         if(usu == null)
         {

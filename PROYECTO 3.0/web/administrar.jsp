@@ -8,7 +8,9 @@
 <%@ include file="master.jsp" %>
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title>Panel de administracion FERME</title>
+    </head>
     <%
         if(usu == null)
         {

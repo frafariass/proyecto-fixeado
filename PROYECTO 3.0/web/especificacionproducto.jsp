@@ -14,7 +14,9 @@
    Producto prod = (Producto)request.getSession().getAttribute("prod1"); %>
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title><% out.println(prod.getNombre());%></title>
+    </head>
 
   <!-- Page Content -->
 

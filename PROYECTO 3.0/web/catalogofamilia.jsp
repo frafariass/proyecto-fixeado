@@ -15,7 +15,9 @@
    
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title>Catálogo Ferretería FERME</title>
+    </head>
 
   <!-- Page Content -->
 <script type="text/javascript">

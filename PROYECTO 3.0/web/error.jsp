@@ -10,7 +10,9 @@
 <%Error error = (Error)request.getSession().getAttribute("error1"); %>
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title>Mensaje</title>
+    </head>
 
   <!-- Page Content -->
   <div class="container" style="text-align: center">

@@ -24,6 +24,9 @@
     %>
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Boleta</title>
+    </head>
     <body>
    
         

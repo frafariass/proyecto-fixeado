@@ -8,7 +8,9 @@
 <%@ include file="master.jsp" %>
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title>Modificar orden de compra</title>
+    </head>
     <%
         if(usu == null)
         {

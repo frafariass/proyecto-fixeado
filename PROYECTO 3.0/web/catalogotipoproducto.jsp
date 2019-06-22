@@ -10,7 +10,9 @@
    TipoProducto tipo = (TipoProducto)request.getSession().getAttribute("tipo1"); %>
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title>Catálogo Ferretería FERME</title>
+    </head>
 <script type="text/javascript">
         
         function submitfamilia()

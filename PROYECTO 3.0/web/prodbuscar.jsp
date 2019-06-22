@@ -8,7 +8,9 @@
 <%@ include file="master.jsp" %>
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title>Buscar producto</title>
+    </head>
     <%
         if(usu == null)
         {
@@ -32,19 +34,27 @@
         function validarprod()
         {
             var idprod = $('#dato').val();
-            if(idprod.length != 17)
+            if(idprod.length != 24)
             {
-                document.getElementById("pidprod").innerHTML = "* El id debe ser de 17 carácteres";
+                document.getElementById("pidprod").innerHTML = "* El id debe ser de 24 carácteres";
                 return false;
             }
             return true;
         }
         
+        $(window).on('load', function(){
+            
+            
+        });
+        
         $(document).ready(function() {
-            $('#tablaproductos').DataTable( {
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
-            } );
-        } );
+            $('#tablaproductos').DataTable({
+                "language": {
+                  "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                }
+              });
+            
+        });
         
     </script>
     
@@ -68,12 +78,13 @@
                 if(res.next())
                 {%>
                 <div style="overflow-x:auto;">  
-                    <table id="tablaproductos" class="display" style="width:100%">
+                    <table id="tablaproductos" class="table" style="width:100%">
+                        <thead>
                         <tr>
-                            <td><b>ID PRODUCTO</b></td><td><b>NOMBRE PRODUCTO</b></td><td><b>PRECIO UNITARIO</b></td><td><b>PRECIO COMPRA</b></td><td><b>PRECIO COMPRA + IVA</b></td><td><b>STOCK</b></td><td><b>ACCIONES</b></td>
+                            <th><b>ID PRODUCTO</b></th><th><b>NOMBRE PRODUCTO</b></th><th><b>PRECIO UNITARIO</b></th><th><b>PRECIO COMPRA</b></th><th><b>PRECIO COMPRA + IVA</b></th><th><b>STOCK</b></th><th><b>ACCIONES</b></th>
                         </tr>
-
-
+                        </thead>
+                         <tbody>
                         <%
                             do {%>
                             <tr>
@@ -88,6 +99,13 @@
                                 <%} while (res.next());
                             }
                     %>
+                        
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th><b>ID PRODUCTO</b></th><th><b>NOMBRE PRODUCTO</b></th><th><b>PRECIO UNITARIO</b></th><th><b>PRECIO COMPRA</b></th><th><b>PRECIO COMPRA + IVA</b></th><th><b>STOCK</b></th><th><b>ACCIONES</b></th>
+                        </tr>
+                        </tfoot>
                         </table>
                     </div>
             

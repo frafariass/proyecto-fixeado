@@ -16,6 +16,9 @@
    %>
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Editar perfil</title>
+    </head>
     <script type="text/javascript">
         
           //validacion email

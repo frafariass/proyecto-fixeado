@@ -25,25 +25,36 @@
     %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Mis compras</title>
     </head>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#tablacompras').DataTable({
+                "language": {
+                  "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                }
+              });
+            
+        });
+    </script>
     <body>
         <div class="container" style="overflow-x:auto;">
-
+            <div class="row">
             <!-- Jumbotron Header -->
 
 
             <!-- Page Features -->
-            <div id="miscomprasdiv">
                 
-              <table class="datatable table table-bordered">
+              <table id="tablacompras" class="table" style="width:100%">
                   
                       <%
                             if(res.next())
                             {%>
+                            <thead>
                                 <tr>
-                                    <td><b>NÚMERO DE BOLETA</b></td><td><b>FECHA</b></td><td><b>VALOR TOTAL</b></td><td><b>ESTADO</b></td>
+                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th><th><b>ACCIONES</b></th>
                                 </tr>
+                            </thead>
                                <% String estado = "";
                                 do {
                                      estado = res.getString("ESTADO_ID_ESTADO");
@@ -81,12 +92,16 @@
                             <h4>No hay compras, compra aquí: </h4><a href="catalogo.jsp">Catálogo</a>
                             <%}%>
                           
-            
+                            <tfoot>
+                                <tr>
+                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th><th><b>ACCIONES</b></th>
+                                </tr>
+                            </tfoot>
         
                       
                       
               </table>
-            </div>
+                 </div>           
             <!-- /.row -->
 
           </div>

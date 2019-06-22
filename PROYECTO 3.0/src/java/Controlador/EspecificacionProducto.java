@@ -84,7 +84,7 @@ public class EspecificacionProducto extends HttpServlet {
                 requestDispatcher.forward(request, response);
             }catch(Exception e)
             {
-                Error error = new Error("La id " + id + " no corresponde a un producto ingresado en el sistema");
+                Error error = new Error("La id " + id + " no corresponde a un producto ingresado en el sistema" + e.getMessage());
                 request.getSession().setAttribute("error1", error);
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("error.jsp");
                 requestDispatcher.forward(request, response);

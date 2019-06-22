@@ -3,6 +3,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="master.jsp" %>
 <html>
+    <head>
+        <title>Ferretería FERME</title>
+    </head>
   <!-- Page Content -->
   <div class="container">
 

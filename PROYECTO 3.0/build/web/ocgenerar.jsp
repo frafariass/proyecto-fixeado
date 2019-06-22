@@ -9,7 +9,9 @@
 
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title>Generar orden de compra</title>
+    </head>
     <%
         int contador_proveedores = 100;
         int contador_proveedores2 = 100;

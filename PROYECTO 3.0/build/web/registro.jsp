@@ -17,7 +17,9 @@
    %>
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title>Registro FERME</title>
+    </head>
     <script type="text/javascript">
         
         //validacion rut, que sea valido el que esta ingresando

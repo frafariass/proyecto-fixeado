@@ -9,7 +9,9 @@
 <%@ include file="master.jsp" %>
 <!DOCTYPE html>
 <html>
-    
+    <head>
+        <title>Catálogo Ferretería FERME</title>
+    </head>
     
     <script type="text/javascript">
         

@@ -14,7 +14,9 @@
    %>
 <!DOCTYPE html>
 <html>
-
+    <head>
+        <title>Ingresar</title>
+    </head>
     <script type="text/javascript">
          function validarrut()
         {
