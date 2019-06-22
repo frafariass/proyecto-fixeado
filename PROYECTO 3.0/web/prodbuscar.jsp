@@ -56,35 +56,36 @@
                     </tr>
                 </table>
             </form>
-            
+          </div>
+    </div>  
             <%
                 if(res.next())
                 {%>
-                  
-                <table class="table table-bordered">
-                <tr>
-                    <td><b>ID PRODUCTO</b></td><td><b>NOMBRE PRODUCTO</b></td><td><b>PRECIO UNITARIO</b></td><td><b>PRECIO COMPRA</b></td><td><b>PRECIO COMPRA + IVA</b></td><td><b>STOCK</b></td>
-                </tr>
-                
-                
-                <%
-                    do {%>
-                    
-                    <td><%out.println(res.getString("id_producto"));%></td><td><%out.println(res.getString("nombre"));%></td><td><% out.println(res.getString("precio_unitario"));%></td>
-                    <td><%out.println(res.getString("precio_compra"));%></td><td><% out.println(Integer.parseInt(res.getString("precio_compra"))*1.19);%></td><td><% out.println(res.getString("stock"));%></td>
-                    <td>
-                    <form method="get" action="EspecificacionProducto">
-                        <input type="submit" value="Ver detalle" id="submitproducto"><input name="dato" style="display: none" value="<%= res.getString("id_producto")%>">
-                    </form>
-                    </td>
-                        <%} while (res.next());
-                    }
-            %>
-            </table>
+                <div style="overflow-x:auto;">  
+                    <table class="table table-bordered">
+                        <tr>
+                            <td><b>ID PRODUCTO</b></td><td><b>NOMBRE PRODUCTO</b></td><td><b>PRECIO UNITARIO</b></td><td><b>PRECIO COMPRA</b></td><td><b>PRECIO COMPRA + IVA</b></td><td><b>STOCK</b></td>
+                        </tr>
+
+
+                        <%
+                            do {%>
+                            <tr>
+                                <td><%out.println(res.getString("id_producto"));%></td><td><%out.println(res.getString("nombre"));%></td><td><% out.println(res.getString("precio_unitario"));%></td>
+                                <td><%out.println(res.getString("precio_compra"));%></td><td><% out.println(Math.round(Integer.parseInt(res.getString("precio_compra"))*1.19));%></td><td><% out.println(res.getString("stock"));%></td>
+                                <td>
+                                <form method="get" action="EspecificacionProducto">
+                                    <input type="submit" value="Ver detalle" id="submitproducto"><input name="dato" style="display: none" value="<%= res.getString("id_producto")%>">
+                                </form>
+                                </td>
+                            </tr>
+                                <%} while (res.next());
+                            }
+                    %>
+                        </table>
+                    </div>
             
-            
-        </div>
-    </div>
+        
         <footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Ferretería Ferme 2019</p>

@@ -39,10 +39,8 @@
                     <a class="nav-link collapsed" href="#submenu1" data-toggle="collapse" data-target="#submenu1">Administrar productos</a>
                     <div class="collapse" id="submenu1" aria-expanded="false">
                         <ul class="flex-column pl-2 nav">
-                            <li class="nav-item"><a class="nav-link py-0" href="prodanular.jsp">Anular producto</a></li>
                             <li class="nav-item"><a class="nav-link py-0" href="prodbuscar.jsp">Buscar producto</a></li>
                             <li class="nav-item"><a class="nav-link py-0" href="prodagregar.jsp">Agregar producto</a></li>
-                            <li class="nav-item"><a class="nav-link py-0" href="prodmodificar.jsp">Modificar producto</a></li>
                         </ul>
                     </div>
                 </li>
