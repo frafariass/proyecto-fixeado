@@ -53,6 +53,7 @@ public class ModificarProducto extends HttpServlet {
                 String rutaarchivosubido = "";
                 String idtipoprod = "";
                 String stockcri = "";
+                String nombrefinal = "";
                 String idprod = "";
 
                 FileItemFactory factory = new DiskFileItemFactory();
@@ -65,17 +66,24 @@ public class ModificarProducto extends HttpServlet {
                        // Hay que comprobar si es un campo de formulario. Si no lo es, se guarda el fichero
                        // subido donde nos interese
                        int contador = 1;
-                       String nombrefinal = "";
+                       
                        if (!uploaded.isFormField()) {
                           // No es campo de formulario, guardamos el fichero en algún sitio
                             boolean estado = true;
+                            String aux = "";
                             do {
                                try
                                 {
-                                    nombrefinal = uploaded.getName().substring(0,uploaded.getName().length()-4)+contador+".jpg";
-                                    File fichero = new File("C:\\Users\\lordp\\Desktop\\FINAL\\images\\tipo_producto\\productos", nombrefinal);
+                                    try
+                                    {
+                                        nombrefinal = uploaded.getName().substring(0,uploaded.getName().length()-4)+contador+".jpg";
+                                    }catch(Exception e)
+                                    {
+                                        estado = false;
+                                    }
+                                    File fichero = new File("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\tipo_producto\\productos", nombrefinal);
                                     uploaded.write(fichero);
-                                    rutaarchivosubido = "C:\\Users\\lordp\\Desktop\\FINAL\\images\\tipo_producto\\productos\\" + nombrefinal;
+                                    rutaarchivosubido = "C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\tipo_producto\\productos\\" + nombrefinal;
                                     estado = false;
                                 }catch(Exception e)
                                 {

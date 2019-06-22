@@ -93,7 +93,8 @@
         function validarstock()
         {
             var stock = document.getElementById("stock").value;
-            if(stock.length < 1)
+            var stockcri = document.getElementById("stockcri").value;
+            if(stock.length < 1 || stock <= stockcri)
             {
                 document.getElementById("pstock").innerHTML = "* El stock no es válido";
                 return false;
@@ -105,14 +106,15 @@
         }
         function validarstockcri()
         {
+            var stock = document.getElementById("stock").value;
             var stockcri = document.getElementById("stockcri").value;
-            if(stockcri.length < 1)
+            if(stockcri.length < 1 || stockcri >= stock)
             {
                 document.getElementById("pstockcri").innerHTML = "* El stock crítico no es válido";
                 return false;
             }else
             {
-                document.getElementById("pstock").innerHTML = "* ";
+                document.getElementById("pstockcri").innerHTML = "* ";
                 return true;
             }   
         }

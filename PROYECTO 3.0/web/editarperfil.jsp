@@ -362,7 +362,7 @@
     <div class="formularioregistro">
 
       <div id="ingresar">
-            <h5>Ingrese sus datos, los campos con * son necesarios</h5>
+            <h5>Ingrese datos, los campos con * son necesarios</h5>
             <form mode="post" action="EditarPerfil" onsubmit="return validar()">
                 <table class="table">
                     <%
@@ -400,7 +400,7 @@
                         <td>Rol:</td><td><select id='selectrol' name='selectrol'></select></td>
                         </tr>
                     <tr>
-                        <td></td><td><input type="submit" value="Editar perfil" name="submiteditar" id="submiteditar"></td>
+                        <td><a href="javascript:window.history.back();">&laquo; Volver</a></td><td><input type="submit" value="Editar perfil" name="submiteditar" id="submiteditar"></td>
                     </tr>
                     <input type="hidden" style="display: none" id="tipomod" name="tipomod" value="modadmin">
                 </table>

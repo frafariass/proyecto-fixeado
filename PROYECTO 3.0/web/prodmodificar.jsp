@@ -88,20 +88,6 @@
             }   
         }
         
-        function validarstockcri()
-        {
-            var stockcri = document.getElementById("stockcri").value;
-            if(stockcri.length < 1)
-            {
-                document.getElementById("pstockcri").innerHTML = "* El stock crítico no es válido";
-                return false;
-            }else
-            {
-                document.getElementById("pstock").innerHTML = "* ";
-                return true;
-            }   
-        }
-        
         function validarstock()
         {
             var stock = document.getElementById("stock").value;
@@ -112,6 +98,20 @@
             }else
             {
                 document.getElementById("pstock").innerHTML = "* ";
+                return true;
+            }   
+        }
+        function validarstockcri()
+        {
+            var stock = document.getElementById("stock").value;
+            var stockcri = document.getElementById("stockcri").value;
+            if(stockcri.length < 1 || stockcri >= stock)
+            {
+                document.getElementById("pstockcri").innerHTML = "* El stock crítico debe ser menor al stock";
+                return false;
+            }else
+            {
+                document.getElementById("pstockcri").innerHTML = "* ";
                 return true;
             }   
         }
@@ -273,7 +273,7 @@
                         </tr>
                         
                         <tr>
-                            <td>Imagen:</td><td><input type="file" name="imagen" id="imagen"><label ><font color="red" id="pimagen">* </font> </label></td>
+                            <td>Imagen:</td><td><input type="file" name="imagen" id="imagen"><label ><font color="red" id="pimagen"></font> </label></td>
                         </tr>
 
                         <tr>

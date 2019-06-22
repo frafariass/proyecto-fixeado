@@ -83,9 +83,9 @@ public class AgregarProd extends HttpServlet {
                            try
                             {
                                 nombrefinal = uploaded.getName().substring(0,uploaded.getName().length()-4)+contador+".jpg";
-                                File fichero = new File("C:\\Users\\lordp\\Desktop\\FINAL\\images\\tipo_producto\\productos", nombrefinal);
+                                File fichero = new File("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\tipo_producto\\productos", nombrefinal);
                                 uploaded.write(fichero);
-                                rutaarchivosubido = "C:\\Users\\lordp\\Desktop\\FINAL\\images\\tipo_producto\\productos\\" + nombrefinal;
+                                rutaarchivosubido = "C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\tipo_producto\\productos\\" + nombrefinal;
                                 estado = false;
                             }catch(Exception e)
                             {
