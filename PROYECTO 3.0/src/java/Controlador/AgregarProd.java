@@ -60,6 +60,7 @@ public class AgregarProd extends HttpServlet {
                 String aplica = "si";
                 String rutaarchivosubido = "";
                 String idtipoprod = "";
+                String stockcri = "";
                 
 
                 // req es la HttpServletRequest que recibimos del formulario.
@@ -113,6 +114,10 @@ public class AgregarProd extends HttpServlet {
                        if(key.equals("stock"))
                        {
                            stock = valor;
+                       }
+                       if(key.equals("stockcri"))
+                       {
+                           stockcri = valor;
                        }
                        if(key.equals("fecha"))
                        {
@@ -194,7 +199,7 @@ public class AgregarProd extends HttpServlet {
                 }
                 String idproducto = proveedor + idfamilia + fechavenc + idtipoprod + idstring;
                 q = "INSERT INTO PRODUCTO VALUES('" + idproducto + "', '" +
-                        descripcion + "', " + preciouint +"," + preciouint*1.3 + ", " + stock + ", 0," +
+                        descripcion + "', " + preciouint +"," + preciouint*1.3 + ", " + stock + ","+ stockcri+ "," +
                         idtipoprod + ", null,'" + nombre + "', 2,'" + fechavenc + "', " + proveedor + ")";
                 bd.update(q);
                 if(bd.insertarImagen(rutaarchivosubido, "producto", "imagen",  idproducto, "id_producto"))

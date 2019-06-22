@@ -51,7 +51,9 @@ public class CatalogoFamilia extends HttpServlet {
                 response.sendRedirect("catalogofamilia.jsp");
             }catch(Exception e)
             {
-                response.sendRedirect("index.jsp");
+                Error error = new Error(e.getMessage());
+                request.getSession().setAttribute("error1", error);
+                response.sendRedirect("error.jsp");
             }
 
             

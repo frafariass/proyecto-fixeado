@@ -52,7 +52,7 @@
                             {%>
                             <thead>
                                 <tr>
-                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th><th><b>ACCIONES</b></th>
+                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th><th><b>VER DETALLE</b></th><th><b>ANULAR</b></th>
                                 </tr>
                             </thead>
                                <% String estado = "";
@@ -79,10 +79,12 @@
                                     <td><%= res.getString("numero_boleta") %></td><td><%= res.getString("fecha_boleta") %></td><td><%= res.getString("sum(total_venta)") %></td><td><%= estado %></td>
                                     <td>
                                     <form method="post" action="EspecificacionBoleta">
-                                    <input type="submit" value="Ver detalle" name="submitboleta" id="submitboleta"><input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>">
+                                        <input type="submit" value="Ver detalle" name="submitboleta" id="submitboleta"><input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>">
                                     </form>
-                                    <form method="post" action="AnularBoleta" onsubmit="return verificarestado()">
-                                    <input type="submit" value="Anular compra" name="submitboletaanu" id="submitboletaanu"><input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>" ><input name="estadoboleta" style="display: none" value="<%= res.getString("estado_id_estado")%>">
+                                    </td>
+                                    <td>
+                                    <form method="post" action="AnularBoleta">
+                                        <input type="submit" value="Anular compra" name="submitboletaanu" id="submitboletaanu"><input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>" ><input name="estadoboleta" style="display: none" value="<%= res.getString("estado_id_estado")%>">
                                     </form>
                                     </td>
                                   </tr>
@@ -94,7 +96,7 @@
                           
                             <tfoot>
                                 <tr>
-                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th><th><b>ACCIONES</b></th>
+                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th><th><b>VER DETALLE</b></th><th><b>ANULAR</b></th>
                                 </tr>
                             </tfoot>
         

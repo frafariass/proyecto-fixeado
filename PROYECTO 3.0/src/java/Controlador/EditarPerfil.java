@@ -114,9 +114,13 @@ public class EditarPerfil extends HttpServlet {
                 }
                 
                 
-                response.sendRedirect("exito.jsp");
+                Error error = new Error("Datos modificados exitosamente");
+                request.getSession().setAttribute("error1", error);
+                response.sendRedirect("error.jsp");
             }catch(Exception e)
             {
+                Error error = new Error(e.getMessage());
+                request.getSession().setAttribute("error1", error);
                 response.sendRedirect("error.jsp");
             }
             

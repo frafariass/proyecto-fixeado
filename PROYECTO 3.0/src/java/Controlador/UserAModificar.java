@@ -6,11 +6,11 @@
 package Controlador;
 
 import Modelo.BD;
-import Modelo.Familia;
-import Modelo.TipoProducto;
+import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lordp
  */
-@WebServlet(name = "CatalogoTipoProd", urlPatterns = {"/CatalogoTipoProd"})
-public class CatalogoTipoProd extends HttpServlet {
+@WebServlet(name = "UserAModificar", urlPatterns = {"/UserAModificar"})
+public class UserAModificar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,16 +40,45 @@ public class CatalogoTipoProd extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             try
             {
-                String idtipoprod = request.getParameter("dato");
-                idtipoprod = idtipoprod.trim();
+                String iduser = request.getParameter("idusermod");
                 BD bd = new BD();
-                String q = "select id_tipoprod from tipo_producto where id_tipoprod = " + idtipoprod;
+                String q = "SELECT * FROM USUARIO WHERE ID_USER =" + iduser;
                 ResultSet res = bd.read(q);
-                res.next();
-                TipoProducto tipo = new TipoProducto();
-                tipo.setId_tipoprod(Integer.parseInt(res.getString("id_tipoprod")));
-                request.getSession().setAttribute("tipo1", tipo);
-                response.sendRedirect("catalogotipoproducto.jsp");
+                
+                if(res.next())
+                {
+                    char dv = res.getString("dv_user").charAt(0);
+                    String nombre = res.getString("nombre_user");
+                    String apellido = res.getString("apellido_user");
+                    String email = res.getString("email_user");
+                    String contra = "";
+                    String direccion = res.getString("direccion_user");
+                    String fono = res.getString("fono_user");
+                    int estadoid = Integer.parseInt(res.getString("estado_id_estado"));
+                    int rubroid = Integer.parseInt(res.getString("rubro_id_rubro"));
+                    int id_user = Integer.parseInt(res.getString("id_user"));
+                    int rolid = Integer.parseInt(res.getString("rol_id_rol"));
+                    int rutuser = Integer.parseInt(res.getString("rut_user"));
+
+                    Usuario usu = new Usuario();
+
+                    usu.setDv_user(dv);
+                    usu.setNombre_user(nombre);
+                    usu.setApellido_user(apellido);
+                    usu.setEmail_user(email);
+                    usu.setContrasena(contra);
+                    usu.setDireccion_user(direccion);
+                    usu.setFono_user(fono);
+                    usu.setEstado_id_estado(estadoid);
+                    usu.setRubro_id_rubro(rubroid);
+                    usu.setId_user(id_user);
+                    usu.setRol_id_rol(rolid);
+                    usu.setRut_user(rutuser);
+                    
+                    request.getSession().setAttribute("usubuscar1", usu);
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("editarperfil.jsp");
+                    requestDispatcher.forward(request, response);
+                }
             }catch(Exception e)
             {
                 Error error = new Error(e.getMessage());

@@ -138,9 +138,11 @@ public class Registro extends HttpServlet {
                         String q2 = "insert into usuario "
                                           + "values ('"+digitochar+"', '"+nombre+"', "
                                            + "'"+apellido+"', '"+email+"', '"+clave+"', '"+direccion+"', "
-                                + "'"+telefono+"', "+0+", "+rubro+", "+idmaximo+", "+rol+", "+rutint+")";
+                                + "'"+telefono+"', "+2+", "+rubro+", "+idmaximo+", "+rol+", "+rutint+")";
                         bd.update(q2);
-                        response.sendRedirect("exito.jsp");
+                        Error error = new Error("Usuario registrado exitosamente");
+                        request.getSession().setAttribute("error1", error);
+                        response.sendRedirect("error.jsp");
                     }                   
                 }catch (IOException | NumberFormatException | SQLException e) { 
                     response.sendRedirect("error.jsp");

@@ -38,9 +38,13 @@ public class AnularUsuario extends HttpServlet {
             BD bd = new BD();
             String q = "UPDATE USUARIO SET ESTADO_ID_ESTADO = -1 WHERE ID_USER = " + request.getParameter("iduser");
             bd.update(q);
-            response.sendRedirect("exito.jsp");
+            Error error = new Error("El usuario ha sido anulado con éxito");
+            request.getSession().setAttribute("error1", error);
+            response.sendRedirect("error.jsp");
         }catch(Exception e)
         {
+            Error error = new Error(e.getMessage());
+            request.getSession().setAttribute("error1", error);
             response.sendRedirect("error.jsp");
         }
     }

@@ -103,6 +103,19 @@
                 return true;
             }   
         }
+        function validarstockcri()
+        {
+            var stockcri = document.getElementById("stockcri").value;
+            if(stockcri.length < 1)
+            {
+                document.getElementById("pstockcri").innerHTML = "* El stock crítico no es válido";
+                return false;
+            }else
+            {
+                document.getElementById("pstock").innerHTML = "* ";
+                return true;
+            }   
+        }
         
         function activarfecha()
         {
@@ -145,6 +158,10 @@
                 validarstock();
             });
             
+            $("#stockcri").on("paste keyup input", function() {
+                validarstockcri();
+            });
+            
             $("#preciou").on("paste keyup input", function() {
                 validarpreciou();
             });
@@ -171,6 +188,11 @@
             }
             
             if(!validarstock())
+            {
+                valido = false;
+            }
+            
+            if(!validarstockcri())
             {
                 valido = false;
             }
@@ -214,6 +236,10 @@
                         
                         <tr>
                             <td>Stock:</td><td><input type="number" name="stock" id="stock"><label ><font color="red" id="pstock">* </font> </label></td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Stock crítico:</td><td><input type="number" name="stockcri" id="stockcri"><label ><font color="red" id="pstockcri">* </font> </label></td>
                         </tr>
                         
                         <tr>

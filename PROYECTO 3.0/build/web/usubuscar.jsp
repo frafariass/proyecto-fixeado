@@ -22,108 +22,106 @@
                 response.sendRedirect("index.jsp");
             }
         }
+        
+        BD bd = new BD();
+        String q = "SELECT RUT_USER, DV_USER, NOMBRE_USER, APELLIDO_USER, " +
+                        " EMAIL_USER, DIRECCION_USER, FONO_USER, ES.NOMBRE_ESTADO, ID_USER, RO.NOMBRE_ROL, RU.NOMBRE_RUBRO, " +
+                        " ESTADO_ID_ESTADO, ROL_ID_ROL, RUBRO_ID_RUBRO FROM USUARIO US JOIN ESTADO ES " +
+                        " ON (US.ESTADO_ID_ESTADO = ES.ID_ESTADO) " +
+                        " JOIN ROL RO " +
+                        " ON (US.ROL_ID_ROL = RO.ID_ROL) " +
+                        " JOIN RUBRO RU " +
+                        " ON (US.RUBRO_ID_RUBRO = RU.ID_RUBRO) ";
+        ResultSet res = bd.read(q);
+        res.next();
     %>
     
     <script type="text/javascript">
-         function validarrut()
-        {
-            var rut = document.getElementById("rut").value;
-            if(rut.charAt(0) === "0")
+         function confirmacion()
             {
-                rut = rut.substring(1,rut.length);
-            }
-            rut = rut.replace(".", "");
-            rut = rut.trim();
-            var rutsinguion = rut;
-            rutsinguion = rutsinguion.replace("-", "");
-            
-            if(rutsinguion.length === 8 || rutsinguion.length === 9)
-            {
-                var indicefor = 0;
-                if (rutsinguion.length === 8) {
-                    indicefor = 1;
-                }
-
-                var total = 0;
-                var i;
-                    for (i = 7; i >= indicefor; i--) {
-                        var valor = rut.charAt(i) - '0';
-                        if (rutsinguion.length === 8) {
-                            valor = (rut.charAt(i-1)) - '0';
-                        }
-                        switch(i){
-                            case 0:
-                                total += valor * 3;
-                                break;
-                            case 1: 
-                                total += valor * 2;
-                                break;
-                            case 2: 
-                                total += valor * 7;
-                                break;
-                            case 3: 
-                                total += valor * 6;
-                                break;
-                            case 4: 
-                                total += valor * 5;
-                                break;
-                            case 5: 
-                                total += valor * 4;
-                                break;
-                            case 6: 
-                                total += valor * 3;
-                                break;
-                            case 7: 
-                                total += valor * 2;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                var resto = total % 11;
-                resto = 11 - resto;
-                var digitocalculado = resto;
-                if (resto === 10) {
-                    digitocalculado = "k";
-                }
-                var digitorutingresado = rut.charAt(rut.length-1);
-
-                digitocalculado = digitocalculado.toString();
-
-                if(digitocalculado !== digitorutingresado)
+                if(confirm("¿Está seguro que desea anular éste usuario?"))
                 {
-                    document.getElementById("prut").innerHTML = "* El rut no es válido";
-                    return false;
+                    return true;
                 }else
                 {
-                    document.getElementById("prut").innerHTML = "<font color='red'>* </font>";
-                    return true;
+                    return false;
                 }
-            }else
-            {
-                document.getElementById("prut").innerHTML = "* El rut no es válido";
-                return false;
             }
-        }
+            function confirmacion2()
+            {
+                if(confirm("¿Está seguro que desea activar éste usuario?"))
+                {
+                    return true;
+                }else
+                {
+                    return false;
+                }
+            }
+            $(document).ready(function() {
+            $('#tablausuarios').DataTable({
+                "language": {
+                  "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                }
+              });
+            
+        });
     </script>
     
     <body>
-        <div class="container formularioregistro">
-        <div id="ingresar">
-            <h5>Ingrese el rut del usuario a buscar</h5>
-            <form mode="get" action="BuscarUser" onsubmit="return validarrut()" id="formulariobuscaruser" name="formulariobuscaruser">
-                <table class="table">
+        <div class="container" style="overflow-x:auto;;">
+            <table id="tablausuarios" class="table">
+                <thead>
                     <tr>
-                        <td>Rut:</td><td><input type="text" name="rut" id="rut" ><label ><font color="red" id="prut" name="prut">* </font> </label></td>
+                        <th><b>RUT USUARIO</b></th><th><b>NOMBRE</b></th><th><b>EMAIL</b></th>
+                        <th><b>DIRECCION</b></th><th><b>FONO</b></th><th><b>ESTADO</b></th>
+                        <th><b>ID USUARIO</b></th><th><b>ROL</b></th><th><b>RUBRO</b></th>
+                        <th><b>ACTIVAR/ANULAR</b></th><th><b>MODIFICIAR</b></th>
                     </tr>
+                </thead>
+                <%
+                            do {
+                                String nombrecompleto = res.getString("nombre_user") + " " + res.getString("apellido_user");
+                                String rut = res.getString("rut_user") + "-" + res.getString("dv_user");
+                %>
+                <tr>
+                            <td><%= rut%></td><td><%= nombrecompleto %></td><td><%= res.getString("email_user")%></td>
+                            <td><%= res.getString("direccion_user")%></td><td><%= res.getString("fono_user")%></td><td><%= res.getString("nombre_estado")%></td>
+                            <td><%= res.getString("id_user")%></td><td ><%= res.getString("nombre_rol")%></td><td><%= res.getString("nombre_rubro")%></td>
+                                <td>
+                                    <%if(res.getString("estado_id_estado").equals("2")){
+                                %>
+                                <form action="AnularUsuario" method="post" onsubmit="return confirmacion()">
+                                    <input type="submit" value="Anular usuario" name="submitanularusu" id="submitanularusu"><input name="iduser" style="display: none" value="<%= res.getString("id_user")%>">
+                                </form>
+                                <%}%>
+                                <%if(res.getString("estado_id_estado").equals("-1")){
+                                %>
+                                <form action="ActivarUsuario" method="post" onsubmit="return confirmacion2()">
+                                    <input type="submit" value="Activar Usuario" name="submitactivarusu" id="submitactivarusu"><input name="iduserac" style="display: none" value="<%= res.getString("id_user")%>">
+                                </form>
+                                <%}%>
+                                </td>
+                                <td>
+                                    <form action="UserAModificar" method="post">
+                                            <input type="submit" value="Modificar Usuario" name="submitmodiusu" id="submitmodiusu"><input name="idusermod" style="display: none" value="<%= res.getString("id_user")%>">
+                                    </form>
+                                </td>
+                </tr>
+                            
+                            <%} while (res.next());
+                            
+                    %>
+                    
+                <tfoot>
                     <tr>
-                        <td></td><td><input type="submit" value="Buscar usuario" id="submitbuscarusuario"></td>
+                        <th><b>RUT USUARIO</b></th><th><b>NOMBRE</b></th><th><b>EMAIL</b></th>
+                        <th><b>DIRECCION</b></th><th><b>FONO</b></th><th><b>ESTADO</b></th>
+                        <th><b>ID USUARIO</b></th><th><b>ROL</b></th><th><b>RUBRO</b></th>
+                        <th><b>ACTIVAR/ANULAR</b></th><th><b>MODIFICIAR</b></th>
                     </tr>
-                </table>
-            </form>
+                </tfoot>
+            </table>
         </div>
-    </div>
    <footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Ferretería Ferme 2019</p>

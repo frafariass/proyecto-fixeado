@@ -36,11 +36,15 @@ public class ActivarUsuario extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             BD bd = new BD();
-            String q = "UPDATE USUARIO SET ESTADO_ID_ESTADO = 0 WHERE ID_USER = " + request.getParameter("iduserac");
+            String q = "UPDATE USUARIO SET ESTADO_ID_ESTADO = 2 WHERE ID_USER = " + request.getParameter("iduserac");
             bd.update(q);
-            response.sendRedirect("exito.jsp");
+            Error error = new Error("El usuario ha sido activado con éxito");
+            request.getSession().setAttribute("error1", error);
+            response.sendRedirect("error.jsp");
         }catch(Exception e)
         {
+            Error error = new Error(e.getMessage());
+            request.getSession().setAttribute("error1", error);
             response.sendRedirect("error.jsp");
         }
     }

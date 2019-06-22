@@ -59,29 +59,15 @@
     </script>
     
     <body>
-        <div class="container formularioregistro">
-        <div id="ingresar">
-            <h5>Ingrese la id del producto a buscar</h5>
-            <form mode="get" action="EspecificacionProducto" onsubmit="return validarprod()" id="formulariobuscarprod" name="formulariobuscarprod">
-                <table class="table">
-                    <tr>
-                        <td>Id producto:</td><td><input type="text" name="dato" id="dato" ><label ><font color="red" id="pidprod" name="pidprod">* </font> </label></td>
-                    </tr>
-                    <tr>
-                        <td></td><td><input type="submit" value="Buscar producto" id="submitbuscarprod"></td>
-                    </tr>
-                </table>
-            </form>
-          </div>
-    </div>  
             <%
                 if(res.next())
                 {%>
-                <div style="overflow-x:auto;">  
+                <div style="overflow-x:auto;" class="container">  
                     <table id="tablaproductos" class="table" style="width:100%">
                         <thead>
                         <tr>
-                            <th><b>ID PRODUCTO</b></th><th><b>NOMBRE PRODUCTO</b></th><th><b>PRECIO UNITARIO</b></th><th><b>PRECIO COMPRA</b></th><th><b>PRECIO COMPRA + IVA</b></th><th><b>STOCK</b></th><th><b>ACCIONES</b></th>
+                            <th><b>ID PRODUCTO</b></th><th><b>NOMBRE PRODUCTO</b></th><th><b>PRECIO PROVEEDOR</b></th><th><b>PRECIO COMPRA</b></th>
+                            <th><b>PRECIO COMPRA + IVA</b></th><th><b>STOCK</b></th><th><b>VER DETALLE</b></th><th><b>MODIFICAR</b></th><th><b>ANULAR</b></th>
                         </tr>
                         </thead>
                          <tbody>
@@ -95,6 +81,16 @@
                                     <input type="submit" value="Ver detalle" id="submitproducto"><input name="dato" style="display: none" value="<%= res.getString("id_producto")%>">
                                 </form>
                                 </td>
+                                <td>
+                                <form method="post" action="ProdAModificar">
+                                    <input type="submit" value="Modificar" id="submitproducto"><input name="dato" style="display: none" value="<%= res.getString("id_producto")%>">
+                                </form>
+                                </td>
+                                <td>
+                                <form method="post" action="AnularProducto">
+                                    <input type="submit" value="Anular" id="submitproducto"><input name="dato" style="display: none" value="<%= res.getString("id_producto")%>">
+                                </form>
+                                </td>
                             </tr>
                                 <%} while (res.next());
                             }
@@ -103,7 +99,8 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th><b>ID PRODUCTO</b></th><th><b>NOMBRE PRODUCTO</b></th><th><b>PRECIO UNITARIO</b></th><th><b>PRECIO COMPRA</b></th><th><b>PRECIO COMPRA + IVA</b></th><th><b>STOCK</b></th><th><b>ACCIONES</b></th>
+                            <th><b>ID PRODUCTO</b></th><th><b>NOMBRE PRODUCTO</b></th><th><b>PRECIO PROVEEDOR</b></th><th><b>PRECIO COMPRA</b></th>
+                            <th><b>PRECIO COMPRA + IVA</b></th><th><b>STOCK</b></th><th><b>ACCIONES</b></th><th><b>MODIFICAR</b></th><th><b>ANULAR</b></th>
                         </tr>
                         </tfoot>
                         </table>
