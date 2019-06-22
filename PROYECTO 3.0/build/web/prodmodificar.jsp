@@ -24,22 +24,11 @@
             }
         }
         
-        BD bd = new BD();
-        String q = "SELECT * FROM USUARIO WHERE ROL_ID_ROL =" + 5;
-        ResultSet res = bd.read(q);
-        res.next();
-        String relleno = "";
-        do {
-                relleno = relleno + "<option value='" + res.getString("id_user") + "'>" + res.getString("nombre_user") + "</option>";
-            } while (res.next());
+        if(probuscar == null)
+        {
+            response.sendRedirect("prodbuscar.jsp");
+        }
         
-        q = "SELECT * FROM TIPO_PRODUCTO";
-        res = bd.read(q);
-        res.next();
-        String relleno2 = "";
-        do {
-                relleno2 = relleno2 + "<option value='" + res.getString("id_tipoprod") + "'>" + res.getString("nombre_tipoprod") + "</option>";
-            } while (res.next());
     %>
     
     <script type='text/javascript'>
@@ -115,20 +104,6 @@
                 return true;
             }   
         }
-        
-        function activarfecha()
-        {
-            if(document.getElementById("aplica").checked === true)
-            {
-                $("#fecha").prop('disabled', true);
-            }else
-            {
-                $("#fecha").prop('disabled', false);
-            }
-            
-        }
-        
-        
         function sortSelectOptions(selectElement) {
             var options = $(selectElement + " option");
 
@@ -149,15 +124,7 @@
             var preciou = "<%= probuscar.getPrecio_unitario()%>";
             var stock = "<%= probuscar.getStock()%>";
             var stockcri = "<%= probuscar.getStock_critico()%>";
-            var tipodeprod = "<%= probuscar.getTipo_producto_id_tipoprod()%>";
-            var fechavenc = "<%= probuscar.getFecha_venc()%>";
-            var proveedor = "<%= probuscar.getUsuario_id_proveedor()%>";
             
-            if(fechavenc === "00000000")
-            {
-                $("#fecha").prop('disabled', true);
-                document.getElementById("aplica").checked = true;
-            }
             
             $('#nombre').val(nombre);
             $('#descripcion').val(descripcion);
@@ -187,15 +154,6 @@
                 validarpreciou();
             });
             
-            var relleno = "<%= relleno %>";
-            var relleno2 = "<%= relleno2 %>";
-            $('#selectproveedores').html(relleno);
-            $('#selecttipo').html(relleno2);
-            sortSelectOptions('#selectproveedores');
-            sortSelectOptions('#selecttipo');
-            
-            $('#selecttipo').val(tipodeprod);
-            $('#selectproveedores').val(proveedor);
         });
         
         function validar()
@@ -267,21 +225,8 @@
                         <tr>
                             <td>Stock crítico:</td><td><input type="number" name="stockcri" id="stockcri"><label ><font color="red" id="pstockcri">* </font> </label></td>
                         </tr>
-                        
-                        <tr>
-                            <td>Tipo de producto:</td><td><select id="selecttipo" name="selecttipo"></select><label ><font color="red" id="ptipo">* </font> </label></td>
-                        </tr>
-                        
                         <tr>
                             <td>Imagen:</td><td><input type="file" name="imagen" id="imagen"><label ><font color="red" id="pimagen"></font> </label></td>
-                        </tr>
-
-                        <tr>
-                            <td>Fecha de vencimiento:</td><td><input type="date" name="fecha" id="fecha" required> <input type="checkbox" id="aplica" name="aplica" value="no" onclick="activarfecha()"> No aplica</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>Proveedor:</td><td><select id="selectproveedores" name="selectproveedores"></select><label ><font color="red" id="pproveedor">* </font> </label></td>
                         </tr>
                         <tr>
                             <td><a href="javascript:window.history.back();">&laquo; Volver</a></td><td><input type="submit" value="Enviar" name="submitn"></td>

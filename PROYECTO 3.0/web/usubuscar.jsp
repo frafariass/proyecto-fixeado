@@ -23,6 +23,8 @@
             }
         }
         
+        
+        
         BD bd = new BD();
         String q = "SELECT RUT_USER, DV_USER, NOMBRE_USER, APELLIDO_USER, " +
                         " EMAIL_USER, DIRECCION_USER, FONO_USER, ES.NOMBRE_ESTADO, ID_USER, RO.NOMBRE_ROL, RU.NOMBRE_RUBRO, " +

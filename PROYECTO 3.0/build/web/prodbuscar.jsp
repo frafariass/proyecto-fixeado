@@ -24,7 +24,18 @@
         }
         
         BD bd = new BD();
-        String q = "SELECT * FROM PRODUCTO";
+        String q = "SELECT ID_PRODUCTO, NOMBRE, PRECIO_UNITARIO, PRECIO_COMPRA, " +
+                " STOCK, STOCK_CRITICO, USUARIO_ID_PROVEEDOR, " +
+                " NOMBRE_TIPOPROD, NOMBRE_ESTADO, NOMBRE_FAMILIA "+
+                " FROM PRODUCTO PRO "+
+                " JOIN TIPO_PRODUCTO TIP " +
+                " ON (PRO.TIPO_PRODUCTO_ID_TIPOPROD = TIP.ID_TIPOPROD) "+
+                " JOIN ESTADO ES " + 
+                " ON (PRO.ESTADO_ID_ESTADO = ES.ID_ESTADO) " +
+                " JOIN USUARIO US " + 
+                " ON (PRO.USUARIO_ID_PROVEEDOR = US.ID_USER) " +
+                " JOIN FAMILIA FA " + 
+                " ON (TIP.FAMILIA_ID_FAMILIA = FA.ID_FAMILIA)";
         ResultSet res = bd.read(q);
         
     %>
@@ -62,12 +73,14 @@
             <%
                 if(res.next())
                 {%>
-                <div style="overflow-x:auto;" class="container">  
+                <div style="overflow-x:auto;">  
                     <table id="tablaproductos" class="table" style="width:100%">
                         <thead>
                         <tr>
                             <th><b>ID PRODUCTO</b></th><th><b>NOMBRE PRODUCTO</b></th><th><b>PRECIO PROVEEDOR</b></th><th><b>PRECIO COMPRA</b></th>
-                            <th><b>PRECIO COMPRA + IVA</b></th><th><b>STOCK</b></th><th><b>VER DETALLE</b></th><th><b>MODIFICAR</b></th><th><b>ANULAR</b></th>
+                            <th><b>PRECIO COMPRA + IVA</b></th><th><b>STOCK</b></th><th><b>STOCK CRÍTICO</b></th><th><b>ID PROVEEDOR</b></th>
+                            <th><b>NOMBRE TIPO PRODUCTO</b></th><th><b>FAMILIA</b></th><th><b>ESTADO</b></th>
+                            <th><b>VER DETALLE</b></th><th><b>MODIFICAR</b></th><th><b>ANULAR/ACTIVAR</b></th>
                         </tr>
                         </thead>
                          <tbody>
@@ -76,6 +89,8 @@
                             <tr>
                                 <td><%out.println(res.getString("id_producto"));%></td><td><%out.println(res.getString("nombre"));%></td><td><% out.println(res.getString("precio_unitario"));%></td>
                                 <td><%out.println(res.getString("precio_compra"));%></td><td><% out.println(Math.round(Integer.parseInt(res.getString("precio_compra"))*1.19));%></td><td><% out.println(res.getString("stock"));%></td>
+                                <td><% out.println(res.getString("stock_critico"));%></td><td><% out.println(res.getString("usuario_id_proveedor"));%></td><td><% out.println(res.getString("nombre_tipoprod"));%></td><td><% out.println(res.getString("nombre_familia"));%></td>
+                                <td><% out.println(res.getString("nombre_estado"));%></td>
                                 <td>
                                 <form method="get" action="EspecificacionProducto">
                                     <input type="submit" value="Ver detalle" id="submitproducto"><input name="dato" style="display: none" value="<%= res.getString("id_producto")%>">
@@ -87,9 +102,18 @@
                                 </form>
                                 </td>
                                 <td>
+                              <%
+                                  if(res.getString("nombre_estado").equals("ACTIVO")){
+                                  %>
                                 <form method="post" action="AnularProducto">
                                     <input type="submit" value="Anular" id="submitproducto"><input name="dato" style="display: none" value="<%= res.getString("id_producto")%>">
                                 </form>
+                                <%}else
+                                {%>
+                                  <form method="post" action="ActivarProducto">
+                                    <input type="submit" value="Activar" id="submitproducto"><input name="dato" style="display: none" value="<%= res.getString("id_producto")%>">
+                                    </form>
+                                <%}%>
                                 </td>
                             </tr>
                                 <%} while (res.next());
@@ -100,7 +124,9 @@
                         <tfoot>
                         <tr>
                             <th><b>ID PRODUCTO</b></th><th><b>NOMBRE PRODUCTO</b></th><th><b>PRECIO PROVEEDOR</b></th><th><b>PRECIO COMPRA</b></th>
-                            <th><b>PRECIO COMPRA + IVA</b></th><th><b>STOCK</b></th><th><b>ACCIONES</b></th><th><b>MODIFICAR</b></th><th><b>ANULAR</b></th>
+                            <th><b>PRECIO COMPRA + IVA</b></th><th><b>STOCK</b></th><th><b>STOCK CRÍTICO</b></th><th><b>ID PROVEEDOR</b></th>
+                            <th><b>NOMBRE TIPO PRODUCTO</b></th><th><b>FAMILIA</b></th><th><b>ESTADO</b></th>
+                            <th><b>VER DETALLE</b></th><th><b>MODIFICAR</b></th><th><b>ANULAR/ACTIVAR</b></th>
                         </tr>
                         </tfoot>
                         </table>

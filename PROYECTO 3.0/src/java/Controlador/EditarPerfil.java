@@ -113,7 +113,7 @@ public class EditarPerfil extends HttpServlet {
                     request.getSession().setAttribute("usubuscar1", usucerrar);
                 }
                 
-                
+                request.getSession().setAttribute("usubuscar1", null);
                 Error error = new Error("Datos modificados exitosamente");
                 request.getSession().setAttribute("error1", error);
                 response.sendRedirect("error.jsp");

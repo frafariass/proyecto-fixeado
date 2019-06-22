@@ -9,6 +9,7 @@ import Modelo.BD;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,11 +48,7 @@ public class ModificarProducto extends HttpServlet {
                 String descripcion = "";
                 String preciou = "";
                 String stock = "";
-                String fechavenc = "";
-                String proveedor = "";
-                String aplica = "si";
                 String rutaarchivosubido = "";
-                String idtipoprod = "";
                 String stockcri = "";
                 String nombrefinal = "";
                 String idprod = "";
@@ -117,22 +114,6 @@ public class ModificarProducto extends HttpServlet {
                            {
                                stockcri = valor;
                            }
-                           if(key.equals("fecha"))
-                           {
-                               fechavenc = valor;
-                           }
-                           if(key.equals("selectproveedores"))
-                           {
-                               proveedor = valor;
-                           }
-                           if(key.equals("aplica"))
-                           {
-                               aplica = valor;
-                           }
-                           if(key.equals("selecttipo"))
-                           {
-                               idtipoprod = valor;
-                           }
                            if(key.equals("idprod"))
                            {
                                idprod = valor;
@@ -143,27 +124,17 @@ public class ModificarProducto extends HttpServlet {
                 
                 BD bd = new BD();
                 int preciocompra = (int) Math.round(Integer.parseInt(preciou)*1.3);
-                if(aplica.equals("si"))
-                {
-                    String año = fechavenc.substring(0,4);
-                    String mes = fechavenc.substring(5,7);
-                    String dia = fechavenc.substring(fechavenc.length()-2, fechavenc.length());
-                    fechavenc = dia + mes + año;
-                }else
-                {
-                    fechavenc = "00000000";
-                }
                 String q = "UPDATE PRODUCTO "
                         + "SET DESC_PRODUCTO = '" + descripcion + "' , PRECIO_UNITARIO = " + preciou 
                         + ", PRECIO_COMPRA = " + preciocompra + ", STOCK = " + stock + " , STOCK_CRITICO ="
-                        + stockcri + " , NOMBRE ='" + nombre + "' , FECHA_VENC ='" +fechavenc + "' , USUARIO_ID_PROVEEDOR = " + proveedor + " "
-                        + "WHERE ID_PRODUCTO = '" + idprod + "'";
+                        + stockcri + " , NOMBRE ='" + nombre + "' WHERE ID_PRODUCTO = '" + idprod + "'";
                 bd.update(q);
                 
                 if(!rutaarchivosubido.equals(""))
                 {
                     if(bd.insertarImagen(rutaarchivosubido, "producto", "imagen",  idprod, "id_producto"))
                     {
+                        request.getSession().setAttribute("probuscar1", null);
                         Error error = new Error("El producto se ha modificado con éxito");
                         request.getSession().setAttribute("error1", error);
                         response.sendRedirect("error.jsp");
@@ -175,6 +146,7 @@ public class ModificarProducto extends HttpServlet {
                     }
                 }else
                 {
+                    request.getSession().setAttribute("probuscar1", null);
                     Error error = new Error("El producto se ha modificado con éxito");
                     request.getSession().setAttribute("error1", error);
                     response.sendRedirect("error.jsp");
