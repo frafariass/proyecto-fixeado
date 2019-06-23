@@ -6,6 +6,7 @@
 package Controlador;
 
 import Modelo.BD;
+import Modelo.Mensaje;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -59,6 +60,7 @@ public class UserAModificar extends HttpServlet {
                     int id_user = Integer.parseInt(res.getString("id_user"));
                     int rolid = Integer.parseInt(res.getString("rol_id_rol"));
                     int rutuser = Integer.parseInt(res.getString("rut_user"));
+                    int comunaid = Integer.parseInt(res.getString("comuna_comuna_id"));
 
                     Usuario usu = new Usuario();
 
@@ -74,6 +76,7 @@ public class UserAModificar extends HttpServlet {
                     usu.setId_user(id_user);
                     usu.setRol_id_rol(rolid);
                     usu.setRut_user(rutuser);
+                    usu.setComuna_comuna_id(comunaid);
                     
                     request.getSession().setAttribute("usubuscar1", usu);
                     RequestDispatcher requestDispatcher = request.getRequestDispatcher("editarperfil.jsp");
@@ -81,8 +84,8 @@ public class UserAModificar extends HttpServlet {
                 }
             }catch(Exception e)
             {
-                Error error = new Error(e.getMessage());
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }
         }

@@ -6,6 +6,7 @@
 package Controlador;
 
 import Modelo.BD;
+import Modelo.Mensaje;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -40,13 +41,13 @@ public class AnularProducto extends HttpServlet {
                 BD bd = new BD();
                 String q = "UPDATE PRODUCTO SET ESTADO_ID_ESTADO = -1 WHERE ID_PRODUCTO = " + request.getParameter("dato");
                 bd.update(q);
-                Error error = new Error("El producto ha sido anulado con éxito");
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje("Producto anulado exitosamente", "prodbuscar.jsp", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }catch(Exception e)
             {
-                Error error = new Error(e.getMessage());
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }
         }

@@ -6,6 +6,7 @@
 package Controlador;
 
 import Modelo.BD;
+import Modelo.Mensaje;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -204,8 +205,8 @@ public class AgregarProd extends HttpServlet {
                 bd.update(q);
                 if(bd.insertarImagen(rutaarchivosubido, "producto", "imagen",  idproducto, "id_producto"))
                 {
-                    Error error = new Error("El producto se ha agregado con éxito");
-                    request.getSession().setAttribute("error1", error);
+                    Mensaje mensaje = new Mensaje("El producto ha sido agregado con éxito", "administrar.jsp", "&laquo; Ir a administrar");
+                    request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");
                 }
                 
@@ -218,8 +219,8 @@ public class AgregarProd extends HttpServlet {
                 
             }catch(Exception e)
             {
-                Error error = new Error(e.getMessage());
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }
         }

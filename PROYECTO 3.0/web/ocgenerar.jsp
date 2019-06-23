@@ -34,7 +34,6 @@
         {
             var idprov = $('#i_proveedores').val();
             var ultimo = $('#last').val();
-            var current = $('#current').val();
             
             if(idprov !== "0")
             {

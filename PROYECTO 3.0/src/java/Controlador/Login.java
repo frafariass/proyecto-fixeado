@@ -7,6 +7,7 @@ package Controlador;
 
 import Modelo.BD;
 import Modelo.Cifrado;
+import Modelo.Mensaje;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -75,18 +76,19 @@ public class Login extends HttpServlet {
                     int rubro_id = Integer.parseInt(res.getString("rubro_id_rubro"));
                     int rol_id_rol = Integer.parseInt(res.getString("rol_id_rol"));
                     int id_user = Integer.parseInt(res.getString("id_user"));
+                    int comunaid = Integer.parseInt(res.getString("comuna_comuna_id"));
 
                     Usuario usu = new Usuario(dv,nombre,apellido,email,contrasena,direccion,fono,estado_id_estado,
-                                            rubro_id,id_user,rol_id_rol,rutquery);
+                                            rubro_id,id_user,rol_id_rol,rutquery,comunaid);
 
                     request.getSession().setAttribute("usu1", usu);
                     response.sendRedirect("index.jsp");
                 }catch(Exception e)
                 {
                     String rutarmado = rut + "-" + dvaux;
-                    String mensaje = "El rut " + rutarmado + " no se encuentra registrado en el sistema o la contraseña es incorrecta";
-                    Error error = new Error(mensaje);
-                    request.getSession().setAttribute("error1", error);
+                    String mensaje2 = "El rut " + rutarmado + " no se encuentra registrado en el sistema o la contraseña es incorrecta";
+                    Mensaje mensaje = new Mensaje(mensaje2, "javascript:window.history.back();", "&laquo; Volver");
+                    request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");
                 }
                 

@@ -6,6 +6,7 @@
 package Controlador;
 
 import Modelo.BD;
+import Modelo.Mensaje;
 import Modelo.Producto;
 import Modelo.TipoProducto;
 import java.io.ByteArrayOutputStream;
@@ -84,8 +85,8 @@ public class EspecificacionProducto extends HttpServlet {
                 requestDispatcher.forward(request, response);
             }catch(Exception e)
             {
-                Error error = new Error("La id " + id + " no corresponde a un producto ingresado en el sistema" + e.getMessage());
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje("La id " + id + " no corresponde a un producto ingresado en el sistema", "javascript:window.history.back();", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("error.jsp");
                 requestDispatcher.forward(request, response);
             }

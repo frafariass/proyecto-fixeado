@@ -6,6 +6,7 @@
 package Controlador;
 
 import Modelo.BD;
+import Modelo.Mensaje;
 import Modelo.Producto;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -85,8 +86,8 @@ public class ProdAModificar extends HttpServlet {
                 
             }catch(Exception e)
             {
-                Error error = new Error(e.getMessage());
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }
         }

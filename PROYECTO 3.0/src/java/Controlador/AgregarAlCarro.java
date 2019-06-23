@@ -5,6 +5,7 @@
  */
 package Controlador;
 
+import Modelo.Mensaje;
 import Modelo.Producto;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -50,13 +51,13 @@ public class AgregarAlCarro extends HttpServlet {
                 }
                 request.getSession().setAttribute("listaproductos1", lista);
                 
-                Error error = new Error("Producto agregado al carro exitosamente");
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje("Producto agregado al carro exitosamente", "javascript:window.history.back();", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }catch(Exception e)
             {
-                Error error = new Error(e.getMessage());
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }
         }

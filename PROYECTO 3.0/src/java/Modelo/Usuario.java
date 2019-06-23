@@ -23,11 +23,12 @@ public class Usuario {
     private int id_user;
     private int rol_id_rol;
     private int rut_user;
+    private int comuna_comuna_id;
 
     public Usuario() {
     }
 
-    public Usuario(char dv_user, String nombre_user, String apellido_user, String email_user, String contrasena, String direccion_user, String fono_user, int estado_id_estado, int rubro_id_rubro, int id_user, int rol_id_rol, int rut_user) {
+    public Usuario(char dv_user, String nombre_user, String apellido_user, String email_user, String contrasena, String direccion_user, String fono_user, int estado_id_estado, int rubro_id_rubro, int id_user, int rol_id_rol, int rut_user, int comuna_comuna_id) {
         this.dv_user = dv_user;
         this.nombre_user = nombre_user;
         this.apellido_user = apellido_user;
@@ -40,6 +41,7 @@ public class Usuario {
         this.id_user = id_user;
         this.rol_id_rol = rol_id_rol;
         this.rut_user = rut_user;
+        this.comuna_comuna_id = comuna_comuna_id;
     }
 
     public char getDv_user() {
@@ -137,6 +139,16 @@ public class Usuario {
     public void setRut_user(int rut_user) {
         this.rut_user = rut_user;
     }
+
+    public int getComuna_comuna_id() {
+        return comuna_comuna_id;
+    }
+
+    public void setComuna_comuna_id(int comuna_comuna_id) {
+        this.comuna_comuna_id = comuna_comuna_id;
+    }
+
+    
     
     
     

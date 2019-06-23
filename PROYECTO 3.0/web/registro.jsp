@@ -1,4 +1,4 @@
-<%-- 
+ <%-- 
     Document   : registro
     Created on : 23-05-2019, 0:42:18
     Author     : lordp
@@ -14,6 +14,17 @@
        response.sendRedirect("index.jsp");
    }
    
+    BD bd = new BD();
+    String q = "SELECT * FROM REGIONES";
+    ResultSet res = bd.read(q);
+    res.next();
+    String rellenoregiones = "";
+    int contadorregiones = 0;
+    do {
+            contadorregiones++;
+            rellenoregiones = rellenoregiones + "<option value='" + res.getString("REGION_ID") + "'>" + res.getString("REGION_ORDINAL") + ": " + res.getString("REGION_NOMBRE") + "</option>";
+        } while (res.next());
+   
    %>
 <!DOCTYPE html>
 <html>
@@ -21,7 +32,44 @@
         <title>Registro FERME</title>
     </head>
     <script type="text/javascript">
+        function rellenoregiones()
+        {
+            var relleno = "<%= rellenoregiones%>";
+            document.getElementById("regiones").innerHTML = relleno;
+            cargarCiudades();
+        }
         
+        function cargarComunas(id)
+        {
+            var idciudadseleccionada = id;
+            var ultimaciudad = document.getElementById("lastciudades").value;
+            
+                document.getElementById("comuna"+idciudadseleccionada).style.display = "block";
+                if(ultimaciudad !== "0")
+                {
+                    document.getElementById("comuna"+ultimaciudad).style.display = "none";
+                }
+                
+                document.getElementById("lastciudades").value = idciudadseleccionada;
+
+        }
+        
+        function cargarCiudades()
+        {
+            var idregionseleccionada = $('#regiones').val();
+            var ultimaregion = document.getElementById("lastregiones").value;
+            
+
+                document.getElementById("ciudad"+idregionseleccionada).style.display = "block";
+                if(ultimaregion !== "0")
+                {
+                    document.getElementById("ciudad"+ultimaregion).style.display = "none";
+                }
+                document.getElementById("lastregiones").value = idregionseleccionada;
+                cargarComunas(document.getElementById("ciudad"+$('#regiones').val()).value);
+
+            
+        }
         //validacion rut, que sea valido el que esta ingresando
         //es un modulo 11
         function validarrut()
@@ -248,6 +296,8 @@
         //VALIDA QUE LOS CAMPOS NECESARIOS ESTEN LLENOS
         //SI NO ESTAN LLENOS, EL SUBMIT SE DESHABILITA
         $(window).on('load', function() {  
+            
+            
             var rolactual = -2;
             <%
                 if(usu != null){%> rolactual = <%= usu.getRol_id_rol()%>
@@ -259,9 +309,8 @@
                 document.getElementById("trrol").style.display = "none";
             }
             <%
-                BD bd = new BD();
-                String q = "select * from rol";
-                ResultSet res = bd.read(q);
+                q = "select * from rol";
+                res = bd.read(q);
                 res.next();
                 String relleno = "";
                 do {
@@ -287,6 +336,16 @@
             $("#selectrubro").val(auxrubro);
             $("#selectrol").val(auxrol);
             
+            rellenoregiones();
+            $("#regiones").on("change", function() {
+                cargarCiudades();
+            });
+            
+            for (var i = 0; i < <%= contadorregiones%>; i++) {
+                $("#ciudad" + i).on("change", function(){
+                    cargarComunas(document.getElementById("ciudad"+$('#regiones').val()).value);
+                });
+            }
             
             $("#clave").on("paste keyup", function() {
                 cifrado();
@@ -490,6 +549,66 @@
                         </tr>
                         <tr>
                             <td>Direccion:</td><td><input type="text" name="direccion" id="direccion"><label ><font color="red" id="pdireccion" name="pdireccion">* </font> </label></td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Región:</td>
+                            <td><select id="regiones"></select></td>
+                        </tr>
+                        <input style="display: none" id="lastregiones" name="lastregiones" value="0">
+                        <input style="display: none" id="lastciudades" name="lastciudades" value="0">
+                        <tr>
+                            <td>Ciudad:</td><td id="selectsciudades">
+                                
+                                <%
+                                    int contadorciudades = 0;
+                                    q = "SELECT * FROM PROVINCIAS";
+                                    res = bd.read(q);
+                                    res.last();
+                                    contadorciudades = res.getRow();
+                                    for (int i = 1; i < contadorregiones+1; i++) {
+                                        res.first();
+                                         %>
+                                    <select id="ciudad<%= i%>" style="display: none">
+                                        <%
+                                            
+                                            do {
+                                                if(Integer.parseInt(res.getString("region_id")) == i){
+                                                %>
+                                                    <option value="<%= res.getString("provincia_id") %>"><% out.println(res.getString("provincia_nombre")); %></option>
+                                                <%}
+                                            } while (res.next());
+                                        %>
+                                        
+                                    </select>
+                                        <%}%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Comuna:</td>
+                            <td id="selectscomunas">
+                                
+                                <%
+                                    q = "SELECT * FROM COMUNAS";
+                                    res = bd.read(q);
+                                    for (int i = 1; i < contadorciudades+1; i++) {
+                                           res.first();
+                                         %>
+                                    <select id="comuna<%= i%>" name="comuna<%= i%>" style="display: none">
+                                        <%
+                                            
+                                            do {
+                                                if(Integer.parseInt(res.getString("provincia_id")) == i){
+                                                %>
+                                                    <option value="<%= res.getString("comuna_id") %>"><% out.println(res.getString("comuna_nombre")); %></option>
+                                                <%}
+                                            } while (res.next());
+                                        %>
+                                        
+                                    </select>
+                                        <%}%>
+                                
+                            </td>
                         </tr>
 
                         <tr>

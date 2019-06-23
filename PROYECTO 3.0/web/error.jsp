@@ -5,9 +5,10 @@
 --%>
 
 
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="master.jsp" %>
-<%Error error = (Error)request.getSession().getAttribute("error1"); %>
+<%Mensaje mensaje = (Mensaje)request.getSession().getAttribute("mensaje1"); %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,8 +19,8 @@
   <div class="container" style="text-align: center">
 
       
-      <h5><% out.println(error.getMessage()); %></h5>
-      <a href="javascript:window.history.back();">&laquo; Volver</a>
+      <h5><% out.println(mensaje.getMensaje()); %></h5>
+      <a href="<%= mensaje.getHref()%>"><%= mensaje.getPagina()%></a>
     <!-- /.row -->
 
   </div>

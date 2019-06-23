@@ -6,6 +6,7 @@
 package Controlador;
 
 import Modelo.BD;
+import Modelo.Mensaje;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -38,13 +39,13 @@ public class AnularUsuario extends HttpServlet {
             BD bd = new BD();
             String q = "UPDATE USUARIO SET ESTADO_ID_ESTADO = -1 WHERE ID_USER = " + request.getParameter("iduser");
             bd.update(q);
-            Error error = new Error("El usuario ha sido anulado con éxito");
-            request.getSession().setAttribute("error1", error);
+            Mensaje mensaje = new Mensaje("Usuario anulado exitosamente", "usubuscar.jsp", "&laquo; Volver");
+            request.getSession().setAttribute("mensaje1", mensaje);
             response.sendRedirect("error.jsp");
         }catch(Exception e)
         {
-            Error error = new Error(e.getMessage());
-            request.getSession().setAttribute("error1", error);
+            Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
+            request.getSession().setAttribute("mensaje1", mensaje);
             response.sendRedirect("error.jsp");
         }
     }

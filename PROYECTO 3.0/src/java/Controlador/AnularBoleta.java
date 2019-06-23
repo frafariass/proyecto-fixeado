@@ -6,6 +6,7 @@
 package Controlador;
 
 import Modelo.BD;
+import Modelo.Mensaje;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -41,23 +42,23 @@ public class AnularBoleta extends HttpServlet {
                 estado = estado.trim();
                 if(!estado.equals("1"))
                 {
-                    Error error = new Error("El estado de la compra debe estar pendiente para poder anular, para devoluciones y garantía llamar al 2-234-4567");
-                    request.getSession().setAttribute("error1", error);
+                    Mensaje mensaje = new Mensaje("El estado de la compra debe estar pendiente para poder anular, para devoluciones y garantía llamar al 2-234-4567", "javascript:window.history.back();", "&laquo; Volver");
+                    request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");
                 }else
                 {
                     BD bd = new BD();
                     String q = "UPDATE VENTA SET ESTADO_ID_ESTADO = -1 WHERE NUMERO_BOLETA = " + request.getParameter("nroboleta");
                     bd.update(q);
-                    Error error = new Error("Venta anulada con éxito");
-                    request.getSession().setAttribute("error1", error);
+                    Mensaje mensaje = new Mensaje("Venta anulada exitosamente", "venbuscar.jsp", "&laquo; Volver");
+                    request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");
                 }
                 
             }catch(Exception e)
             {
-                Error error = new Error(e.getMessage());
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }
         }

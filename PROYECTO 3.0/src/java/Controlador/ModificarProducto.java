@@ -6,6 +6,7 @@
 package Controlador;
 
 import Modelo.BD;
+import Modelo.Mensaje;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -135,28 +136,28 @@ public class ModificarProducto extends HttpServlet {
                     if(bd.insertarImagen(rutaarchivosubido, "producto", "imagen",  idprod, "id_producto"))
                     {
                         request.getSession().setAttribute("probuscar1", null);
-                        Error error = new Error("El producto se ha modificado con éxito");
-                        request.getSession().setAttribute("error1", error);
+                        Mensaje mensaje = new Mensaje("El producto se ha modificado con éxito", "prodbuscar.jsp", "&laquo; Volver");
+                        request.getSession().setAttribute("mensaje1", mensaje);
                         response.sendRedirect("error.jsp");
                     }else
                     {
-                        Error error = new Error("Ha habido un problema al actualizar la imagen");
-                        request.getSession().setAttribute("error1", error);
+                        Mensaje mensaje = new Mensaje("Ha habido un problema al actualizar la imagen", "javascript:window.history.back();", "&laquo; Volver");
+                        request.getSession().setAttribute("mensaje1", mensaje);
                         response.sendRedirect("error.jsp");
                     }
                 }else
                 {
                     request.getSession().setAttribute("probuscar1", null);
-                    Error error = new Error("El producto se ha modificado con éxito");
-                    request.getSession().setAttribute("error1", error);
+                    Mensaje mensaje = new Mensaje("El producto se ha modificado con éxito", "prodbuscar.jsp", "&laquo; Volver");
+                    request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");
                 }
                 
                 
             }catch(Exception e)
             {
-                Error error = new Error(e.getMessage());
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }
             /* TODO output your page here. You may use following sample code. */

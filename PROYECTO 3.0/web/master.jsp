@@ -20,6 +20,7 @@
 <%@page import="Modelo.Contador"%>
 <%@page import ="java.sql.*" %>
 <%@page import="Modelo.Usuario"%>
+<%@page import="Modelo.Mensaje"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% Usuario usu = (Usuario)request.getSession().getAttribute("usu1");%> 
 <% List<Producto> listaproductos = (List<Producto>)request.getSession().getAttribute("listaproductos1");

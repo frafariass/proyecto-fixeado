@@ -7,6 +7,7 @@ package Controlador;
 
 import Modelo.BD;
 import Modelo.Cifrado;
+import Modelo.Mensaje;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -114,13 +115,13 @@ public class EditarPerfil extends HttpServlet {
                 }
                 
                 request.getSession().setAttribute("usubuscar1", null);
-                Error error = new Error("Datos modificados exitosamente");
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje("Datos modificados exitosamente", "index.jsp", "&laquo; Ir al inicio");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }catch(Exception e)
             {
-                Error error = new Error(e.getMessage());
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }
             

@@ -7,6 +7,7 @@ package Controlador;
 
 import Modelo.BD;
 import Modelo.Familia;
+import Modelo.Mensaje;
 import Modelo.TipoProducto;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -52,8 +53,8 @@ public class CatalogoTipoProd extends HttpServlet {
                 response.sendRedirect("catalogotipoproducto.jsp");
             }catch(Exception e)
             {
-                Error error = new Error(e.getMessage());
-                request.getSession().setAttribute("error1", error);
+                Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }
         }

@@ -7,6 +7,7 @@ package Controlador;
 
 import Modelo.BD;
 import Modelo.Cifrado;
+import Modelo.Mensaje;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
@@ -70,9 +71,9 @@ public class Registro extends HttpServlet {
                     {
                         res.next();
                         String rutarmado = res.getString("rut_user") + "-" + res.getString("dv_user");
-                        String mensaje = "El rut " + rutarmado + " ya está registrado en el sistema";
-                        Error error = new Error(mensaje);
-                        request.getSession().setAttribute("error1", error);
+                        String mensaje2 = "El rut " + rutarmado + " ya está registrado en el sistema";
+                        Mensaje mensaje = new Mensaje(mensaje2, "index.jsp", "&laquo; Ir al inicio");
+                        request.getSession().setAttribute("mensaje1", mensaje);
                         response.sendRedirect("error.jsp");
                     }catch(Exception e)
                     {
@@ -91,6 +92,9 @@ public class Registro extends HttpServlet {
                         String apellido = request.getParameter("apellido");
                         String direccion = request.getParameter("direccion");
                         String telefono = request.getParameter("telefono");
+                        String ciudad = request.getParameter("lastciudades");
+                        ciudad = "comuna"+ciudad;
+                        String comunaid = request.getParameter(ciudad);
 
                         if(telefono.length() == 0)
                         {
@@ -138,10 +142,10 @@ public class Registro extends HttpServlet {
                         String q2 = "insert into usuario "
                                           + "values ('"+digitochar+"', '"+nombre+"', "
                                            + "'"+apellido+"', '"+email+"', '"+clave+"', '"+direccion+"', "
-                                + "'"+telefono+"', "+2+", "+rubro+", "+idmaximo+", "+rol+", "+rutint+")";
+                                + "'"+telefono+"', "+2+", "+rubro+", "+idmaximo+", "+rol+", "+rutint+", " + comunaid + ")";
                         bd.update(q2);
-                        Error error = new Error("Usuario registrado exitosamente");
-                        request.getSession().setAttribute("error1", error);
+                        Mensaje mensaje = new Mensaje("Usuario registrado exitosamente", "index.jsp", "&laquo; Ir al inicio");
+                        request.getSession().setAttribute("mensaje1", mensaje);
                         response.sendRedirect("error.jsp");
                     }                   
                 }catch (IOException | NumberFormatException | SQLException e) { 

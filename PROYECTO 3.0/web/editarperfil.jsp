@@ -13,6 +13,19 @@
    {
        response.sendRedirect("login.jsp");
    }
+   
+    BD bd = new BD();
+    String q2;
+    ResultSet res2;
+    String q = "SELECT * FROM REGIONES";
+    ResultSet res = bd.read(q);
+    res.next();
+    String rellenoregiones = "";
+    int contadorregiones = 0;
+    do {
+            contadorregiones++;
+            rellenoregiones = rellenoregiones + "<option value='" + res.getString("REGION_ID") + "'>" + res.getString("REGION_ORDINAL") + ": " + res.getString("REGION_NOMBRE") + "</option>";
+        } while (res.next());
    %>
 <!DOCTYPE html>
 <html>
@@ -20,6 +33,45 @@
         <title>Editar perfil</title>
     </head>
     <script type="text/javascript">
+        
+        function rellenoregiones()
+        {
+            var relleno = "<%= rellenoregiones%>";
+            document.getElementById("regiones").innerHTML = relleno;
+            cargarCiudades();
+        }
+        
+        function cargarComunas(id)
+        {
+            var idciudadseleccionada = id;
+            var ultimaciudad = document.getElementById("lastciudades").value;
+            
+                document.getElementById("comuna"+idciudadseleccionada).style.display = "block";
+                if(ultimaciudad !== "0")
+                {
+                    document.getElementById("comuna"+ultimaciudad).style.display = "none";
+                }
+                
+                document.getElementById("lastciudades").value = idciudadseleccionada;
+
+        }
+        
+        function cargarCiudades()
+        {
+            var idregionseleccionada = $('#regiones').val();
+            var ultimaregion = document.getElementById("lastregiones").value;
+            
+
+                document.getElementById("ciudad"+idregionseleccionada).style.display = "block";
+                if(ultimaregion !== "0")
+                {
+                    document.getElementById("ciudad"+ultimaregion).style.display = "none";
+                }
+                document.getElementById("lastregiones").value = idregionseleccionada;
+                cargarComunas(document.getElementById("ciudad"+$('#regiones').val()).value);
+
+            
+        }
         
           //validacion email
         function validaremail()
@@ -195,10 +247,33 @@
             var apellido;
             var auxrubro;
             var auxrol;
+            var auxregion;
             
             <%
-                if(usu != null && usubuscar != null){%> usubuscar = true;
-            <%}%>
+                if(usu != null && usubuscar != null){
+                    q2 = "SELECT RE.REGION_ID FROM COMUNAS CO"
+                                + " JOIN PROVINCIAS PRO ON (CO.PROVINCIA_ID = PRO.PROVINCIA_ID) "
+                                + " JOIN REGIONES RE ON (PRO.REGION_ID = RE.REGION_ID) " +
+                                " WHERE CO.COMUNA_ID =" + usubuscar.getComuna_comuna_id();
+                        res2 = bd.read(q2);
+                        res2.next();
+            %> usubuscar = true;
+                    auxregion = "<%= res2.getString("region_id")%>"; 
+                        
+            <%}else
+            {
+                if(usu != null)
+                {
+                    q2 = "SELECT RE.REGION_ID FROM COMUNAS CO"
+                                + " JOIN PROVINCIAS PRO ON (CO.PROVINCIA_ID = PRO.PROVINCIA_ID) "
+                                + " JOIN REGIONES RE ON (PRO.REGION_ID = RE.REGION_ID) " +
+                                " WHERE CO.COMUNA_ID =" + usu.getComuna_comuna_id();
+                             res2 = bd.read(q2); 
+                             res2.next(); %>
+                             auxregion = "<%= res2.getString("region_id")%>"; 
+                <%}
+                
+            }%>
             if(usubuscar === null)
             {
                 email = "<%= usu.getEmail_user() %>";
@@ -207,7 +282,7 @@
                 nombre = "<%= usu.getNombre_user()%>";
                 apellido = "<%= usu.getApellido_user()%>";
                 auxrubro = "<%= usu.getRubro_id_rubro() %>";
-                auxrol = "<%= usu.getRol_id_rol()%>";
+                auxrol = "<%= usu.getRol_id_rol()%>"; 
                 $('#tipomod').val('moduser')
                 document.getElementById("trrubro").style.display = "none";
                 document.getElementById("trrol").style.display = "none";
@@ -215,7 +290,9 @@
             {
                 <%
                     if(usubuscar != null)
-                    {%>
+                    {
+                        
+                %>
                         email = "<%= usubuscar.getEmail_user() %>";
                         document.getElementById("nuevaclavesecreta").value = "<%= usubuscar.getContrasena()%>";
                         telefono = "<%= usubuscar.getFono_user()%>";
@@ -224,39 +301,50 @@
                         apellido = "<%= usubuscar.getApellido_user()%>";
                         auxrubro = "<%= usubuscar.getRubro_id_rubro() %>";
                         auxrol = "<%= usubuscar.getRol_id_rol()%>";  
+                         
                     <%}
                 %>
                 
             }
             
             <%
-                BD bd = new BD();
-                String q = "select * from rol";
-                ResultSet res = bd.read(q);
-                res.next();
+                q2 = "select * from rol";
+                res2 = bd.read(q2);
+                res2.next();
                 String relleno = "";
                 do {
-                        relleno = relleno + "<option value='" + res.getString("id_rol") +"'>" + 
-                                res.getString("nombre_rol") +"</option>";
-                    } while (res.next());
+                        relleno = relleno + "<option value='" + res2.getString("id_rol") +"'>" + 
+                                res2.getString("nombre_rol") +"</option>";
+                    } while (res2.next());
                 %>
                  document.getElementById("selectrol").innerHTML = "<%= relleno %>";
                 <%                                            
-                q = "select * from rubro";
-                res = bd.read(q);
-                res.next();
+                q2 = "select * from rubro";
+                res2 = bd.read(q2);
+                res2.next();
                 String relleno2 = "";
                 do {
-                        relleno2 = relleno2 + "<option value='" + res.getString("id_rubro") +"'>" + 
-                                res.getString("nombre_rubro") +"</option>";
-                        } while (res.next());
+                        relleno2 = relleno2 + "<option value='" + res2.getString("id_rubro") +"'>" + 
+                                res2.getString("nombre_rubro") +"</option>";
+                        } while (res2.next());
             %>
             document.getElementById("selectrubro").innerHTML = "<%= relleno2 %>";
+            
             
             $("#selectrubro").val(auxrubro);
             $("#selectrol").val(auxrol);
             
+            rellenoregiones();
             
+            $("#regiones").on("change", function() {
+                cargarCiudades();
+            });
+            $('#regiones').val(auxregion);
+            for (var i = 0; i < <%= contadorregiones%>; i++) {
+                $("#ciudad" + i).on("change", function(){
+                    cargarComunas(document.getElementById("ciudad"+$('#regiones').val()).value);
+                });
+            }
             
             
             
@@ -297,6 +385,7 @@
             $('#direccion').val(direccion);
             $('#nombre').val(nombre);
             $('#apellido').val(apellido);
+            
             
             
             
@@ -390,6 +479,67 @@
                     <tr>
                         <td>Direccion:</td><td><input type="text" name="direccion" id="direccion"><label ><font color="red" id="pdireccion" name="pdireccion">* </font> </label></td>
                     </tr>
+                    
+                    <tr>
+                            <td>Región:</td>
+                            <td><select id="regiones"></select></td>
+                        </tr>
+                        <input style="display: none" id="lastregiones" name="lastregiones" value="0">
+                        <input style="display: none" id="lastciudades" name="lastciudades" value="0">
+                        <tr>
+                            <td>Ciudad:</td><td id="selectsciudades">
+                                
+                                <%
+                                    int contadorciudades = 0;
+                                    q = "SELECT * FROM PROVINCIAS";
+                                    res = bd.read(q);
+                                    res.last();
+                                    contadorciudades = res.getRow();
+                                    for (int i = 1; i < contadorregiones+1; i++) {
+                                        res.first();
+                                         %>
+                                    <select id="ciudad<%= i%>" style="display: none">
+                                        <%
+                                            
+                                            do {
+                                                if(Integer.parseInt(res.getString("region_id")) == i){
+                                                %>
+                                                    <option value="<%= res.getString("provincia_id") %>"><% out.println(res.getString("provincia_nombre")); %></option>
+                                                <%}
+                                            } while (res.next());
+                                        %>
+                                        
+                                    </select>
+                                        <%}%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Comuna:</td>
+                            <td id="selectscomunas">
+                                
+                                <%
+                                    q = "SELECT * FROM COMUNAS";
+                                    res = bd.read(q);
+                                    for (int i = 1; i < contadorciudades+1; i++) {
+                                           res.first();
+                                         %>
+                                    <select id="comuna<%= i%>" name="comuna<%= i%>" style="display: none">
+                                        <%
+                                            
+                                            do {
+                                                if(Integer.parseInt(res.getString("provincia_id")) == i){
+                                                %>
+                                                    <option value="<%= res.getString("comuna_id") %>"><% out.println(res.getString("comuna_nombre")); %></option>
+                                                <%}
+                                            } while (res.next());
+                                        %>
+                                        
+                                    </select>
+                                        <%}%>
+                                
+                            </td>
+                        </tr>
+                    
                     <tr>
                         <td> Teléfono de contacto:</td><td><input type="number" name="telefono" id="telefono"><label ><font color="red" id="ptelefono" name="ptelefono">* </font></label></td>
                     </tr>
