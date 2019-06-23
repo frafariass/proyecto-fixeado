@@ -33,11 +33,14 @@
         <title>Editar perfil</title>
     </head>
     <script type="text/javascript">
-        
+        var auxregion;
+        var auxprovincia;
+        var auxcomuna;
         function rellenoregiones()
         {
             var relleno = "<%= rellenoregiones%>";
             document.getElementById("regiones").innerHTML = relleno;
+            
             cargarCiudades();
         }
         
@@ -68,8 +71,9 @@
                     document.getElementById("ciudad"+ultimaregion).style.display = "none";
                 }
                 document.getElementById("lastregiones").value = idregionseleccionada;
+                
                 cargarComunas(document.getElementById("ciudad"+$('#regiones').val()).value);
-
+                
             
         }
         
@@ -247,11 +251,11 @@
             var apellido;
             var auxrubro;
             var auxrol;
-            var auxregion;
+            
             
             <%
                 if(usu != null && usubuscar != null){
-                    q2 = "SELECT RE.REGION_ID FROM COMUNAS CO"
+                    q2 = "SELECT CO.COMUNA_ID, PRO.PROVINCIA_ID, RE.REGION_ID FROM COMUNAS CO"
                                 + " JOIN PROVINCIAS PRO ON (CO.PROVINCIA_ID = PRO.PROVINCIA_ID) "
                                 + " JOIN REGIONES RE ON (PRO.REGION_ID = RE.REGION_ID) " +
                                 " WHERE CO.COMUNA_ID =" + usubuscar.getComuna_comuna_id();
@@ -259,18 +263,22 @@
                         res2.next();
             %> usubuscar = true;
                     auxregion = "<%= res2.getString("region_id")%>"; 
+                    auxprovincia = "<%= res2.getString("provincia_id")%>";
+                    auxcomuna = "<%= res2.getString("COMUNA_ID")%>";
                         
             <%}else
             {
                 if(usu != null)
                 {
-                    q2 = "SELECT RE.REGION_ID FROM COMUNAS CO"
+                    q2 = "SELECT CO.COMUNA_ID, PRO.PROVINCIA_ID, RE.REGION_ID FROM COMUNAS CO"
                                 + " JOIN PROVINCIAS PRO ON (CO.PROVINCIA_ID = PRO.PROVINCIA_ID) "
                                 + " JOIN REGIONES RE ON (PRO.REGION_ID = RE.REGION_ID) " +
                                 " WHERE CO.COMUNA_ID =" + usu.getComuna_comuna_id();
                              res2 = bd.read(q2); 
                              res2.next(); %>
-                             auxregion = "<%= res2.getString("region_id")%>"; 
+                             auxregion = "<%= res2.getString("region_id")%>";
+                             auxprovincia = "<%= res2.getString("provincia_id")%>";
+                             auxcomuna = "<%= res2.getString("COMUNA_ID")%>";
                 <%}
                 
             }%>
@@ -334,20 +342,36 @@
             $("#selectrubro").val(auxrubro);
             $("#selectrol").val(auxrol);
             
+            
             rellenoregiones();
             
             $("#regiones").on("change", function() {
                 cargarCiudades();
             });
-            $('#regiones').val(auxregion);
+            
+            
             for (var i = 0; i < <%= contadorregiones%>; i++) {
                 $("#ciudad" + i).on("change", function(){
-                    cargarComunas(document.getElementById("ciudad"+$('#regiones').val()).value);
+                    var val = document.getElementById("ciudad"+$('#regiones').val()).value;
+                    cargarComunas(val);
                 });
             }
             
             
+            $('#regiones').val(auxregion);
+            var comunafinal = "comuna" + auxprovincia;
+            var ciudadfinal = "ciudad"+auxregion;
             
+            var test = document.getElementById(ciudadfinal).value;
+            document.getElementById(ciudadfinal).value = auxprovincia;
+            document.getElementById(ciudadfinal).style.display = "block";
+            document.getElementById("ciudad1").style.display = "none";
+            document.getElementById("lastregiones").value = auxregion;
+            document.getElementById(comunafinal).value = auxcomuna;
+            document.getElementById(comunafinal).style.display = "block";
+            document.getElementById("comuna1").style.display = "none";
+            document.getElementById("lastciudades").value = auxprovincia;
+
             
             $("#nuevaclave").on("paste keyup", function() {
                 cifrado();

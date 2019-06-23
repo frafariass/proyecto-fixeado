@@ -56,6 +56,10 @@ public class EditarPerfil extends HttpServlet {
                     usueditar = usu;
                 }
                 String clavecifrada = request.getParameter("nuevaclavesecreta");
+                String ciudad = request.getParameter("lastciudades");
+                ciudad = "comuna"+ciudad;
+                String comunaid = request.getParameter(ciudad);
+                usueditar.setComuna_comuna_id(Integer.parseInt(comunaid));
                 if(clavecifrada != "")
                 {
                     usueditar.setContrasena(clavecifrada);
@@ -102,22 +106,26 @@ public class EditarPerfil extends HttpServlet {
                 String q = "update usuario"
                         + " set email_user = '" + usueditar.getEmail_user() + "' " + contraono +", fono_user = '" + usueditar.getFono_user() + "', direccion_user = '" + usueditar.getDireccion_user() 
                         + "' , apellido_user = '" + usueditar.getApellido_user() + "' , nombre_user = '" + usueditar.getNombre_user() 
-                        + "', rol_id_rol = "+usueditar.getRol_id_rol()+" , rubro_id_rubro ="+ usueditar.getRubro_id_rubro()+
-                        "where rut_user = " + usueditar.getRut_user();
+                        + "', rol_id_rol = "+usueditar.getRol_id_rol()+" , rubro_id_rubro ="+ usueditar.getRubro_id_rubro()+ ", comuna_comuna_id =" + comunaid +
+                        " where rut_user = " + usueditar.getRut_user();
                 bd.update(q);
                 if(!auxsaber.equals("modadmin"))
                 {
                     request.getSession().setAttribute("usu1", usueditar);
+                    Mensaje mensaje = new Mensaje("Datos modificados exitosamente", "index.jsp", "&laquo; Ir al inicio");
+                    request.getSession().setAttribute("mensaje1", mensaje);
+                    response.sendRedirect("error.jsp");
                 }else
                 {
                     Usuario usucerrar = null;
                     request.getSession().setAttribute("usubuscar1", usucerrar);
+                    request.getSession().setAttribute("usubuscar1", null);
+                    Mensaje mensaje = new Mensaje("Datos modificados exitosamente", "usubuscar.jsp", "&laquo; Volver");
+                    request.getSession().setAttribute("mensaje1", mensaje);
+                    response.sendRedirect("error.jsp");
                 }
                 
-                request.getSession().setAttribute("usubuscar1", null);
-                Mensaje mensaje = new Mensaje("Datos modificados exitosamente", "index.jsp", "&laquo; Ir al inicio");
-                request.getSession().setAttribute("mensaje1", mensaje);
-                response.sendRedirect("error.jsp");
+                
             }catch(Exception e)
             {
                 Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
