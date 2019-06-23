@@ -209,21 +209,7 @@
         //fin validacion nombre
         
         //validacion apellido
-        function validarapellido()
-        {
-            jQuery("#submiteditar").prop('disabled', true);
-            var apellido = document.getElementById("apellido").value;
-            if(apellido.length <= 1)
-            {
-                document.getElementById("papellido").innerHTML = "* El apellido no es válido";
-                return false;
-            }else
-            {
-                jQuery("#submiteditar").prop('disabled', false);
-                document.getElementById("papellido").innerHTML = "* ";
-                return true;
-            }   
-        }
+
         //fin validacion apellido
         
         //validacion apellido
@@ -354,9 +340,7 @@
                 cifrado();
             });
             
-            $("#apellido").on("paste keyup input", function() {
-                validarapellido();
-            });
+
             
             $("#direccion").on("paste keyup input", function() {
                 validardireccion();
@@ -462,10 +446,7 @@
         {
             var valido = true;
             
-            if(!validarapellido())
-            {
-                valido = false;
-            }
+
             
             if(!validardireccion())
             {
@@ -541,11 +522,11 @@
                         </tr>
 
                         <tr>
-                            <td>Nombre:</td><td><input type="text" name="nombre" id="nombre" ><label ><font color="red" id="pnombre" name="pnombre">* </font> </label></td>
+                            <td>Nombre o razón social:</td><td><input type="text" name="nombre" id="nombre" ><label ><font color="red" id="pnombre" name="pnombre">* </font> </label></td>
                         </tr>
 
                         <tr>
-                            <td>Apellido:</td><td><input type="text" name="apellido" id="apellido"><label ><font id="papellido" name="papellido" color="red">*  </font></label></td>
+                            <td>Apellido:</td><td><input type="text" name="apellido" id="apellido"></td>
                         </tr>
                         <tr>
                             <td>Direccion:</td><td><input type="text" name="direccion" id="direccion"><label ><font color="red" id="pdireccion" name="pdireccion">* </font> </label></td>

@@ -66,7 +66,7 @@
                                 do {
                                     %>
                                   <tr>
-                                      <td><%= res.getString("numero_boleta") %></td><td><%= res.getString("fecha_boleta") %></td><td><%= res.getString("total_boleta") %></td><td><%= res.getString("nombre_estado") %></td>
+                                      <td><%= res.getString("numero_boleta") %></td><td><%= res.getString("fecha_boleta") %></td><td>$<%= res.getString("total_boleta") %></td><td><%= res.getString("nombre_estado") %></td>
                                       <td><%= res.getString("nombre_tvt") %></td>
                                     <td>
                                     <form method="post" action="EspecificacionBoleta">

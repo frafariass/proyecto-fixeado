@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lordp
  */
-@WebServlet(name = "AgregarAlCarro", urlPatterns = {"/AgregarAlCarro"})
-public class AgregarAlCarro extends HttpServlet {
+@WebServlet(name = "QuitarProdCarro", urlPatterns = {"/QuitarProdCarro"})
+public class QuitarProdCarro extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,20 +40,19 @@ public class AgregarAlCarro extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             try
             {
-                int cantidad = Integer.parseInt(request.getParameter("cantidad"));
-                int preciocompra = Integer.parseInt(request.getParameter("preciocompra").trim());
-                String idprod = request.getParameter("codprod").trim();
                 List<Venta> listaventas = (List<Venta>)request.getSession().getAttribute("listaventas1");
-                Venta ven = new Venta();
-                ven.setTotal_venta(preciocompra*cantidad);
-                ven.setCantidad(cantidad);
-                ven.setProducto_id_producto(idprod);
-                ven.setPrecio_unitario_producto(preciocompra);
-                listaventas.add(ven);
-                request.getSession().setAttribute("listaventas1", listaventas);
-                Mensaje mensaje = new Mensaje("Producto agregado al carro exitosamente", "javascript:window.history.back();", "&laquo; Volver");
-                request.getSession().setAttribute("mensaje1", mensaje);
-                response.sendRedirect("error.jsp");
+                String idaquitar = request.getParameter("idquitar");
+                for (Venta ven : listaventas) {
+                    if(ven.getProducto_id_producto().equals(idaquitar))
+                    {
+                        listaventas.remove(ven);
+                        request.getSession().setAttribute("listaproductos1", listaventas);
+                        Mensaje mensaje = new Mensaje("Producto eliminado del carro exitosamente", "carro.jsp", "&laquo; Ir al carro");
+                        request.getSession().setAttribute("mensaje1", mensaje);
+                        response.sendRedirect("error.jsp");
+                        return;
+                    }
+                }
             }catch(Exception e)
             {
                 Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");

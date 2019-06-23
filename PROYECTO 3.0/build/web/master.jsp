@@ -23,12 +23,11 @@
 <%@page import="Modelo.Mensaje"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% Usuario usu = (Usuario)request.getSession().getAttribute("usu1");%> 
-<% List<Producto> listaproductos = (List<Producto>)request.getSession().getAttribute("listaproductos1");
-    
-    if(listaproductos == null)
+<%  List<Venta> listaventas = (List<Venta>)request.getSession().getAttribute("listaventas1");
+    if(listaventas == null)
     {
-        listaproductos = new ArrayList<Producto>();
-        request.getSession().setAttribute("listaproductos1", listaproductos);
+        listaventas = new ArrayList<Venta>();
+        request.getSession().setAttribute("listaventas1", listaventas);
     }
 
 %>
@@ -79,7 +78,7 @@
           
           <script type="text/javascript">
               $(window).on('load', function(){
-                   document.getElementById("contador").innerHTML = "🛒 (" + <%= listaproductos.size()%> + ")";
+                   document.getElementById("contador").innerHTML = "🛒 (" + <%= listaventas.size()%> + ")";
               });
           </script>
           <%

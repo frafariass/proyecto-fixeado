@@ -5,11 +5,14 @@
  */
 package Controlador;
 
+import Modelo.BD;
 import Modelo.Mensaje;
-import Modelo.Producto;
+import Modelo.Usuario;
 import Modelo.Venta;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lordp
  */
-@WebServlet(name = "AgregarAlCarro", urlPatterns = {"/AgregarAlCarro"})
-public class AgregarAlCarro extends HttpServlet {
+@WebServlet(name = "AgregarVenta", urlPatterns = {"/AgregarVenta"})
+public class AgregarVenta extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,18 +43,34 @@ public class AgregarAlCarro extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             try
             {
-                int cantidad = Integer.parseInt(request.getParameter("cantidad"));
-                int preciocompra = Integer.parseInt(request.getParameter("preciocompra").trim());
-                String idprod = request.getParameter("codprod").trim();
                 List<Venta> listaventas = (List<Venta>)request.getSession().getAttribute("listaventas1");
-                Venta ven = new Venta();
-                ven.setTotal_venta(preciocompra*cantidad);
-                ven.setCantidad(cantidad);
-                ven.setProducto_id_producto(idprod);
-                ven.setPrecio_unitario_producto(preciocompra);
-                listaventas.add(ven);
-                request.getSession().setAttribute("listaventas1", listaventas);
-                Mensaje mensaje = new Mensaje("Producto agregado al carro exitosamente", "javascript:window.history.back();", "&laquo; Volver");
+                Usuario usu = (Usuario)request.getSession().getAttribute("usu1");
+                int iduser = usu.getId_user();
+                BD bd = new BD();
+                String q = "SELECT MAX(NUMERO_BOLETA), MAX(ID_VENTA) FROM VENTA";
+                ResultSet res = bd.read(q);
+                res.next();
+                int nuevonroboleta = Integer.parseInt(res.getString("max(numero_boleta)")) + 1;
+                int idventamax = Integer.parseInt(res.getString("max(id_venta)"));
+                String tipoventa = request.getParameter("tipoventa");
+                String tipoentrega = request.getParameter("tipoentrega");
+                int totalventa = 0;
+                
+                for (Venta listaventa : listaventas) {
+                    idventamax++;
+                    totalventa = listaventa.getTotal_venta();
+                    if(tipoventa.equals("1"))
+                    {
+                        totalventa = (int) ((Math.round(listaventa.getPrecio_unitario_producto()*1.19))*listaventa.getCantidad());
+                    }
+                    q = "INSERT INTO VENTA VALUES (current_timestamp, "+ totalventa  +", "+1+", " +listaventa.getCantidad() +", " +
+                            listaventa.getProducto_id_producto() + ", " + nuevonroboleta + ", " + idventamax + ", " + iduser + ", " + listaventa.getPrecio_unitario_producto()
+                            + ", " + tipoventa + ", " + tipoentrega + ")";
+                    bd.update(q);
+                }
+                
+                request.getSession().setAttribute("listaventas1", null);
+                Mensaje mensaje = new Mensaje("Gracias por su compra", "miscompras.jsp", "&laquo; Click aquí para ir a mis compras");
                 request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }catch(Exception e)

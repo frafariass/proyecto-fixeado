@@ -125,22 +125,6 @@
             }
         }
         //fin validacion telefono
-        
-        function validarapellido()
-        {
-            jQuery("#submiteditar").prop('disabled', true);
-            var apellido = document.getElementById("apellido").value;
-            if(apellido.length <= 1)
-            {
-                document.getElementById("papellido").innerHTML = "* El apellido no es válido";
-                return false;
-            }else
-            {
-                jQuery("#submiteditar").prop('disabled', false);
-                document.getElementById("papellido").innerHTML = "* ";
-                return true;
-            }   
-        }
         //fin validacion apellido
         
         //validacion apellido
@@ -429,13 +413,16 @@
                         var test = document.getElementById("clavesecreta").value;
                         if(claveusuariologeado !== test)   
                         {
+                            $('#pclaveactual').html("* La clave actual es incorrecta");
                             valido = false;
                         }
                     }
                     
                 <%}
                 %>
-                        
+            
+            
+    
             if(!validarclaves())
             {
                 valido = false;
@@ -482,7 +469,7 @@
                         if(usubuscar == null)
                         {%>
                             <tr>
-                                <td>Clave actual:</td><td><input type="password" id="clave" ><font color="red">* </font><input type="hidden" style="display: none" id="clavesecreta" name="clavesecreta"></td>
+                                <td>Clave actual:</td><td><input type="password" id="clave" ><font color="red" id="pclaveactual">* </font><input type="hidden" style="display: none" id="clavesecreta" name="clavesecreta"></td>
                             </tr>
                         <%}
                     %>
@@ -495,10 +482,10 @@
                         <td>Confirmar clave:</td><td><input type="password" id="connuevaclave" ><label><font color="red" id="pconclave" name="pconclave"></font></label></td>
                     </tr>
                     <tr>
-                        <td>Nombre:</td><td><input type="text" name="nombre" id="nombre"><label ><font color="red" id="pnombre" name="pnombre">* </font> </label></td>
+                        <td>Nombre o razón social:</td><td><input type="text" name="nombre" id="nombre"><label ><font color="red" id="pnombre" name="pnombre">* </font> </label></td>
                     <tr>  
                     <tr>
-                        <td>Apellido:</td><td><input type="text" name="apellido" id="apellido"><label ><font id="papellido" name="papellido" color="red">*  </font></label></td>
+                        <td>Apellido:</td><td><input type="text" name="apellido" id="apellido"></td>
                     </tr>
                     <tr>
                         <td>Direccion:</td><td><input type="text" name="direccion" id="direccion"><label ><font color="red" id="pdireccion" name="pdireccion">* </font> </label></td>
