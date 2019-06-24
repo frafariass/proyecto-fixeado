@@ -8,7 +8,9 @@ package Controlador;
 import Modelo.BD;
 import Modelo.Mensaje;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +19,7 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -197,28 +200,63 @@ public class AgregarProd extends HttpServlet {
                     if(!uploaded.isFormField())
                     {
                         String nombrefinal = "";
-                        nombrefinal = uploaded.getName().substring(0,uploaded.getName().length()-4)+idproducto+".jpg";
+                        String nombre2 = uploaded.getName();
+                        String[] nombreaux = nombre2.split("\\.");
+                        String nombreaux2 = "";
+                        String extension = "";
+                        int cont = 0;
+                        for (String string : nombreaux) {
+                            if(cont == 0)
+                            {
+                                nombreaux2 = string;
+                            }else
+                            {
+                                extension = string;
+                            }
+                            cont++;
+                        }
+
+                        if(extension.equals(""))
+                        {
+                            Mensaje mensaje = new Mensaje("El archivo ingresado NO es una imagen", "javascript:window.history.back();", "&laquo; Volver");
+                            request.getSession().setAttribute("mensaje1", mensaje);
+                            response.sendRedirect("error.jsp");
+                        }
+                        
+                        nombrefinal = nombreaux2+idproducto+"." + extension;
+                        
                         File fichero = new File("\\productos\\imagenes", nombrefinal);
                         uploaded.write(fichero);
-                        rutaarchivosubido = "\\productos\\imagenes\\" + nombrefinal;
+                        InputStream inputs = new FileInputStream(fichero);
+                        if(ImageIO.read(inputs) == null)
+                        {
+                            rutaarchivosubido = "";
+                            
+                        }else
+                        {
+                             rutaarchivosubido = "\\productos\\imagenes\\" + nombrefinal;
+                        }
+                        
+                       
    
                     }
                 }
                 
-                if(bd.insertarImagen(rutaarchivosubido, "producto", "imagen",  idproducto, "id_producto"))
+                if(rutaarchivosubido.equals(""))
                 {
-                    Mensaje mensaje = new Mensaje("El producto ha sido agregado con éxito", "administrar.jsp", "&laquo; Ir a administrar");
+                    Mensaje mensaje = new Mensaje("El archivo ingresado NO es una imagen", "javascript:window.history.back();", "&laquo; Volver");
                     request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");
+                }else
+                {
+                    if(bd.insertarImagen(rutaarchivosubido, "producto", "imagen",  idproducto, "id_producto"))
+                    {
+                        Mensaje mensaje = new Mensaje("El producto ha sido agregado con éxito", "administrar.jsp", "&laquo; Ir a administrar");
+                        request.getSession().setAttribute("mensaje1", mensaje);
+                        response.sendRedirect("error.jsp");
+                    }
                 }
-                
-                
-                
-                
-                
-                
-                
-                
+
             }catch(Exception e)
             {
                 Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");

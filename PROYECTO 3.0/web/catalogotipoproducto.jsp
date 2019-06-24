@@ -38,7 +38,7 @@
                 ResultSet res = bd.read(q);
                 res.next();
                 do {%>
-                        <form method='post' action='CatalogoFamilia'>
+                        <form method='get' action='CatalogoFamilia'>
                         <button onclick="submitfamilia()" class='list-group-item' type='submit'><% out.println(res.getString("NOMBRE_FAMILIA")); %></button>
                         <input type="hidden" style="display: none" name = 'dato' value = '<% out.println(res.getString("id_familia")); %>'>
                         </form>
@@ -81,7 +81,7 @@
 
             
         <%
-            String n = "select * from PRODUCTO where tipo_producto_id_tipoprod = " + tipo.getId_tipoprod();
+            String n = "select * from PRODUCTO where estado_id_estado = 2 and tipo_producto_id_tipoprod = " + tipo.getId_tipoprod();
             ResultSet res1 = bd.read(n);
             
             if(res1.next())

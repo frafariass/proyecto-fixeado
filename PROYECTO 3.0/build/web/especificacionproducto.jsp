@@ -27,17 +27,30 @@
 
     <script type="text/javascript">
         
-        function validarcantidad()
+        function validarcantidadystock()
         {
             var cantidad = $('#cantidad').val();
-            if(cantidad >= 1)
+            var stock = parseInt($('#stock').val(), 10);
+            if(stock >= 1 && cantidad >= 1)
             {
                 return true;
             }else
             {
-                $('#pcantidad').html('La cantidad debe ser mayor a 0');
+                if(cantidad == 0)
+                {
+                    $('#pcantidad').html('La cantidad debe ser mayor a 0');
+                }else
+                {
+                    $('#pcantidad').html('No hay stock');
+                }
                 return false;
             }
+        }
+        
+        function validarstock()
+        {
+            
+            
         }
         
         function submitform()
@@ -104,7 +117,7 @@
                     
                     <%}
                 }%>
-                <form method='post' action='AgregarAlCarro' id="formulariocarro" onsubmit="return validarcantidad()">
+                <form method='post' action='AgregarAlCarro' id="formulariocarro" onsubmit="return validarcantidadystock()">
                                 <img class='card-img-top img-fluid' src='data:image/jpg;base64,<% out.println(prod.getBase64Image()); %>' alt=''>
                                 
                                     <h5 class='card-text' style='font-size: small'>Código de producto: <% out.println(prod.getId_producto()); %></h5>
@@ -117,7 +130,7 @@
                                     <input type="hidden" style="display: none" name="preciocompra" id="preciocompra" value="<% out.println(prod.getPrecio_compra()); %>" >
                                     <p class='card-text'><% out.println(prod.getDesc_producto()); %></p>
                                     <div class='quantity'>
-                                        <label>Cantidad: </label><input type='number' name='cantidad' id="cantidad" value="1" width='100px'>      <a onclick="submitform()" class='btn btn-success'>      +</a> Agregar al Carro
+                                        <label>Cantidad: </label><input type='number' name='cantidad' id="cantidad" value="0" width='100px'>      <a onclick="submitform()" class='btn btn-success'>      +</a> Agregar al Carro
                                         <br>
                                         <font color="red" id="pcantidad"></font>
                                     </div>

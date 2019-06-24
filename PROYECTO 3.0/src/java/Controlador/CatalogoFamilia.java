@@ -46,10 +46,12 @@ public class CatalogoFamilia extends HttpServlet {
             {
                 BD bd = new BD();
                 String id = request.getParameter("dato");
+                String nombre = request.getParameter("dato2");
                 id = id.trim();
-                Familia fa = new Familia(Integer.parseInt(id), "");
+                Familia fa = new Familia(Integer.parseInt(id), nombre, "");
                 request.getSession().setAttribute("fa1", fa);
-                response.sendRedirect("catalogofamilia.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("catalogofamilia.jsp");
+                requestDispatcher.forward(request, response);
             }catch(Exception e)
             {
                 Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");

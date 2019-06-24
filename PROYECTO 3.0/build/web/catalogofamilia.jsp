@@ -44,9 +44,10 @@
                 ResultSet res = bd.read(q);
                 res.next();
                 do {%>
-                        <form method='post' action='CatalogoFamilia'>
+                        <form method='get' action='CatalogoFamilia'>
                         <button onclick="submitfamilia()" class='list-group-item' type='submit'><% out.println(res.getString("NOMBRE_FAMILIA")); %></button>
                         <input type="hidden" style="display: none" name = 'dato' value = '<% out.println(res.getString("id_familia")); %>'>
+                        <input type="hidden" style="display: none" name = 'dato2' value = '<% out.println(res.getString("NOMBRE_FAMILIA")); %>'>
                         </form>
                     <%} while (res.next());
                 
@@ -119,7 +120,6 @@
                         <form method='post' action='CatalogoTipoProd'>
                         <input class='list-group-item' type='submit' value = ' <% out.println(res1.getString("nombre_tipoprod")); %>' >
                         <input type="hidden" style="display: none" name = 'dato' value = '<% 
-                            
                             out.println(res1.getString("id_tipoprod")); %>' >
                         </form>
                         </h4>

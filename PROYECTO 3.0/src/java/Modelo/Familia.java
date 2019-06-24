@@ -13,6 +13,19 @@ public class Familia {
     
     private int id_familia;
     private String nombre_familia;
+    private String BaseImage64;
+
+    public Familia() {
+    }
+
+    public String getBaseImage64() {
+        return BaseImage64;
+    }
+
+    public void setBaseImage64(String BaseImage64) {
+        this.BaseImage64 = BaseImage64;
+    }
+    
 
     public int getId_familia() {
         return id_familia;

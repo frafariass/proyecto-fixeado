@@ -36,7 +36,7 @@
                 ResultSet res = bd.read(q);
                 res.next();
                 do {%>
-                        <form method='post' action='CatalogoFamilia'>
+                        <form method='get' action='CatalogoFamilia'>
                         <button onclick="submitfamilia()" class='list-group-item' type='submit'><% out.println(res.getString("NOMBRE_FAMILIA")); %></button>
                         <input type="hidden" style="display: none" name = 'dato' value = '<% out.println(res.getString("id_familia")); %>'>
                         </form>
@@ -59,13 +59,13 @@
           </ol>
           <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
-              <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
+              <a href="#"><img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide"></a>
             </div>
             <div class="carousel-item">
-              <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
+                <a href="#"><img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide"></a>
             </div>
             <div class="carousel-item">
-              <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
+              <a href="#"><img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide"></a>
             </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -103,11 +103,6 @@
                 <h4 class="card-title">
                   <a href="#">Item Two</a>
                 </h4>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
               </div>
             </div>
           </div>

@@ -16,7 +16,7 @@
     }
     Boleta boleta = (Boleta)request.getSession().getAttribute("boleta1");
     BD bd = new BD();
-        String q = "SELECT PRO.NOMBRE, VEN.CANTIDAD, PRO.PRECIO_COMPRA, VEN.TOTAL_VENTA , ME.METODO , TI.NOMBRE_TVT FROM VENTA VEN" +
+        String q = "SELECT PRO.NOMBRE, PRO.ID_PRODUCTO, VEN.CANTIDAD, PRO.PRECIO_COMPRA, VEN.TOTAL_VENTA , ME.METODO , TI.NOMBRE_TVT FROM VENTA VEN" +
                     " JOIN PRODUCTO PRO" +
                         " ON (VEN.PRODUCTO_ID_PRODUCTO = PRO.ID_PRODUCTO)" +
                     " JOIN METODO_ENTREGA ME " +
@@ -58,7 +58,7 @@
                                     %>
                                     <tr>
                                         <td><%= cont %></td>
-                                        <td><%= res.getString("NOMBRE") %></td><td><%= res.getString("CANTIDAD") %></td><td>$<%= res.getString("PRECIO_COMPRA") %></td><td>$<%= res.getString("TOTAL_VENTA") %></td>
+                                        <td><a href='http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato= <%= res.getString("ID_PRODUCTO")%>'><%= res.getString("NOMBRE") %></a></td><td><%= res.getString("CANTIDAD") %></td><td>$<%= res.getString("PRECIO_COMPRA") %></td><td>$<%= res.getString("TOTAL_VENTA") %></td>
                                         <td></td>
                                         <td></td>
                                     </tr>

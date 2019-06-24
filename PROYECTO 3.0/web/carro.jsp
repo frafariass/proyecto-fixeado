@@ -73,7 +73,6 @@
                         %>
                             <tfoot>
                             <th></th><th><b></b></th><th><b></b></th><th><b>MONTO TOTAL CARRO:</b></th><th><b>$<%= total %></b></th>
-                            <th>
                      
                         <%
                             if(usu == null)
@@ -82,15 +81,22 @@
                             <a href="login.jsp">Ingresar para pasar por caja</a>
                             
                             <%}else
-                            {%>
-                                <a href="caja.jsp">Pasar por caja</a>
-                            <%}
+                            { if(usu.getRol_id_rol() == 1 || usu.getRol_id_rol() == 3)
+                                {%>
+                                  
+                            <th><a href="venagregar.jsp">Vender a cliente</a></th>
+                            <th><a href="caja.jsp">Pasar por caja</a></th>
+                                <%}else
+                                {%>
+                                    
+                                    <th><a href="caja.jsp">Pasar por caja</a></th>
+                                <%}   
+                            }
                             }else
                             {%>
                                 <h3>No tienes productos en el carro, puedes empezar a comprar aquí: <a href="catalogo.jsp">Catálogo</a></h3>
                             <%}%>
                         
-                </th>
                 </tfoot>
             </table>
         </div>

@@ -16,7 +16,7 @@ public class ConsolaTest {
     public static void main(String[] args) throws FileNotFoundException
     {
         BD bd = new BD();
-        
+        /* INSERTS IMAGENES TIPO PROD
       System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\tipo_producto\\cemento.jpg",
                "tipo_producto", "tipoprod_imagen", "108", "id_tipoprod"));
                                        System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\tipo_producto\\tabique.jpg",
@@ -109,7 +109,27 @@ public class ConsolaTest {
                "tipo_producto", "tipoprod_imagen", "152", "id_tipoprod"));
                                        System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\tipo_producto\\barras.jpg",
                "tipo_producto", "tipoprod_imagen", "153", "id_tipoprod"));
+                                       
+                                       */
+        
+        /* INSERTS DE IMAGENES FAMILIA
+                                       System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\iluminacion.jpg",
+               "FAMILIA", "IMAGEN_FAMILIA", "107", "ID_FAMILIA"));
+                                       System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\construccion.jpg",
+               "FAMILIA", "IMAGEN_FAMILIA", "101", "ID_FAMILIA"));
+                                       System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\jardin.jpg",
+               "FAMILIA", "IMAGEN_FAMILIA", "106", "ID_FAMILIA"));
+                                       System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\herramientas.jpg",
+               "FAMILIA", "IMAGEN_FAMILIA", "102", "ID_FAMILIA"));
+                                       System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\electricidad.jpg",
+               "FAMILIA", "IMAGEN_FAMILIA", "103", "ID_FAMILIA"));
+                                       System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\pintura.jpg",
+               "FAMILIA", "IMAGEN_FAMILIA", "104", "ID_FAMILIA"));
+                                       System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\bano.jpg",
+               "FAMILIA", "IMAGEN_FAMILIA", "105", "ID_FAMILIA"));
+*/
 
+                                       
         
        
        

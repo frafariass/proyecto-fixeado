@@ -146,7 +146,8 @@
         
         $(window).on('load', function()
         {
-            
+            document.getElementById("aplica").checked = true;
+            activarfecha();
 
             $("#nombre").on("paste keyup input", function() {
                 validarnombre();
