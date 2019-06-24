@@ -112,7 +112,7 @@ public class ConsolaTest {
                                        
                                        */
         
-        /* INSERTS DE IMAGENES FAMILIA
+        /* INSERTS DE IMAGENES FAMILIA*/
                                        System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\iluminacion.jpg",
                "FAMILIA", "IMAGEN_FAMILIA", "107", "ID_FAMILIA"));
                                        System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\construccion.jpg",
@@ -127,7 +127,7 @@ public class ConsolaTest {
                "FAMILIA", "IMAGEN_FAMILIA", "104", "ID_FAMILIA"));
                                        System.out.println(bd.insertarImagen("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\bano.jpg",
                "FAMILIA", "IMAGEN_FAMILIA", "105", "ID_FAMILIA"));
-*/
+
 
                                        
         

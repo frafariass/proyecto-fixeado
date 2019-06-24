@@ -65,8 +65,12 @@
         
     </script>
     <div class="row">
+        
 
       <div class="col-lg-3">
+          <form id="buscarform" method="get" action="BuscarProducto" onsubmit="return validarbuscar()">
+            <div style="padding-top: 25px;"><input placeholder="Buscar..." type="text" name="buscar" id="buscar"><button onclick="submitbuscar()" type="text" id="buscar">&#128269;</button></div>
+        </form>
         <h1 class="my-4">Categorías</h1>
         <div class="list-group">
             <%
@@ -75,9 +79,10 @@
                 ResultSet res = bd.read(q);
                 res.next();
                 do {%>
-                        <form method='post' action='CatalogoFamilia' id="catalogofamilia">
+                        <form method='get' action='CatalogoFamilia' id="catalogofamilia">
                             <button onclick="submitfamilia()" class='list-group-item' type='submit'><% out.println(res.getString("NOMBRE_FAMILIA")); %></button>
                         <input type="hidden" style="display: none" name = 'dato' value = '<% out.println(res.getString("id_familia")); %>'>
+                        <input type="hidden" style="display: none" name = 'dato2' value = '<% out.println(res.getString("NOMBRE_FAMILIA")); %>'>
                         </form>
                     <%} while (res.next());
                 

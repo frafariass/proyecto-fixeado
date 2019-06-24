@@ -1,0 +1,6 @@
+create index nombre_producto_idx on producto(nombre);
+
+alter session set NLS_COMP=LINGUISTIC;
+alter session set NLS_SORT=BINARY_CI;
+
+create index nombre_producto_index on producto (NLSSORT (nombre, 'NLS_SORT=BINARY_CI') );

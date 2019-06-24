@@ -6,12 +6,17 @@
 package Controlador;
 
 import Modelo.BD;
-import Modelo.Familia;
 import Modelo.Mensaje;
-import Modelo.TipoProducto;
+import Modelo.Producto;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.Blob;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lordp
  */
-@WebServlet(name = "CatalogoTipoProd", urlPatterns = {"/CatalogoTipoProd"})
-public class CatalogoTipoProd extends HttpServlet {
+@WebServlet(name = "BuscarProducto", urlPatterns = {"/BuscarProducto"})
+public class BuscarProducto extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,18 +47,67 @@ public class CatalogoTipoProd extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             try
             {
-                String idtipoprod = request.getParameter("dato");
-                idtipoprod = idtipoprod.trim();
+                List<Producto> productos = new ArrayList<Producto>();
                 BD bd = new BD();
-                String q = "select id_tipoprod, NOMBRE_TIPOPROD from tipo_producto where id_tipoprod = " + idtipoprod;
+                String[] datos = request.getParameter("buscar").split(" ");
+                String q = "SELECT ID_PRODUCTO, NOMBRE, IMAGEN, PRECIO_COMPRA FROM PRODUCTO " +
+                            "WHERE NOMBRE";
+                for (int i = 0; i < datos.length; i++) {
+                    if(i == 0)
+                    {
+                        q = q + " LIKE '%" + datos[0] + "%' ";
+                    }else
+                    {
+                        q = q + " OR NOMBRE LIKE '%" + datos[i] + "%' ";
+                    }
+                }
+                
                 ResultSet res = bd.read(q);
-                res.next();
-                TipoProducto tipo = new TipoProducto();
-                tipo.setId_tipoprod(Integer.parseInt(res.getString("id_tipoprod")));
-                tipo.setNombre_tipoprod(res.getString("NOMBRE_TIPOPROD"));
-                request.getSession().setAttribute("tipo1", tipo);
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("catalogotipoproducto.jsp");
-                requestDispatcher.forward(request, response);
+                if(res.next())
+                {
+                    do {
+                        Producto pro = new Producto();
+                        pro.setNombre(res.getString("nombre"));
+                        pro.setId_producto(res.getString("id_producto"));
+                        int precioconiva = (int)Math.round(Integer.parseInt(res.getString("precio_compra"))*1.19);
+                        pro.setPrecio_compra(precioconiva);
+                        
+                        Blob blob = res.getBlob("IMAGEN");
+
+                        InputStream inputStream = blob.getBinaryStream();
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[4096];
+                        int bytesRead = -1;
+
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);                  
+                        }
+
+                        byte[] imageBytes = outputStream.toByteArray();
+                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+
+                        inputStream.close();
+                        outputStream.close();
+
+                        pro.setBase64Image(base64Image);
+
+                        productos.add(pro);
+                    } while (res.next());
+                    request.getSession().setAttribute("barrabuscar1", productos);
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("catalogobuscar.jsp");
+                    requestDispatcher.forward(request, response);
+                }else
+                {
+                    Mensaje mensaje = new Mensaje("No se han encontrado productos", "javascript:window.history.back();", "&laquo; Volver");
+                    request.getSession().setAttribute("mensaje1", mensaje);
+                    response.sendRedirect("error.jsp");
+                }
+                
+                
+                
+                
+
             }catch(Exception e)
             {
                 Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");

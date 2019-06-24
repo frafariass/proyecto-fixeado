@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Catálogo Ferretería FERME</title>
+        <title>Ferme <%= tipo.getNombre_tipoprod()%></title>
     </head>
 <script type="text/javascript">
         
@@ -29,20 +29,26 @@
 
     <div class="row">
 
+        
       <div class="col-lg-3">
+          <form id="buscarform" method="get" action="BuscarProducto" onsubmit="return validarbuscar()">
+            <div style="padding-top: 25px;"><input placeholder="Buscar..." type="text" name="buscar" id="buscar"><button onclick="submitbuscar()" type="text" id="buscar">&#128269;</button></div>
+        </form>
+          
         <h1 class="my-4">Categorías</h1>
         <div class="list-group">
-            <%
+           <%
                 BD bd = new BD();
                 String q = "select * from familia";
-                ResultSet res = bd.read(q);
-                res.next();
+                ResultSet res2 = bd.read(q);
+                res2.next();
                 do {%>
                         <form method='get' action='CatalogoFamilia'>
-                        <button onclick="submitfamilia()" class='list-group-item' type='submit'><% out.println(res.getString("NOMBRE_FAMILIA")); %></button>
-                        <input type="hidden" style="display: none" name = 'dato' value = '<% out.println(res.getString("id_familia")); %>'>
+                        <button onclick="submitfamilia()" class='list-group-item' type='submit'><% out.println(res2.getString("NOMBRE_FAMILIA")); %></button>
+                        <input type="hidden" style="display: none" name = 'dato' value = '<% out.println(res2.getString("id_familia")); %>'>
+                        <input type="hidden" style="display: none" name = 'dato2' value = '<% out.println(res2.getString("NOMBRE_FAMILIA")); %>'>
                         </form>
-                    <%} while (res.next());
+                    <%} while (res2.next());
                 
             %>
         </div>
@@ -57,15 +63,60 @@
             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
           </ol>
           <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active">
-              <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
-            </div>
-            <div class="carousel-item">
-              <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
-            </div>
-            <div class="carousel-item">
-              <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
-            </div>
+              
+              <%
+                    
+                    String q3 = "SELECT * FROM ("
+                    +" SELECT NOMBRE, PRECIO_COMPRA, PRODUCTO_ID_PRODUCTO, COUNT(PRODUCTO_ID_PRODUCTO) FROM VENTA VE "
+                    + " JOIN PRODUCTO PRO " 
+                    + " ON (PRO.ID_PRODUCTO = VE.PRODUCTO_ID_PRODUCTO) "
+                    + " GROUP BY PRODUCTO_ID_PRODUCTO, NOMBRE,PRECIO_COMPRA "
+                    + " ORDER BY COUNT(PRODUCTO_ID_PRODUCTO) DESC "
+                    + " ) WHERE ROWNUM <= 3";
+                    ResultSet res = bd.read(q3);
+                    res.last();
+                    int tam = res.getRow();
+                    res.first();
+                    for (int i = 0; i < tam; i++) {
+                        
+                        String q2 = "SELECT IMAGEN FROM PRODUCTO WHERE ID_PRODUCTO= '" + res.getString("PRODUCTO_ID_PRODUCTO")+"'";
+                        ResultSet res3 = bd.read(q2);
+                        res3.next();
+                        Blob blob = res3.getBlob("imagen");
+                 
+                        InputStream inputStream = blob.getBinaryStream();
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[4096];
+                        int bytesRead = -1;
+
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);                  
+                        }
+
+                        byte[] imageBytes = outputStream.toByteArray();
+                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                        
+                            if(i == 0)
+                            {%>
+                            
+                            <div class="carousel-item active">
+                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>"><img class="d-block img-fluid" src="data:image/jpg;base64,<% out.println(base64Image); %>" alt="First slide"></a>
+                              </div>
+                                
+                            <% res.next(); }else
+                            {%>
+                            
+                            <div class="carousel-item">
+                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>"><img class="d-block img-fluid" src="data:image/jpg;base64,<% out.println(base64Image); %>" alt="Second slide"></a>
+                            </div>
+
+                            <%res.next(); }
+                        }
+
+              %>
+              
+              
+              
           </div>
           <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

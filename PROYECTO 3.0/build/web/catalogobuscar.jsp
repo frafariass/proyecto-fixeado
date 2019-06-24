@@ -1,40 +1,29 @@
 <%-- 
-    Document   : catalogotipoproducto
-    Created on : 25-05-2019, 1:50:07
+    Document   : catalogobuscar
+    Created on : 24-06-2019, 5:33:31
     Author     : lordp
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ include file="master.jsp" %>
 
-<% 
-   TipoProducto tipo = (TipoProducto)request.getSession().getAttribute("tipo1"); %>
+<%@ include file="master.jsp" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% List<Producto> listaproductosbuscar = (List<Producto>)request.getSession().getAttribute("barrabuscar1"); %>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Ferme <%= tipo.getNombre_tipoprod()%></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Resultados búsqueda</title>
     </head>
-<script type="text/javascript">
-        
-        function submitfamilia()
-        {
-            $('form#catalogofamilia').submit();
-        }
-        
-    </script>
-  <!-- Page Content -->
-
-    
-    <!-- Page Features -->
-<div class="container">
+    <div class="container">
 
     <div class="row">
 
+       
         
       <div class="col-lg-3">
+          
           <form id="buscarform" method="get" action="BuscarProducto" onsubmit="return validarbuscar()">
             <div style="padding-top: 25px;"><input placeholder="Buscar..." type="text" name="buscar" id="buscar"><button onclick="submitbuscar()" type="text" id="buscar">&#128269;</button></div>
         </form>
-          
         <h1 class="my-4">Categorías</h1>
         <div class="list-group">
            <%
@@ -132,48 +121,24 @@
 
             
         <%
-            String n = "select * from PRODUCTO where estado_id_estado = 2 and tipo_producto_id_tipoprod = " + tipo.getId_tipoprod();
-            ResultSet res1 = bd.read(n);
             
-            if(res1.next())
-            {
-                do {
-                    
-                        Blob blob = res1.getBlob("imagen");
-                 
-                        InputStream inputStream = blob.getBinaryStream();
-                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                        byte[] buffer = new byte[4096];
-                        int bytesRead = -1;
-
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            outputStream.write(buffer, 0, bytesRead);                  
-                        }
-
-                        byte[] imageBytes = outputStream.toByteArray();
-                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-                         %>
-                         
-                        <div class='col-lg-4 col-md-6 mb-4'>
+            for (Producto pro : listaproductosbuscar) {%>
+                    <div class='col-lg-4 col-md-6 mb-4'>
                         <div class='card h-100'>
-                        <img class='card-img-top' src='data:image/jpg;base64, <%  out.println(base64Image); %>'/>
+                        <img class='card-img-top' src='data:image/jpg;base64, <%  out.println(pro.getBase64Image()); %>'/>
                         <div class='card-body'>
                         <form method='get' action='EspecificacionProducto'>
                         <h4 class='card-title'>
-                        <input class='list-group-item' type='submit' value = '<% out.println(res1.getString("nombre")); %>'>
-                        <input name='dato' type='hidden' style="display:none" value = '<% out.println(res1.getString("id_producto")); %>'>
+                        <input class='list-group-item' type='submit' value = '<% out.println(pro.getNombre()); %>'>
+                        <input name='dato' type='hidden' style="display:none" value = '<% out.println(pro.getId_producto()); %>'>
                         </h4>
                         </form>
                         </form>
-                        <h5> Valor: $<% out.println(Math.round(Integer.parseInt(res1.getString("precio_compra"))*1.19)); %></h5>
+                            <h5> Valor: $<% out.println(pro.getPrecio_compra()); %></h5>
                         </div>
                         </div>
                         </div>
-                        
-                   <% } while (res1.next());
-            }else{
-                out.println("<p>No hay productos en esta categoria</p>");
-            }
+                <%}
             
         %>    
         

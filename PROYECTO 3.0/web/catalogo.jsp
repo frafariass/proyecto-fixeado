@@ -20,33 +20,51 @@
             $('form#catalogofamilia').submit();
         }
         
+        function submitbuscar()
+        {
+            $('form#buscarform').submit();
+        }
+        function validarbuscar()
+        {
+            var asd = document.getElementById("buscar").value;
+            if(asd === "" || asd === null)
+            {
+                return false;
+            }else
+            {
+                return true;
+            }
+        }
+        
     </script>
   <!-- Page Content -->
-<div class="container">
+  <div class="container" >
 
     <div class="row">
-
+        
+        
       <div class="col-lg-3">
-
+          <form id="buscarform" method="get" action="BuscarProducto" onsubmit="return validarbuscar()">
+            <div style="padding-top: 25px;"><input placeholder="Buscar..." type="text" name="buscar" id="buscar"><button onclick="submitbuscar()" type="text" id="buscar">&#128269;</button></div>
+        </form>
         <h1 class="my-4">Categorías</h1>
         <div class="list-group">
             <%
                 BD bd = new BD();
-                String q = "select * from familia";
-                ResultSet res = bd.read(q);
-                res.next();
+                String q4 = "select * from familia";
+                ResultSet res5 = bd.read(q4);
+                res5.next();
                 do {%>
-                        <form method='get' action='CatalogoFamilia'>
-                        <button onclick="submitfamilia()" class='list-group-item' type='submit'><% out.println(res.getString("NOMBRE_FAMILIA")); %></button>
-                        <input type="hidden" style="display: none" name = 'dato' value = '<% out.println(res.getString("id_familia")); %>'>
+                        <form method='get' action='CatalogoFamilia' id="catalogofamilia">
+                            <button onclick="submitfamilia()" class='list-group-item' type='submit'><% out.println(res5.getString("NOMBRE_FAMILIA")); %></button>
+                        <input type="hidden" style="display: none" name = 'dato' value = '<% out.println(res5.getString("id_familia")); %>'>
+                        <input type="hidden" style="display: none" name = 'dato2' value = '<% out.println(res5.getString("NOMBRE_FAMILIA")); %>'>
                         </form>
-                    <%} while (res.next());
+                    <%} while (res5.next());
                 
             %>
-            
         </div>
-
-      </div>
+        </div>
       <!-- /.col-lg-3 -->
 
       <div class="col-lg-9">
@@ -58,15 +76,60 @@
             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
           </ol>
           <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active">
-              <a href="#"><img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide"></a>
-            </div>
-            <div class="carousel-item">
-                <a href="#"><img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide"></a>
-            </div>
-            <div class="carousel-item">
-              <a href="#"><img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide"></a>
-            </div>
+              
+              <%
+                  
+                    String q = "SELECT * FROM ("
+                    +" SELECT NOMBRE, PRECIO_COMPRA, PRODUCTO_ID_PRODUCTO, COUNT(PRODUCTO_ID_PRODUCTO) FROM VENTA VE "
+                    + " JOIN PRODUCTO PRO " 
+                    + " ON (PRO.ID_PRODUCTO = VE.PRODUCTO_ID_PRODUCTO) "
+                    + " GROUP BY PRODUCTO_ID_PRODUCTO, NOMBRE,PRECIO_COMPRA "
+                    + " ORDER BY COUNT(PRODUCTO_ID_PRODUCTO) DESC "
+                    + " ) WHERE ROWNUM <= 3";
+                    ResultSet res = bd.read(q);
+                    res.last();
+                    int tam = res.getRow();
+                    res.first();
+                    for (int i = 0; i < tam; i++) {
+                        
+                        String q2 = "SELECT IMAGEN FROM PRODUCTO WHERE ID_PRODUCTO= '" + res.getString("PRODUCTO_ID_PRODUCTO")+"'";
+                        ResultSet res2 = bd.read(q2);
+                        res2.next();
+                        Blob blob = res2.getBlob("imagen");
+                 
+                        InputStream inputStream = blob.getBinaryStream();
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[4096];
+                        int bytesRead = -1;
+
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);                  
+                        }
+
+                        byte[] imageBytes = outputStream.toByteArray();
+                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                        
+                            if(i == 0)
+                            {%>
+                            
+                            <div class="carousel-item active">
+                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>"><img class="d-block img-fluid" src="data:image/jpg;base64,<% out.println(base64Image); %>" alt="First slide"></a>
+                              </div>
+                                
+                            <% res.next(); }else
+                            {%>
+                            
+                            <div class="carousel-item">
+                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>"><img class="d-block img-fluid" src="data:image/jpg;base64,<% out.println(base64Image); %>" alt="Second slide"></a>
+                            </div>
+
+                            <%res.next(); }
+                        }
+
+              %>
+              
+              
+              
           </div>
           <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -80,33 +143,58 @@
 
         <div class="row">
 
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Item One</a>
-                </h4>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
+            
+             <%
+            String n = "select * from familia";
+            ResultSet res1 = bd.read(n);
+            
+            if(res1.next())
+            {
+                do {
+                        Blob blob = res1.getBlob("imagen_familia");
+                 
+                        InputStream inputStream = blob.getBinaryStream();
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[4096];
+                        int bytesRead = -1;
 
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Item Two</a>
-                </h4>
-              </div>
-            </div>
-          </div>
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);                  
+                        }
 
+                        byte[] imageBytes = outputStream.toByteArray();
+                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+
+                        inputStream.close();
+                        outputStream.close(); %>
+            
+                        <div class='col-lg-4 col-md-6 mb-4'>
+                            <div class='card h-100'>
+                                <img class='card-img-top' src='data:image/jpg;base64, <% out.println(base64Image); %>'/>
+                                <div class='card-body'>
+                                    <h4 class='card-title'>
+                                        <form method='get' action='CatalogoFamilia'>
+                                            <input class='list-group-item' type='submit' value = ' <% out.println(res1.getString("nombre_familia")); %>' >
+                                            <input type="hidden" style="display: none" name = 'dato' value = '<% 
+                                                out.println(res1.getString("id_familia")); %>' >
+                                            <input type="hidden" style="display: none" name = 'dato2' value = '<% out.println(res1.getString("NOMBRE_FAMILIA")); %>'>
+                                        </form>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                            
+                            <% } while (res1.next());
+            }else{
+                out.println("<p>No hay familias ingresadas en la base de datos</p>");
+            }
+            
+        %>    
+            
+
+         
+         <!-- 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
               <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
@@ -122,54 +210,8 @@
               </div>
             </div>
           </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Item Four</a>
-                </h4>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Item Five</a>
-                </h4>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">Item Six</a>
-                </h4>
-                <h5>$24.99</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
+        -->
+          
 
         </div>
         <!-- /.row -->

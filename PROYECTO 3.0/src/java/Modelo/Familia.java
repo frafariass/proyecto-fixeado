@@ -43,10 +43,13 @@ public class Familia {
         this.nombre_familia = nombre_familia;
     }
 
-    public Familia(int id_familia, String nombre_familia) {
+    public Familia(int id_familia, String nombre_familia, String BaseImage64) {
         this.id_familia = id_familia;
         this.nombre_familia = nombre_familia;
+        this.BaseImage64 = BaseImage64;
     }
+
+
     
     
 }

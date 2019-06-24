@@ -34,6 +34,10 @@ public class BD {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection conexion = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","FERRETERIA","123");
             Statement consulta = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE , ResultSet.CONCUR_UPDATABLE);
+            String asd = "alter session set NLS_COMP=LINGUISTIC";
+            consulta.executeUpdate(asd);
+            asd = "alter session set NLS_SORT=BINARY_CI";
+            consulta.executeUpdate(asd);
             consulta.executeUpdate(q);
             conexion.close();
         }catch(ClassNotFoundException | SQLException e)
@@ -47,7 +51,12 @@ public class BD {
         try{
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection conexion = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","FERRETERIA","123");
-            Statement consulta = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE , ResultSet.CONCUR_READ_ONLY);  
+            Statement consulta = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE , ResultSet.CONCUR_UPDATABLE);
+            String asd = "alter session set NLS_COMP=LINGUISTIC";
+            consulta.executeUpdate(asd);
+            asd = "alter session set NLS_SORT=BINARY_CI";
+            consulta.executeUpdate(asd);
+            consulta = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE , ResultSet.CONCUR_READ_ONLY);  
             ResultSet res = consulta.executeQuery(q);
             return res;
         }catch(ClassNotFoundException | SQLException e)
