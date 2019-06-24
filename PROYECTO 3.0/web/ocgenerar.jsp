@@ -14,7 +14,6 @@
     </head>
     <%
         int contador_proveedores = 100;
-        int contador_proveedores2 = 100;
         if(usu == null)
         {
             response.sendRedirect("index.jsp");
@@ -28,54 +27,14 @@
     %>
 
     
-    <script type="text/javascript">
-        
-        function cargarProductos()
-        {
-            var idprov = $('#i_proveedores').val();
-            var ultimo = $('#last').val();
-            
-            if(idprov !== "0")
-            {
-                $('#last').val(idprov.toString()+"select");
-                $('#current').val(idprov.toString()+"select");
-                document.getElementById("0").style.display = "none";
-                document.getElementById(ultimo.toString()).style.display = "none";
-                document.getElementById(idprov+"select").style.display = "block";
-            }else
-            {
-                document.getElementById(ultimo.toString()).style.display = "none";
-                document.getElementById("0").style.display = "block";
-            } 
-        }
-        
-        function cargarProductoss()
-        {
-            //Llamar al id del producto y usarla para obtener el precio.
-            var idpro = $("#h_idprod").val();
-            document.getElementById("precio").value = document.getElementById(idpro).innerHTML.split(', $')[1];
-        }
-        
-        function actualizarTotal () {
-            //Se obtiene precio y se transforma a Int
-            var p1 = $("#precio").val();
-            var p2 = parseInt(p1);
-            //Se obtiene cantidad
-            var c = $("#cantid").val();
-            //Se multiplican las variables
-            var total = p2 * c;
-            //Se asigna el total al input precio
-            $("#precio").val(total);
-        }
-        
-        
-    </script>
+    
     
     <body>
-        <h1>Generar Orden de Compra</h1>
+        
         <div class="container generaroc">
-            <div class="input-group mb-3">
-            <form action="AgregarAOC" method="post" id="data">
+            <h1>Generar Orden de Compra</h1>
+
+            <form action="AgregarAOC" method="post" id="data" class="table" onsubmit="return confirmacion()">
                 <table>
                     <tr>
                         <td>Seleccionar Proveedor</td>
@@ -99,60 +58,52 @@
                                 %>
                         </select>
                     </tr>
-                    <input style="display: none" id="last" value="0">
-                    <input style="display: none" id="current" name="current" value="0">
+                    <input style="display: none" name="last" id="last" value="0">
                     <tr>
                         <td>Seleccionar Producto</td>
-                        <td id="selects">
+                        <td>
+                            <select class="custom-select" id="0"><option>Elija un proveedor</option></select>
                             <%
-                                q = "select id_producto, nombre, usuario_id_proveedor, precio_unitario from producto";
-                                res = bd.read(q);
-                                out.println("<select class='custom-select' id='0'><option>Éste proveedor no tiene productos</option></select>");                                                          
-                                String relleno = "";
-                                String idprod = "";
-                                if(res.next())
-                                {
-                                    
-                                    
-                                    int b;
-                                    for (int i = 101; i < contador_proveedores+1; i++) {
-                                        res.first();
-                                        relleno = "";
-                                        idprod = "";
-                                        b = Integer.parseInt(res.getString("usuario_id_proveedor"));
-                                        do
-                                        {
-                                            if(b == i)
-                                            {
-                                               relleno = relleno + "<option value='"+ res.getString("id_producto") +"' id='"+ res.getString("id_producto") +"'>" + res.getString("nombre")+", $"+ res.getString("precio_unitario") + "</option>"; 
-                                               idprod = res.getString("id_producto");
-                                            }
-                                        }while (res.next());
+                                for (int i = 101; i < contador_proveedores+1; i++) {
+                                        q = "select id_producto, nombre, precio_unitario from producto where usuario_id_proveedor=" + i;
+                                        res = bd.read(q);
+                                        if(res.next())
+                                        {%>
+                                            <select class="custom-select" style="display: none" id="<%= i %>" name="<%= i %>">
+                                           <% do {%>
+                                              
+                                            
+                                                <option value="<%=res.getString("id_producto")%>,<%= res.getString("precio_unitario")%>"> <% out.println(res.getString("nombre"));%>, $<%= res.getString("precio_unitario")%> </option>
+                                           
+                                            
+                                            <%} while (res.next());
+                                           %> </select>
+                                        <%}else
+                                        {%>
+                                            <select style="display: none" id="<%= i %>">
+                                                <option>Éste proveedor no tiene productos asociados</option>
+                                            </select>
+                                        <%}
                                         
-                                        out.println("<select class='custom-select' style='display: none' id='" + i + "select' onmouseover='cargarProductoss()'></select>");
-                                        String inputstring = i + "input";
-                                        %>
-                                        <input style="display: none" id="<%=inputstring%>" value="<%=relleno%>">
-                                        <input type="hidden" id="auxuser" name="auxuser" value="">
-                                        <%b = 0;
-                                    } 
-                                }                             
+    
+                                    }
+
                             %>
-                            <input type="hidden" id="h_idprod" name="h_idprod" value="<%=idprod%>">
                         </td>
                     </tr>
                     <tr>
                         <td>Precio (CLP)</td>
                         <td>
-                            <input class="form-control" style="display: block" id="precio" value="0" readonly>
+                            <input class="form-control" style="display: block" id="precio" name="precio" value="0" readonly>
                         </td>
-                    <br>
+                    <tr>
                         <td>Cantidad</td>
                         <td>
                             <input class="form-control" type="number" id="cantid" name="cantid" value="1" min="1" onchange="actualizarTotal()">
                         </td>
                     </tr>
                     <tr>
+                        <td></td>
                         <td>
                             <input type="submit" value="Agregar a Orden de Compra">
                         </td>
@@ -173,16 +124,88 @@
                         </table>
                             
                     </form>
-            </div>
         </div>
+                        
+                        <script type="text/javascript">
+        
+        function confirmacion()
+            {
+                if(confirm("¿Está seguro que desea agregar esta orden de compra?"))
+                {
+                    return true;
+                }else
+                {
+                    return false;
+                }
+            }
+        
+        function cargarProductos()
+        {
+            var idprov = $('#i_proveedores').val();
+            var ultimo = $('#last').val();
+            
+            if(idprov !== "0")
+            {
+                document.getElementById("0").style.display = "none";
+                document.getElementById(ultimo.toString()).style.display = "none";
+                document.getElementById(idprov).style.display = "block";
+                var aux = $('#'+idprov).val();
+                var precio = aux.split(",")[1];
+                $('#precio').val(precio);
+                $('#last').val(idprov);
+            }else
+            {
+                document.getElementById(ultimo.toString()).style.display = "none";
+                document.getElementById("0").style.display = "block";
+                $('#precio').val(0);
+            } 
+        }
+        
+        function cargarProductoss()
+        {
+            //Llamar al id del producto y usarla para obtener el precio.
+            var idpro = $("#h_idprod").val();
+            document.getElementById("precio").value = document.getElementById(idpro).innerHTML.split(', $')[1];
+        }
+        
+        function actualizarTotal()
+        {
+            var cantidad = $('#cantid').val();
+            var selectactual = $('#last').val();
+            var aux = $('#'+selectactual).val();
+            var precio = aux.split(",")[1];
+            precio = precio*cantidad;
+            $('#precio').val(precio);
+        }
+        
+        function cargarprecio(i) {
+            //Se obtiene precio y se transforma a Int
+            var aux = $('#'+i).val();
+            var precio = aux.split(",")[1];
+            var id = aux.split(",")[0];
+            var cantidad = $('#cantid').val();
+            precio = precio*cantidad;
+            $('#precio').val(precio);
+        }
+
+        
+        
+    </script>
         
                         <script type="text/javascript">
                             $(window).on('load', function()
                             {
-                                var a = "<%= contador_proveedores2%>";
-                                a = parseInt(a,10);
-                                for (var i = 101; i < a+1; i++) {
-                                    document.getElementById(i.toString() + "select").innerHTML = document.getElementById(i.toString() + "input").value;
+                                
+                                var contadorse = <%= contador_proveedores%>;
+                                contadorse = parseInt(contadorse, 10);
+                                $('#i_proveedores').on('change', function(){
+                                    cargarProductos();
+                                });
+                                for (var i = 101; i < contadorse+1; i++) {
+                                    var id = "#"+i;
+                                    $(id).on('change', function(){
+                                        cargarprecio($('#last').val());
+                                    });
                                 }
                             });
                         </script>

@@ -9,10 +9,7 @@ import Modelo.BD;
 import Modelo.Mensaje;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.sql.SQLException;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lordp
  */
-@WebServlet(name = "AgregarAOC", urlPatterns = {"/AgregarAOC"})
-public class AgregarAOC extends HttpServlet {
+@WebServlet(name = "RecepcionOC", urlPatterns = {"/RecepcionOC"})
+public class RecepcionOC extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,39 +35,32 @@ public class AgregarAOC extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             try
             {
-                String idprov = request.getParameter("i_proveedores");
-                String aux = request.getParameter(idprov);
-                String idprod = aux.split(",")[0];
-                String cantidad = request.getParameter("cantid");
-                String total = request.getParameter("precio");
-                int idordenmax = 1;
-                int nroocmax = 1;
-                
+                String idarecepcionar = request.getParameter("idorden");
                 BD bd = new BD();
-                String q = "SELECT MAX(ID_ORDEN), MAX(NRO_OC) FROM ORDEN_COMPRA";
+                String q = "UPDATE ORDEN_COMPRA SET ESTADO_ID_ESTADO = 5 WHERE ID_ORDEN =" + idarecepcionar;
+                bd.update(q);
+                q = "SELECT MAX(ID_RECEPCION) FROM RECEPCION_OC";
                 ResultSet res = bd.read(q);
+                int recepcionidmax = 1;
                 if(res.next())
                 {
                     try
                     {
-                        idordenmax = Integer.parseInt(res.getString("MAX(ID_ORDEN)"))+1;
-                        nroocmax = Integer.parseInt(res.getString("MAX(NRO_OC)"))+1;
+                        recepcionidmax = Integer.parseInt(res.getString("MAX(ID_RECEPCION)"))+1;
                     }catch(Exception e)
                     {
                         
                     }  
                 }
                 
-                q = "INSERT INTO ORDEN_COMPRA VALUES(" + idordenmax +", current_timestamp, " +total
-                        + ", 1, " + idprov + ", " + cantidad + ", "+ nroocmax + ", '" + idprod + "')";
-                bd.update(q);
                 
-                Mensaje mensaje = new Mensaje("Orden de compra ingresada", "administrar.jsp", "&laquo; Ir a administrar");
+                q = "INSERT INTO RECEPCION_OC VALUES("+ recepcionidmax + ", current_timestamp, " + idarecepcionar + ")";
+                bd.update(q);
+                Mensaje mensaje = new Mensaje("Orden de compra anulada", "administrar.jsp", "&laquo; Ir a administrar");
                 request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }catch(Exception e)
@@ -79,8 +69,8 @@ public class AgregarAOC extends HttpServlet {
                 request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }
-            
         }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
