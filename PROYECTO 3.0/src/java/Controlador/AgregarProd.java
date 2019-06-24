@@ -76,25 +76,9 @@ public class AgregarProd extends HttpServlet {
                    // Hay que comprobar si es un campo de formulario. Si no lo es, se guarda el fichero
                    // subido donde nos interese
                    int contador = 1;
-                   String nombrefinal = "";
+                   
                    if (!uploaded.isFormField()) {
-                      // No es campo de formulario, guardamos el fichero en algún sitio
-                        boolean estado = true;
-                        do {
-                           try
-                            {
-                                nombrefinal = uploaded.getName().substring(0,uploaded.getName().length()-4)+contador+".jpg";
-                                File fichero = new File("C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\tipo_producto\\productos", nombrefinal);
-                                uploaded.write(fichero);
-                                rutaarchivosubido = "C:\\Users\\lordp\\Desktop\\portafolio\\proyecto-fixeado\\images\\tipo_producto\\productos\\" + nombrefinal;
-                                estado = false;
-                            }catch(Exception e)
-                            {
-                                contador++;
-                            }
-                       } while (estado);
-                       
-                        
+                      // No es campo de formulario, guardamos el fichero en algún sitio   
                         
                    }else
                    {
@@ -139,6 +123,7 @@ public class AgregarProd extends HttpServlet {
                        
                    } 
                 }
+                
                 
                 
                 
@@ -203,6 +188,23 @@ public class AgregarProd extends HttpServlet {
                         descripcion + "', " + preciouint +"," + preciouint*1.3 + ", " + stock + ","+ stockcri+ "," +
                         idtipoprod + ", null,'" + nombre + "', 2,'" + fechavenc + "', " + proveedor + ")";
                 bd.update(q);
+                
+                
+                
+                
+                for (Object item : items) {
+                    FileItem uploaded = (FileItem) item;
+                    if(!uploaded.isFormField())
+                    {
+                        String nombrefinal = "";
+                        nombrefinal = uploaded.getName().substring(0,uploaded.getName().length()-4)+idproducto+".jpg";
+                        File fichero = new File("\\productos\\imagenes", nombrefinal);
+                        uploaded.write(fichero);
+                        rutaarchivosubido = "\\productos\\imagenes\\" + nombrefinal;
+   
+                    }
+                }
+                
                 if(bd.insertarImagen(rutaarchivosubido, "producto", "imagen",  idproducto, "id_producto"))
                 {
                     Mensaje mensaje = new Mensaje("El producto ha sido agregado con éxito", "administrar.jsp", "&laquo; Ir a administrar");
