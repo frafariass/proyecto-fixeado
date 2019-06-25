@@ -54,7 +54,6 @@
                         <ul class="flex-column pl-2 nav">
                             <li class="nav-item"><a class="nav-link py-0" href="ocbuscar.jsp">Buscar OC</a></li>
                             <li class="nav-item"><a class="nav-link py-0" href="ocgenerar.jsp">Generar OC</a></li>
-                            <li class="nav-item"><a class="nav-link py-0" href="ocrecepcionar.jsp">Recepcionar OC</a></li>
                         </ul>
                     </div>
                 </li>

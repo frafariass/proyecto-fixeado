@@ -51,7 +51,6 @@
                                     }else{
                                         do{
                                             contador_proveedores++;
-                                            contador_proveedores2++;
                                             out.println("<option value='"+res.getString("id_user") +"'>"+res.getString("nombre_user")+"</option>");
                                         }while(res.next());
                                     }
