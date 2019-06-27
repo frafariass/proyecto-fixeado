@@ -127,6 +127,8 @@
                         
                         <script type="text/javascript">
         
+        
+        
         function confirmacion()
             {
                 if(confirm("¿Está seguro que desea agregar esta orden de compra?"))
@@ -194,6 +196,7 @@
                         <script type="text/javascript">
                             $(window).on('load', function()
                             {
+                               
                                 
                                 var contadorse = <%= contador_proveedores%>;
                                 contadorse = parseInt(contadorse, 10);

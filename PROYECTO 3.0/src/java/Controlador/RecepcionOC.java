@@ -43,8 +43,20 @@ public class RecepcionOC extends HttpServlet {
                 BD bd = new BD();
                 String q = "UPDATE ORDEN_COMPRA SET ESTADO_ID_ESTADO = 5 WHERE ID_ORDEN =" + idarecepcionar;
                 bd.update(q);
-                q = "SELECT MAX(ID_RECEPCION) FROM RECEPCION_OC";
+                q = "SELECT PRODUCTO_ID_PRODUCTO, CANTIDAD FROM ORDEN_COMPRA WHERE ID_ORDEN = " + idarecepcionar;
                 ResultSet res = bd.read(q);
+                res.next();
+                String idprod = res.getString("producto_id_producto");
+                int cantidad = Integer.parseInt(res.getString("cantidad"));
+                q = "SELECT STOCK FROM PRODUCTO WHERE ID_PRODUCTO = '" + idprod + "'";
+                res = bd.read(q);
+                res.next();
+                int stockactual = Integer.parseInt(res.getString("stock"));
+                cantidad = cantidad + stockactual;
+                q = "UPDATE PRODUCTO SET STOCK =" + cantidad + " where id_producto = '" + idprod + "'";
+                bd.update(q);
+                q = "SELECT MAX(ID_RECEPCION) FROM RECEPCION_OC";
+                res = bd.read(q);
                 int recepcionidmax = 1;
                 if(res.next())
                 {
@@ -60,7 +72,7 @@ public class RecepcionOC extends HttpServlet {
                 
                 q = "INSERT INTO RECEPCION_OC VALUES("+ recepcionidmax + ", current_timestamp, " + idarecepcionar + ")";
                 bd.update(q);
-                Mensaje mensaje = new Mensaje("Orden de compra anulada", "administrar.jsp", "&laquo; Ir a administrar");
+                Mensaje mensaje = new Mensaje("Orden de compra recepcionada", "administrar.jsp", "&laquo; Ir a administrar");
                 request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");
             }catch(Exception e)
