@@ -221,14 +221,14 @@ public class AgregarProd extends HttpServlet {
                         }
                         
                         nombrefinal = idproducto+"." + extension;
-                        nombrefinal = "images/tipo_producto/" + nombrefinal;
+                        String enc = "images/tipo_producto/" + nombrefinal;
                         
                         q = "INSERT INTO PRODUCTO VALUES('" + idproducto + "', '" +
                         descripcion + "', " + preciouint +"," + preciouint*1.3 + ", " + stock + ","+ stockcri+ "," +
-                        idtipoprod + ", null,'" + nombre + "', 2,'" + fechavenc + "', " + proveedor + ", " + nombrefinal + ")";
+                        idtipoprod + ", '" + nombre + "', 2,'" + fechavenc + "', " + proveedor + ", '" + enc + "')";
                         bd.update(q);
                         
-                        File fichero = new File("C:/proyecto-fixeado/PROYECTO 3.0/web/", nombrefinal);
+                        File fichero = new File("C:/proyecto-fixeado/PROYECTO 3.0/web/images/tipo_producto", nombrefinal);
                         uploaded.write(fichero);
                         InputStream inputs = new FileInputStream(fichero);
                         if(ImageIO.read(inputs) == null)

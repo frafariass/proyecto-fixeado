@@ -83,11 +83,7 @@ public class AgregarVentaVendedor extends HttpServlet {
                     int iduser = Integer.parseInt(res3.getString("id_user"));
                     for (Venta listaventa : listaventas) {
                         idventamax++;
-                        totalventa = listaventa.getTotal_venta();
-                        if(tipoventa.equals("1"))
-                        {
-                            totalventa = (int) ((Math.round(listaventa.getPrecio_unitario_producto()*1.19))*listaventa.getCantidad());
-                        }
+                        totalventa = (int) ((Math.round(listaventa.getPrecio_unitario_producto()*1.19))*listaventa.getCantidad());
                         q = "INSERT INTO VENTA VALUES (current_timestamp, "+ totalventa  +", "+1+", " +listaventa.getCantidad() +", " +
                                 listaventa.getProducto_id_producto() + ", " + nuevonroboleta + ", " + idventamax + ", " + iduser + ", " + listaventa.getPrecio_unitario_producto()
                                 + ", " + tipoventa + ", " + tipoentrega + ")";
@@ -100,7 +96,7 @@ public class AgregarVentaVendedor extends HttpServlet {
                     }
                     
                     request.getSession().setAttribute("listaventas1", null);
-                    Mensaje mensaje = new Mensaje("Gracias por su compra", "miscompras.jsp", "&laquo; Click aquí para ir a mis compras");
+                    Mensaje mensaje = new Mensaje("Venta agregada a usuario con rut : " + rutint, "administrar.jsp", "&laquo; Volver al panel de administración");
                     request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");
                     

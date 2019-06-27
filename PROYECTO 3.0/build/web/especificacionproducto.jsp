@@ -31,7 +31,7 @@
         {
             var cantidad = $('#cantidad').val();
             var stock = parseInt($('#stock').val(), 10);
-            if(stock >= 1 && cantidad >= 1)
+            if(stock >= 1 && cantidad >= 1 && cantidad <= stock)
             {
                 return true;
             }else

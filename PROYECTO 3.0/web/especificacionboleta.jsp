@@ -58,7 +58,10 @@
                                     %>
                                     <tr>
                                         <td><%= cont %></td>
-                                        <td><a href='http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato= <%= res.getString("ID_PRODUCTO")%>'><%= res.getString("NOMBRE") %></a></td><td><%= res.getString("CANTIDAD") %></td><td>$<%= res.getString("PRECIO_COMPRA") %></td><td>$<%= res.getString("TOTAL_VENTA") %></td>
+                                        <td><a href='http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato= <%= res.getString("ID_PRODUCTO")%>'><%= res.getString("NOMBRE") %></a></td>
+                                        <td><%= res.getString("CANTIDAD") %></td>
+                                        <td>$<% out.println( Math.round(Integer.parseInt(res.getString("PRECIO_COMPRA"))*1.19) ); %></td>
+                                        <td>$<%= res.getString("TOTAL_VENTA") %></td>
                                         <td></td>
                                         <td></td>
                                     </tr>

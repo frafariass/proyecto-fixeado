@@ -63,11 +63,7 @@ public class AgregarVenta extends HttpServlet {
                 
                 for (Venta listaventa : listaventas) {
                     idventamax++;
-                    totalventa = listaventa.getTotal_venta();
-                    if(tipoventa.equals("1"))
-                    {
-                        totalventa = (int) ((Math.round(listaventa.getPrecio_unitario_producto()*1.19))*listaventa.getCantidad());
-                    }
+                    totalventa = (int) ((Math.round(listaventa.getPrecio_unitario_producto()*1.19))*listaventa.getCantidad());
                     q = "INSERT INTO VENTA VALUES (current_timestamp, "+ totalventa  +", "+1+", " +listaventa.getCantidad() +", " +
                             listaventa.getProducto_id_producto() + ", " + nuevonroboleta + ", " + idventamax + ", " + iduser + ", " + listaventa.getPrecio_unitario_producto()
                             + ", " + tipoventa + ", " + tipoentrega + ")";
