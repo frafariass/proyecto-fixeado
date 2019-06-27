@@ -75,16 +75,16 @@
         <div class="list-group">
             <%
                 BD bd = new BD();
-                String q = "select * from familia";
-                ResultSet res = bd.read(q);
-                res.next();
+                String q4 = "select nombre_familia, id_familia from familia";
+                ResultSet res2 = bd.read(q4);
+                res2.next();
                 do {%>
-                        <form method='get' action='CatalogoFamilia' id="catalogofamilia">
-                            <button onclick="submitfamilia()" class='list-group-item' type='submit'><% out.println(res.getString("NOMBRE_FAMILIA")); %></button>
-                        <input type="hidden" style="display: none" name = 'dato' value = '<% out.println(res.getString("id_familia")); %>'>
-                        <input type="hidden" style="display: none" name = 'dato2' value = '<% out.println(res.getString("NOMBRE_FAMILIA")); %>'>
+                        <form method='get' action='CatalogoFamilia'>
+                        <button onclick="submitfamilia()" class='list-group-item' type='submit'><% out.println(res2.getString("NOMBRE_FAMILIA")); %></button>
+                        <input type="hidden" style="display: none" name = 'dato' value = '<% out.println(res2.getString("id_familia")); %>'>
+                        <input type="hidden" style="display: none" name = 'dato2' value = '<% out.println(res2.getString("NOMBRE_FAMILIA")); %>'>
                         </form>
-                    <%} while (res.next());
+                    <%} while (res2.next());
                 
             %>
         </div>
@@ -123,7 +123,7 @@
                     <%}
                 }%>
                 <form method='post' action='AgregarAlCarro' id="formulariocarro" onsubmit="return validarcantidadystock()">
-                                <img class='card-img-top img-fluid' src='data:image/jpg;base64,<% out.println(prod.getBase64Image()); %>' alt=''>
+                                <img class='card-img-top img-fluid' src='<% out.println(prod.getImagen()); %>' alt=''>
                                 
                                     <h5 class='card-text' style='font-size: small'>Código de producto: <% out.println(prod.getId_producto()); %></h5>
                                     <input type="hidden" style="display: none" name="codprod" id="codprod" value="<% out.println(prod.getId_producto()); %>" >

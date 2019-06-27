@@ -78,7 +78,7 @@
                             if(usu == null)
                             {%>
                                 
-                            <a href="login.jsp">Ingresar para pasar por caja</a>
+                            <th><a href="login.jsp">Ingresar para pasar por caja</a></th>
                             
                             <%}else
                             { if(usu.getRol_id_rol() == 1 || usu.getRol_id_rol() == 3)

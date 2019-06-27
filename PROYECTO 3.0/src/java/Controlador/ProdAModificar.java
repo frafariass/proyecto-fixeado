@@ -65,21 +65,7 @@ public class ProdAModificar extends HttpServlet {
                 probuscar.setFecha_venc(res.getString("fecha_venc"));
                 probuscar.setNombre(res.getString("nombre"));
                 
-                Blob blob = res.getBlob("imagen");
-                 
-                InputStream inputStream = blob.getBinaryStream();
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                byte[] buffer = new byte[4096];
-                int bytesRead = -1;
-
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);                  
-                }
-
-                byte[] imageBytes = outputStream.toByteArray();
-                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-                
-                probuscar.setBase64Image(base64Image);
+                probuscar.setImagen(res.getString("imagen"));
                 request.getSession().setAttribute("probuscar1", probuscar);
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("prodmodificar.jsp");
                 requestDispatcher.forward(request, response);

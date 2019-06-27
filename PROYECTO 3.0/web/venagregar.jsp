@@ -37,7 +37,7 @@
                 int precioapagarboleta = 0;
                 int cantidad = 0;
                 for (Venta ven : listaventas) {
-                        precioapagarfactura = precioapagarfactura + ven.getTotal_venta();
+                        precioapagarfactura = precioapagarfactura + (int)((Math.round(ven.getPrecio_unitario_producto()*1.19))*ven.getCantidad());
                         precioapagarboleta =  precioapagarboleta + (int)((Math.round(ven.getPrecio_unitario_producto()*1.19))*ven.getCantidad());
                         cantidad = cantidad + ven.getCantidad();
                     }%>

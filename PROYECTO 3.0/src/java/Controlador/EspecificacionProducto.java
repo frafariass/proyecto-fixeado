@@ -55,19 +55,7 @@ public class EspecificacionProducto extends HttpServlet {
                 res.next();
                 Producto prod = new Producto();
                 
-                Blob blob = res.getBlob("imagen");
-                 
-                InputStream inputStream = blob.getBinaryStream();
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                byte[] buffer = new byte[4096];
-                int bytesRead = -1;
-
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);                  
-                }
-
-                byte[] imageBytes = outputStream.toByteArray();
-                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                
                 prod.setId_producto(res.getString("id_producto"));
                 prod.setDesc_producto(res.getString("desc_producto"));
                 prod.setPrecio_unitario(Integer.parseInt(res.getString("precio_unitario")));
@@ -77,7 +65,7 @@ public class EspecificacionProducto extends HttpServlet {
                 prod.setFecha_venc(res.getString("fecha_venc"));
                 prod.setTipo_producto_id_tipoprod(Integer.parseInt(res.getString("tipo_producto_id_tipoprod")));
                 prod.setEstado_id_estado(Integer.parseInt(res.getString("estado_id_estado")));
-                prod.setBase64Image(base64Image);
+                prod.setImagen(res.getString("imagen"));
                 prod.setNombre(res.getString("nombre"));
                 prod.setUsuario_id_proveedor(Integer.parseInt(res.getString("usuario_id_proveedor")));
                 request.getSession().setAttribute("prod1", prod);

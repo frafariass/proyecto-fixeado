@@ -187,10 +187,7 @@ public class AgregarProd extends HttpServlet {
                     fechavenc = "00000000";
                 }
                 String idproducto = proveedor + idfamilia + fechavenc + idtipoprod + idstring;
-                q = "INSERT INTO PRODUCTO VALUES('" + idproducto + "', '" +
-                        descripcion + "', " + preciouint +"," + preciouint*1.3 + ", " + stock + ","+ stockcri+ "," +
-                        idtipoprod + ", null,'" + nombre + "', 2,'" + fechavenc + "', " + proveedor + ")";
-                bd.update(q);
+                
                 
                 
                 
@@ -223,9 +220,15 @@ public class AgregarProd extends HttpServlet {
                             response.sendRedirect("error.jsp");
                         }
                         
-                        nombrefinal = nombreaux2+idproducto+"." + extension;
+                        nombrefinal = idproducto+"." + extension;
+                        nombrefinal = "images/tipo_producto/" + nombrefinal;
                         
-                        File fichero = new File("\\productos\\imagenes", nombrefinal);
+                        q = "INSERT INTO PRODUCTO VALUES('" + idproducto + "', '" +
+                        descripcion + "', " + preciouint +"," + preciouint*1.3 + ", " + stock + ","+ stockcri+ "," +
+                        idtipoprod + ", null,'" + nombre + "', 2,'" + fechavenc + "', " + proveedor + ", " + nombrefinal + ")";
+                        bd.update(q);
+                        
+                        File fichero = new File("C:/proyecto-fixeado/PROYECTO 3.0/web/", nombrefinal);
                         uploaded.write(fichero);
                         InputStream inputs = new FileInputStream(fichero);
                         if(ImageIO.read(inputs) == null)
@@ -234,7 +237,7 @@ public class AgregarProd extends HttpServlet {
                             
                         }else
                         {
-                             rutaarchivosubido = "\\productos\\imagenes\\" + nombrefinal;
+                             rutaarchivosubido = "../../productos/imagenes/" + nombrefinal;
                         }
                         
                        
@@ -249,12 +252,12 @@ public class AgregarProd extends HttpServlet {
                     response.sendRedirect("error.jsp");
                 }else
                 {
-                    if(bd.insertarImagen(rutaarchivosubido, "producto", "imagen",  idproducto, "id_producto"))
-                    {
+
+                    
                         Mensaje mensaje = new Mensaje("El producto ha sido agregado con éxito", "administrar.jsp", "&laquo; Ir a administrar");
                         request.getSession().setAttribute("mensaje1", mensaje);
                         response.sendRedirect("error.jsp");
-                    }
+
                 }
 
             }catch(Exception e)

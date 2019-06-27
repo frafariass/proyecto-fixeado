@@ -44,7 +44,6 @@ public class CatalogoFamilia extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             try
             {
-                BD bd = new BD();
                 String id = request.getParameter("dato");
                 String nombre = request.getParameter("dato2");
                 id = id.trim();

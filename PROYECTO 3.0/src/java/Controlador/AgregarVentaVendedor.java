@@ -48,8 +48,13 @@ public class AgregarVentaVendedor extends HttpServlet {
                 String q = "SELECT MAX(NUMERO_BOLETA), MAX(ID_VENTA) FROM VENTA";
                 ResultSet res = bd.read(q);
                 res.next();
-                int nuevonroboleta = Integer.parseInt(res.getString("max(numero_boleta)")) + 1;
-                int idventamax = Integer.parseInt(res.getString("max(id_venta)"));
+                int nuevonroboleta = 1;
+                int idventamax = 1;
+                if(res.getString("max(numero_boleta)") != null)
+                {
+                    nuevonroboleta = Integer.parseInt(res.getString("max(numero_boleta)")) + 1;
+                    idventamax = Integer.parseInt(res.getString("max(id_venta)"));
+                }
                 String tipoventa = request.getParameter("tipoventa");
                 String tipoentrega = request.getParameter("tipoentrega");
                 int totalventa = 0;

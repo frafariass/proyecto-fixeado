@@ -19,11 +19,14 @@ public class Producto {
     private String fecha_venc;                        
     private int tipo_producto_id_tipoprod;   
     private int estado_id_estado;
-    private String base64Image;
+    private String imagen;
     private String nombre;
     private int usuario_id_proveedor;
 
-    public Producto(String id_producto, String desc_producto, int precio_unitario, int precio_compra, int stock, int stock_critico, String fecha_venc, int tipo_producto_id_tipoprod, int estado_id_estado, String base64Image, String nombre, int usuario_id_proveedor) {
+    public Producto() {
+    }
+
+    public Producto(String id_producto, String desc_producto, int precio_unitario, int precio_compra, int stock, int stock_critico, String fecha_venc, int tipo_producto_id_tipoprod, int estado_id_estado, String imagen, String nombre, int usuario_id_proveedor) {
         this.id_producto = id_producto;
         this.desc_producto = desc_producto;
         this.precio_unitario = precio_unitario;
@@ -33,31 +36,8 @@ public class Producto {
         this.fecha_venc = fecha_venc;
         this.tipo_producto_id_tipoprod = tipo_producto_id_tipoprod;
         this.estado_id_estado = estado_id_estado;
-        this.base64Image = base64Image;
+        this.imagen = imagen;
         this.nombre = nombre;
-        this.usuario_id_proveedor = usuario_id_proveedor;
-    }
-    
-    public Producto() {
-        this.id_producto = "";
-        this.desc_producto = "";
-        this.precio_unitario = 0;
-        this.precio_compra = 0;
-        this.stock = 0;
-        this.stock_critico = 0;
-        this.fecha_venc = "";
-        this.tipo_producto_id_tipoprod = 0;
-        this.estado_id_estado = 0;
-        this.base64Image = "";
-        this.nombre = "";
-        this.usuario_id_proveedor = 0;
-    }
-
-    public int getUsuario_id_proveedor() {
-        return usuario_id_proveedor;
-    }
-
-    public void setUsuario_id_proveedor(int usuario_id_proveedor) {
         this.usuario_id_proveedor = usuario_id_proveedor;
     }
 
@@ -133,12 +113,12 @@ public class Producto {
         this.estado_id_estado = estado_id_estado;
     }
 
-    public String getBase64Image() {
-        return base64Image;
+    public String getImagen() {
+        return imagen;
     }
 
-    public void setBase64Image(String base64Image) {
-        this.base64Image = base64Image;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getNombre() {
@@ -148,6 +128,16 @@ public class Producto {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public int getUsuario_id_proveedor() {
+        return usuario_id_proveedor;
+    }
+
+    public void setUsuario_id_proveedor(int usuario_id_proveedor) {
+        this.usuario_id_proveedor = usuario_id_proveedor;
+    }
+
+    
 
     
     

@@ -71,26 +71,7 @@ public class BuscarProducto extends HttpServlet {
                         pro.setId_producto(res.getString("id_producto"));
                         int precioconiva = (int)Math.round(Integer.parseInt(res.getString("precio_compra"))*1.19);
                         pro.setPrecio_compra(precioconiva);
-                        
-                        Blob blob = res.getBlob("IMAGEN");
-
-                        InputStream inputStream = blob.getBinaryStream();
-                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                        byte[] buffer = new byte[4096];
-                        int bytesRead = -1;
-
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            outputStream.write(buffer, 0, bytesRead);                  
-                        }
-
-                        byte[] imageBytes = outputStream.toByteArray();
-                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-
-
-                        inputStream.close();
-                        outputStream.close();
-
-                        pro.setBase64Image(base64Image);
+                        pro.setImagen(res.getString("IMAGEN"));
 
                         productos.add(pro);
                     } while (res.next());

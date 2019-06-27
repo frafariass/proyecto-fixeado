@@ -13,19 +13,16 @@ public class Familia {
     
     private int id_familia;
     private String nombre_familia;
-    private String BaseImage64;
+    private String imagen_familia;
 
     public Familia() {
     }
 
-    public String getBaseImage64() {
-        return BaseImage64;
+    public Familia(int id_familia, String nombre_familia, String imagen_familia) {
+        this.id_familia = id_familia;
+        this.nombre_familia = nombre_familia;
+        this.imagen_familia = imagen_familia;
     }
-
-    public void setBaseImage64(String BaseImage64) {
-        this.BaseImage64 = BaseImage64;
-    }
-    
 
     public int getId_familia() {
         return id_familia;
@@ -43,11 +40,15 @@ public class Familia {
         this.nombre_familia = nombre_familia;
     }
 
-    public Familia(int id_familia, String nombre_familia, String BaseImage64) {
-        this.id_familia = id_familia;
-        this.nombre_familia = nombre_familia;
-        this.BaseImage64 = BaseImage64;
+    public String getImagen_familia() {
+        return imagen_familia;
     }
+
+    public void setImagen_familia(String imagen_familia) {
+        this.imagen_familia = imagen_familia;
+    }
+
+    
 
 
     

@@ -28,8 +28,8 @@
         <div class="list-group">
            <%
                 BD bd = new BD();
-                String q = "select * from familia";
-                ResultSet res2 = bd.read(q);
+                String q4 = "select nombre_familia, id_familia from familia";
+                ResultSet res2 = bd.read(q4);
                 res2.next();
                 do {%>
                         <form method='get' action='CatalogoFamilia'>
@@ -53,50 +53,32 @@
           </ol>
           <div class="carousel-inner" role="listbox">
               
-              <%
-                    
-                    String q3 = "SELECT * FROM ("
-                    +" SELECT NOMBRE, PRECIO_COMPRA, PRODUCTO_ID_PRODUCTO, COUNT(PRODUCTO_ID_PRODUCTO) FROM VENTA VE "
+             <%
+                  
+                    String q = "SELECT * FROM ("
+                    +" SELECT NOMBRE, PRECIO_COMPRA, IMAGEN, PRODUCTO_ID_PRODUCTO, COUNT(PRODUCTO_ID_PRODUCTO) FROM VENTA VE "
                     + " JOIN PRODUCTO PRO " 
                     + " ON (PRO.ID_PRODUCTO = VE.PRODUCTO_ID_PRODUCTO) "
-                    + " GROUP BY PRODUCTO_ID_PRODUCTO, NOMBRE,PRECIO_COMPRA "
+                    + " GROUP BY PRODUCTO_ID_PRODUCTO, NOMBRE,PRECIO_COMPRA, IMAGEN "
                     + " ORDER BY COUNT(PRODUCTO_ID_PRODUCTO) DESC "
                     + " ) WHERE ROWNUM <= 3";
-                    ResultSet res = bd.read(q3);
+                    ResultSet res = bd.read(q);
                     res.last();
                     int tam = res.getRow();
                     res.first();
                     for (int i = 0; i < tam; i++) {
-                        
-                        String q2 = "SELECT IMAGEN FROM PRODUCTO WHERE ID_PRODUCTO= '" + res.getString("PRODUCTO_ID_PRODUCTO")+"'";
-                        ResultSet res3 = bd.read(q2);
-                        res3.next();
-                        Blob blob = res3.getBlob("imagen");
-                 
-                        InputStream inputStream = blob.getBinaryStream();
-                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                        byte[] buffer = new byte[4096];
-                        int bytesRead = -1;
-
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            outputStream.write(buffer, 0, bytesRead);                  
-                        }
-
-                        byte[] imageBytes = outputStream.toByteArray();
-                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-                        
                             if(i == 0)
                             {%>
                             
                             <div class="carousel-item active">
-                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>"><img class="d-block img-fluid" src="data:image/jpg;base64,<% out.println(base64Image); %>" alt="First slide"></a>
+                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>"><img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="First slide"></a>
                               </div>
                                 
                             <% res.next(); }else
                             {%>
                             
                             <div class="carousel-item">
-                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>"><img class="d-block img-fluid" src="data:image/jpg;base64,<% out.println(base64Image); %>" alt="Second slide"></a>
+                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>"><img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="Second slide"></a>
                             </div>
 
                             <%res.next(); }
@@ -125,7 +107,7 @@
             for (Producto pro : listaproductosbuscar) {%>
                     <div class='col-lg-4 col-md-6 mb-4'>
                         <div class='card h-100'>
-                        <img class='card-img-top' src='data:image/jpg;base64, <%  out.println(pro.getBase64Image()); %>'/>
+                        <img class='card-img-top' src='<%  out.println(pro.getImagen()); %>'/>
                         <div class='card-body'>
                         <form method='get' action='EspecificacionProducto'>
                         <h4 class='card-title'>
