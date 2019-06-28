@@ -95,14 +95,16 @@
                             {%>
                             
                             <div class="carousel-item active">
-                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>"><img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="First slide"></a>
+                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>">
+                                    <img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="First slide" width="900" height="350"></a>
                               </div>
                                 
                             <% res.next(); }else
                             {%>
                             
                             <div class="carousel-item">
-                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>"><img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="Second slide"></a>
+                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>">
+                                    <img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="Second slide" width="900" height="350"></a>
                             </div>
 
                             <%res.next(); }
@@ -136,8 +138,9 @@
                              %>
             
                         <div class='col-lg-4 col-md-6 mb-4'>
+                            
                             <div class='card h-100'>
-                                <img class='card-img-top' src='<% out.println(res1.getString("IMAGEN_FAMILIA")); %>'/>
+                                <img class='card-img-top' src='<% out.println(res1.getString("IMAGEN_FAMILIA")); %>' >
                                 <div class='card-body'>
                                     <h4 class='card-title'>
                                         <form method='get' action='CatalogoFamilia'>

@@ -42,7 +42,7 @@
                             <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato= <%= res.getString("PRODUCTO_ID_PRODUCTO")%>">
                           <img class="card-img-top" 
                                 
-                               src="<%= res.getString("IMAGEN")%>" alt="">
+                               src="<%= res.getString("IMAGEN")%>" alt="" >
                           </a>
                           <div class="card-body">
                             <h4 class="card-title"><%= res.getString("nombre")%></h4>
@@ -58,7 +58,7 @@
                         
                      <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card h-100">
-                      <img class="card-img-top" src="images\tipo_producto\Guirnalda eléctrica bolas blanco y negro.jpg">
+                      <img class="card-img-top" src="images\tipo_producto\Guirnalda eléctrica bolas blanco y negro.jpg" width="500" height="325">
                       <div class="card-body">
                         <h4 class="card-title">Card title</h4>
                         <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>

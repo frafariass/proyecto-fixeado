@@ -53,7 +53,7 @@
           </ol>
           <div class="carousel-inner" role="listbox">
               
-             <%
+            <%
                   
                     String q = "SELECT * FROM ("
                     +" SELECT NOMBRE, PRECIO_COMPRA, IMAGEN, PRODUCTO_ID_PRODUCTO, COUNT(PRODUCTO_ID_PRODUCTO) FROM VENTA VE "
@@ -71,14 +71,16 @@
                             {%>
                             
                             <div class="carousel-item active">
-                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>"><img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="First slide"></a>
+                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>">
+                                    <img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="First slide" width="900" height="350"></a>
                               </div>
                                 
                             <% res.next(); }else
                             {%>
                             
                             <div class="carousel-item">
-                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>"><img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="Second slide"></a>
+                                <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>">
+                                    <img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="Second slide" width="900" height="350"></a>
                             </div>
 
                             <%res.next(); }
