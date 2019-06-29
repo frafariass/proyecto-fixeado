@@ -84,7 +84,7 @@
                             { if(usu.getRol_id_rol() == 1 || usu.getRol_id_rol() == 3)
                                 {%>
                                   
-                            <th><a href="venagregar.jsp">Vender a cliente</a></th>
+                            <th><a href="venagregarrut.jsp">Vender a cliente</a></th>
                             <th><a href="caja.jsp">Pasar por caja</a></th>
                                 <%}else
                                 {%>
@@ -103,12 +103,13 @@
         
         
         <% bd.cerrarConexion(); %>
-        <footer class="py-5 bg-dark">
+<footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Ferretería Ferme 2019</p>
+      <p class="m-0 text-center text-white">Contacto al: 2-123-1234, contacto@ferme.cl</p>
     </div>
     <!-- /.container -->
   </footer>
+
     </body>
-    
 </html>

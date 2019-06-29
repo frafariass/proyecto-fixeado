@@ -46,6 +46,7 @@ public class AgregarVenta extends HttpServlet {
                 List<Venta> listaventas = (List<Venta>)request.getSession().getAttribute("listaventas1");
                 Usuario usu = (Usuario)request.getSession().getAttribute("usu1");
                 int iduser = usu.getId_user();
+                int rutuser = usu.getRut_user();
                 BD bd = new BD();
                 String q = "SELECT MAX(NUMERO_BOLETA), MAX(ID_VENTA) FROM VENTA";
                 ResultSet res = bd.read(q);
@@ -60,25 +61,23 @@ public class AgregarVenta extends HttpServlet {
                 String tipoventa = request.getParameter("tipoventa");
                 String tipoentrega = request.getParameter("tipoentrega");
                 int totalventa = 0;
+                String tipopago = request.getParameter("tipopago");
+                if(tipopago == null)
+                {
+                    tipopago = "2";
+                }
                 
                 for (Venta listaventa : listaventas) {
                     idventamax++;
                     totalventa = (int) ((Math.round(listaventa.getPrecio_unitario_producto()*1.19))*listaventa.getCantidad());
                     q = "INSERT INTO VENTA VALUES (current_timestamp, "+ totalventa  +", "+1+", " +listaventa.getCantidad() +", " +
                             listaventa.getProducto_id_producto() + ", " + nuevonroboleta + ", " + idventamax + ", " + iduser + ", " + listaventa.getPrecio_unitario_producto()
-                            + ", " + tipoventa + ", " + tipoentrega + ")";
-                    bd.update(q);
-                    String q2 = "SELECT STOCK FROM PRODUCTO WHERE ID_PRODUCTO = '" + listaventa.getProducto_id_producto() + "'";
-                    ResultSet res2 = bd.read(q2);
-                    res2.next();
-                    q = "UPDATE PRODUCTO SET STOCK =" + (Integer.parseInt(res2.getString("stock"))-listaventa.getCantidad()) + " WHERE ID_PRODUCTO = '" + listaventa.getProducto_id_producto() + "'";
+                            + ", " + tipoventa + ", " + tipoentrega + ", " + rutuser + ", "+ tipopago + ")";
                     bd.update(q);
                 }
                 bd.cerrarConexion();
                 request.getSession().setAttribute("listaventas1", null);
-                Mensaje mensaje = new Mensaje("Gracias por su compra", "miscompras.jsp", "&laquo; Click aquí para ir a mis compras");
-                request.getSession().setAttribute("mensaje1", mensaje);
-                response.sendRedirect("error.jsp");
+                response.sendRedirect("datostransferencia.jsp");
             }catch(Exception e)
             {
                 Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");

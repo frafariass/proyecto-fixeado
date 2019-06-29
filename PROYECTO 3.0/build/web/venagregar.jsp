@@ -17,7 +17,8 @@
                 response.sendRedirect("index.jsp");
             }
         }
-
+    String existe = (String) request.getSession().getAttribute("existe1");
+    String rut = (String) request.getSession().getAttribute("rut1");
 %>
 <!DOCTYPE html>
 <html>
@@ -42,11 +43,9 @@
                         cantidad = cantidad + ven.getCantidad();
                     }%>
                     <div class="formularioregistro">
-                        <form action="AgregarVentaVendedor" method="post" onsubmit="return validarrut()">
+                        <form action="AgregarVentaVendedor" method="post" onsubmit="return confirmacion()">
+                            <input style="display: none" type="hidden" value="<%= rut%>" name="rut">
                         <table class="table">
-                            <tr>
-                                <td>Rut usuario:</td><td><input type="text" name="rut" id="rut"><label ><font color="red" id="prut" name="prut">* </font> </label></td>
-                            </tr>
                             <tr>
                                 <td>Tipo de boleta:</td><td>
                                     <select name="tipoventa" id="tipoventa">
@@ -67,7 +66,7 @@
                                 <td>Monto a pagar: </td><td id="monto" value="<% out.println(precioapagarboleta);%>">$<% out.println(precioapagarboleta);%></td>
                             </tr>
                             <tr>
-                                <td></td><td><input type="submit" value="Pagar"></td>
+                                <td><a style="display: none;" id="a" href="registro.jsp">Registrar empresa</a></td><td><input id="submitpagar" type="submit" value="Pagar"></td>
                             </tr>
                         </table>
                    </form>
@@ -75,106 +74,41 @@
                             
         <script type="text/javascript">
             
-            function validarrut()
-            {
-            var rut = document.getElementById("rut").value;
-            if(rut.charAt(0) === "0")
-            {
-                rut = rut.substring(1,rut.length);
-            }
-            rut = rut.replace(".", "");
-            rut = rut.trim();
-            var rutsinguion = rut;
-            rutsinguion = rutsinguion.replace("-", "");
             
-            if(rutsinguion.length === 8 || rutsinguion.length === 9)
+            
+            function confirmacion()
             {
-                var indicefor = 0;
-                if (rutsinguion.length === 8) {
-                    indicefor = 1;
-                }
-
-                var total = 0;
-                var i;
-                    for (i = 7; i >= indicefor; i--) {
-                        var valor = rut.charAt(i) - '0';
-                        if (rutsinguion.length === 8) {
-                            valor = (rut.charAt(i-1)) - '0';
-                        }
-                        switch(i){
-                            case 0:
-                                total += valor * 3;
-                                break;
-                            case 1: 
-                                total += valor * 2;
-                                break;
-                            case 2: 
-                                total += valor * 7;
-                                break;
-                            case 3: 
-                                total += valor * 6;
-                                break;
-                            case 4: 
-                                total += valor * 5;
-                                break;
-                            case 5: 
-                                total += valor * 4;
-                                break;
-                            case 6: 
-                                total += valor * 3;
-                                break;
-                            case 7: 
-                                total += valor * 2;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                var resto = total % 11;
-                resto = 11 - resto;
-                var digitocalculado = resto;
-                if (resto === 10) {
-                    digitocalculado = "k";
-                }
-                var digitorutingresado = rut.charAt(rut.length-1);
-                if(digitorutingresado === "K")
+                if(confirm("¿Está seguro?"))
                 {
-                    digitorutingresado = "k";
-                }
-                digitocalculado = digitocalculado.toString();
-
-                if(digitocalculado !== digitorutingresado)
-                {
-                    document.getElementById("prut").innerHTML = "* El rut no es válido";
-                    return false;
+                    return true;
                 }else
                 {
-                    document.getElementById("prut").innerHTML = "<font color='red'>* </font>";
-                    return true;
+                    return false;
                 }
-            }else
-            {
-                document.getElementById("prut").innerHTML = "* El rut no es válido";
-                return false;
             }
-        }
             
+         
           $(window).on('load', function(){
               var precioapagarfactura = "<%= precioapagarfactura%>";
               var precioapagarboleta = "<%= precioapagarboleta%>";
-              $('#rut').on("change input paste keyup", function()
-              {
-                  validarrut();
-              });
+              var estado = "<%= existe%>";
+              
               
               $('#tipoventa').on("change", function()
               {
+                 
                  if($('#tipoventa').val() == "1")
                  {
-                      $('#monto').html("$"+precioapagarboleta);
+                     document.getElementById("a").style.display = "none";
+                     $('#submitpagar').prop('disabled', false);
+                     $('#monto').html("$"+precioapagarboleta);
                  }else
                  {
+                     if(estado === "1")
+                     {
+                         document.getElementById("a").style.display = "block";
+                         $('#submitpagar').prop('disabled', true);
+                     }
                      $('#monto').html("$"+precioapagarfactura);
                  } 
               });
@@ -195,11 +129,13 @@
   <!-- /.container -->
 
   <!-- Footer -->
-  <footer class="py-5 bg-dark">
+<footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Ferretería Ferme 2019</p>
+      <p class="m-0 text-center text-white">Contacto al: 2-123-1234, contacto@ferme.cl</p>
     </div>
     <!-- /.container -->
   </footer>
+
     </body>
 </html>

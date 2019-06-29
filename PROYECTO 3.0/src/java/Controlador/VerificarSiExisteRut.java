@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lordp
  */
-@WebServlet(name = "MarcarBoletaPagada", urlPatterns = {"/MarcarBoletaPagada"})
-public class MarcarBoletaPagada extends HttpServlet {
+@WebServlet(name = "VerificarSiExisteRut", urlPatterns = {"/VerificarSiExisteRut"})
+public class VerificarSiExisteRut extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,34 +39,25 @@ public class MarcarBoletaPagada extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             try
             {
-                String estado = request.getParameter("estadoboleta");
-                String nroboleta = request.getParameter("nroboleta");
-                estado = estado.trim();
-                
                 BD bd = new BD();
-                String q3 = "SELECT * FROM VENTA WHERE NUMERO_BOLETA =" + nroboleta;
-                ResultSet res2 = bd.read(q3);
-                res2.next();
-                do {
-                   String idprod = res2.getString("producto_id_producto");
-                   int cantidad = Integer.parseInt(res2.getString("cantidad"));
-                   String q2 = "SELECT STOCK FROM PRODUCTO WHERE ID_PRODUCTO = '" + idprod + "'";
-                   ResultSet res = bd.read(q2);
-                   res.next();
-                   int stock = Integer.parseInt(res.getString("stock"));
-                   stock = stock-cantidad;
-                   q2 = "update producto set stock = " + stock + " where id_producto = '" + idprod + "'";
-                   bd.update(q2);
-                } while (res2.next());
-
-                
-                String q = "UPDATE VENTA SET ESTADO_ID_ESTADO = 4 WHERE NUMERO_BOLETA = " + nroboleta;
-                bd.update(q);
+                String rut = request.getParameter("rut");
+                rut = rut.replace(".", "");
+                if (rut.contains("-")) {
+                    rut = rut.replace("-", "");
+                }                   
+                rut = rut.substring(0, rut.length()-1);
+                int rutint = Integer.parseInt(rut);
+                String q = "select id_user from usuario where rut_user =" + rutint;
+                ResultSet res = bd.read(q);
+                String existe = "1";
+                if(res.next())
+                {
+                    existe = "2";
+                }
                 bd.cerrarConexion();
-                Mensaje mensaje = new Mensaje("Venta marcada como pagada exitosamente", "venbuscar.jsp", "&laquo; Volver");
-                request.getSession().setAttribute("mensaje1", mensaje);
-                response.sendRedirect("error.jsp");
-                
+                request.getSession().setAttribute("rut1", rut);
+                request.getSession().setAttribute("existe1", existe);
+                response.sendRedirect("venagregar.jsp");
             }catch(Exception e)
             {
                 Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");

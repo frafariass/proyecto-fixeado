@@ -98,16 +98,45 @@
                                     </td>
                                     <td>
                                         <%
-                                            if(res.getString("estado_id_Estado").equals("1")  || res.getString("estado_id_Estado").equals("3") || res.getString("estado_id_Estado").equals("4")){%>
+                                            if((res.getString("estado_id_Estado").equals("1")  ||  res.getString("estado_id_Estado").equals("4")) && !res.getString("estado_id_Estado").equals("3")){%>
                                             <form method="post" action="AnularBoleta" onsubmit="return confirmacion()">
-                                                <input type="submit" value="Anular boleta" name="submitboletaanu" id="submitboletaanu">
+                                                <input type="submit" value="Anular boleta" name="submitboletaanu" id="submitboletaanu"
+                                                       
+                                                       <%if(res.getString("estado_id_Estado").equals("3"))
+                                                     {%>
+                                                     disabled="true"
+                                                     
+                                                       <%}%>
+                                                       >
                                                 <input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>" ><input name="estadoboleta" style="display: none" value="<%= res.getString("estado_id_estado")%>">
                                             </form>
                                             
                                         <%}else{%>
-                                            <form method="post" action="ActivarBoleta" onsubmit="return confirmacion()">
-                                                <input type="submit" value="Activar Boleta" name="submitboletaanu" id="submitboletaanu"><input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>" ><input name="estadoboleta" style="display: none" value="<%= res.getString("estado_id_estado")%>">
-                                            </form>
+                                        
+                                            
+                                        
+                                        
+                                        <form method="post" action="ActivarBoleta" onsubmit="return confirmacion()">
+                                                    
+                                            <input type="submit" value="Activar Boleta" name="submitboletaanu" id="submitboletaanu"
+                                                   <%if(res.getString("estado_id_Estado").equals("3"))
+                                                     {%>
+                                                   
+                                                     disabled="true"
+                                                     
+                                                     
+                                                   <%}%>
+                                                   
+                                                   
+                                                   ><input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>" ><input name="estadoboleta" style="display: none" value="<%= res.getString("estado_id_estado")%>">
+                                        
+                                        </form>
+                                            
+                                                
+                                            
+                                        
+
+                                            
                                         <%}%>
                                     </td>
                                     
@@ -165,12 +194,13 @@
         </div>
                             
                             <% bd.cerrarConexion(); %>
-        <footer class="py-5 bg-dark">
+<footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Ferretería Ferme 2019</p>
-      <p class="m-0 text-center text-white" style="text-align: right;"> Contacto: 2-212-1234,   contacto@ferme.cl</p>
+      <p class="m-0 text-center text-white">Contacto al: 2-123-1234, contacto@ferme.cl</p>
     </div>
     <!-- /.container -->
   </footer>
+
     </body>
 </html>

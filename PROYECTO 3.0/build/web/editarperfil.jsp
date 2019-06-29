@@ -575,11 +575,13 @@
   <!-- /.container -->
 <% bd.cerrarConexion(); %>
   <!-- Footer -->
-  <footer class="py-5 bg-dark">
+<footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Ferretería Ferme 2019</p>
+      <p class="m-0 text-center text-white">Contacto al: 2-123-1234, contacto@ferme.cl</p>
     </div>
     <!-- /.container -->
   </footer>
+
     </body>
 </html>

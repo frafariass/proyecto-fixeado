@@ -8,6 +8,13 @@
 <%@ include file="master.jsp" %>
 
 <!DOCTYPE html>
+
+<%
+        if(usu == null)
+        {
+            response.sendRedirect("carro.jsp");
+        }
+%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -32,7 +39,7 @@
                         cantidad = cantidad + ven.getCantidad();
                     }%>
                     <div class="formularioregistro">
-                    <form action="AgregarVenta" method="post">
+                        <form action="AgregarVenta" method="post" onsubmit="return confirmacion()">
                         <table class="table">
                             <tr>
                                 <td>Tipo de boleta:</td><td>
@@ -44,8 +51,16 @@
                             <tr>
                                 <td>Método de entrega:</td><td>
                                     <select name="tipoentrega" id="tipoentrega">
-                                        <option value="1">Presencial</option>
+                                        <option value="1">Retiro en tienda</option>
                                         <option value="2">Envío</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td>Método de pago: </td>
+                                <td>
+                                    <select name="tipopago" id="tipopago">
+                                        <option value="1">Efectivo</option>
+                                        <option value="2">Transferencia</option>
                                     </select></td>
                             </tr>
                             <tr>
@@ -65,6 +80,21 @@
           $(window).on('load', function(){
               var precioapagarfactura = "<%= precioapagarfactura%>";
               var precioapagarboleta = "<%= precioapagarboleta%>";
+              
+              $('#tipoentrega').on("change", function()
+              {
+                 if($('#tipoentrega').val() == "1")
+                 {
+                      $('#tipopago').prop('disabled', false);
+                      $('#tipopago').val("1");
+                 }else
+                 {
+                     $('#tipopago').prop('disabled', true);
+                      $('#tipopago').val("2");
+                 } 
+              });
+              
+
               $('#tipoventa').on("change", function()
               {
                  if($('#tipoventa').val() == "1")
@@ -76,6 +106,17 @@
                  } 
               });
           });
+          
+          function confirmacion()
+            {
+                if(confirm("¿Está seguro?"))
+                {
+                    return true;
+                }else
+                {
+                    return false;
+                }
+            }
       </script>
       
           <%}else
@@ -92,11 +133,13 @@
   <!-- /.container -->
 
   <!-- Footer -->
-  <footer class="py-5 bg-dark">
+<footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Ferretería Ferme 2019</p>
+      <p class="m-0 text-center text-white">Contacto al: 2-123-1234, contacto@ferme.cl</p>
     </div>
     <!-- /.container -->
   </footer>
+
     </body>
 </html>

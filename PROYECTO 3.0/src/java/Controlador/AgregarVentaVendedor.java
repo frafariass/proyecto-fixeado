@@ -60,23 +60,7 @@ public class AgregarVentaVendedor extends HttpServlet {
                 int totalventa = 0;
                 
                 String rut = request.getParameter("rut");
-                rut = rut.replace(".", "");
-                rut = rut.trim();
-                String rutsinguion = rut;
-                rutsinguion = rutsinguion.replace("-", "");
-                int rutint;
-                if(rutsinguion.length() >= 9)
-                {
-                    String rutingresar = rutsinguion.substring(0,8);
-                    rutint = Integer.parseInt(rutingresar);
-                }else
-                {
-                    String rutingresar = rutsinguion.substring(0,7);
-                    rutint = Integer.parseInt(rutingresar);
-                }
-                
-                
-                q = "SELECT ID_USER FROM USUARIO WHERE RUT_USER = " + rutint;
+                q = "SELECT ID_USER FROM USUARIO WHERE RUT_USER = " + rut;
                 ResultSet res3 = bd.read(q);
                 if(res3.next())
                 {
@@ -86,7 +70,7 @@ public class AgregarVentaVendedor extends HttpServlet {
                         totalventa = (int) ((Math.round(listaventa.getPrecio_unitario_producto()*1.19))*listaventa.getCantidad());
                         q = "INSERT INTO VENTA VALUES (current_timestamp, "+ totalventa  +", "+4+", " +listaventa.getCantidad() +", " +
                                 listaventa.getProducto_id_producto() + ", " + nuevonroboleta + ", " + idventamax + ", " + iduser + ", " + listaventa.getPrecio_unitario_producto()
-                                + ", " + tipoventa + ", " + tipoentrega + ", " + rutint + ")";
+                                + ", " + tipoventa + ", " + tipoentrega + ", " + rut + ", " +1+ " )";
                         bd.update(q);
                         String q2 = "SELECT STOCK FROM PRODUCTO WHERE ID_PRODUCTO = '" + listaventa.getProducto_id_producto() + "'";
                         ResultSet res2 = bd.read(q2);
@@ -96,7 +80,7 @@ public class AgregarVentaVendedor extends HttpServlet {
                     }
                     bd.cerrarConexion();
                     request.getSession().setAttribute("listaventas1", null);
-                    Mensaje mensaje = new Mensaje("Venta agregada a usuario con rut : " + rutint, "administrar.jsp", "&laquo; Volver al panel de administración");
+                    Mensaje mensaje = new Mensaje("Venta agregada a usuario con rut : " + rut, "administrar.jsp", "&laquo; Volver al panel de administración");
                     request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");
                     
@@ -107,7 +91,7 @@ public class AgregarVentaVendedor extends HttpServlet {
                         totalventa = (int) ((Math.round(listaventa.getPrecio_unitario_producto()*1.19))*listaventa.getCantidad());
                         q = "INSERT INTO VENTA VALUES (current_timestamp, "+ totalventa  +", "+4+", " +listaventa.getCantidad() +", " +
                                 listaventa.getProducto_id_producto() + ", " + nuevonroboleta + ", " + idventamax + ", null, " + listaventa.getPrecio_unitario_producto()
-                                + ", " + tipoventa + ", " + tipoentrega +  ", " + rutint + ")";
+                                + ", " + tipoventa + ", " + tipoentrega +  ", " + rut +", " +1+ " )";
                         bd.update(q);
                         String q2 = "SELECT STOCK FROM PRODUCTO WHERE ID_PRODUCTO = '" + listaventa.getProducto_id_producto() + "'";
                         ResultSet res2 = bd.read(q2);
@@ -117,7 +101,7 @@ public class AgregarVentaVendedor extends HttpServlet {
                     }
                     bd.cerrarConexion();
                     request.getSession().setAttribute("listaventas1", null);
-                    Mensaje mensaje = new Mensaje("Venta agregada a usuario con rut : " + rutint, "administrar.jsp", "&laquo; Volver al panel de administración");
+                    Mensaje mensaje = new Mensaje("Venta agregada a usuario con rut : " + rut, "administrar.jsp", "&laquo; Volver al panel de administración");
                     request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");
                 }
