@@ -1,0 +1,6 @@
+conn /as sysdba
+alter system set processes=5000 scope=spfile;
+shutdown immediate
+startup
+
+
