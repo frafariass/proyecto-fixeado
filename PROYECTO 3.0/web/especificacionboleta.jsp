@@ -16,11 +16,13 @@
     }
     Boleta boleta = (Boleta)request.getSession().getAttribute("boleta1");
     BD bd = new BD();
-        String q = "SELECT VEN.NUMERO_BOLETA, ES.NOMBRE_ESTADO, PRO.NOMBRE, PRO.ID_PRODUCTO, VEN.CANTIDAD, PRO.PRECIO_COMPRA, VEN.TOTAL_VENTA , ME.METODO , TI.NOMBRE_TVT FROM VENTA VEN" +
+        String q = "SELECT MEPA.PAGO, VEN.NUMERO_BOLETA, ES.NOMBRE_ESTADO, PRO.NOMBRE, PRO.ID_PRODUCTO, VEN.CANTIDAD, PRO.PRECIO_COMPRA, VEN.TOTAL_VENTA , ME.METODO , TI.NOMBRE_TVT FROM VENTA VEN" +
                     " JOIN PRODUCTO PRO" +
                         " ON (VEN.PRODUCTO_ID_PRODUCTO = PRO.ID_PRODUCTO)" +
                     " JOIN METODO_ENTREGA ME " +
                     " ON (VEN.METODO_ENTREGA_ID_METODO = ME.ID_METODO) "+
+                   " JOIN METODO_PAGO MEPA " +
+                " ON (VEN.METODO_PAGO_IDPAGO = MEPA.ID_PAGO) "+
                " JOIN TIPO_VENTA TI " +
                 " ON (VEN.TIPO_VENTA_IDTIPOVENTA = TI.ID_TIPOVENTA) " +
                 " JOIN ESTADO ES ON (VEN.ESTADO_ID_ESTADO = ES.ID_ESTADO) " +
@@ -49,6 +51,7 @@
                           String tipoven = "";
                           String estadoventa = "";
                           String nroboleta = "";
+                          String pago = "";
                           
                             if(res.next())
                             {
@@ -60,6 +63,7 @@
                                     tipoven = res.getString("nombre_tvt");
                                     estadoventa = res.getString("nombre_estado");
                                     nroboleta = res.getString("numero_boleta");
+                                    pago = res.getString("pago");
                                     preciototal = preciototal + Integer.parseInt(res.getString("TOTAL_VENTA"));
                                     %>
                                     <tr>
@@ -83,7 +87,7 @@
                             </tr>
                             <tr>
                                 <td></td>
-                                <td>Tipo entrega: <%= tipoen %></td><td></td><td>Tipo venta: <%= tipoven %></td>
+                                <td>Método entrega: <%= tipoen %></td><td></td><td>Tipo venta: <%= tipoven %></td>
                                 <td></td> 
                                 <td></td>
                                 <td></td>
@@ -91,6 +95,19 @@
                             <tr>
                                 <td></td>
                                 <td>Estado: <%= estadoventa %></td><td></td><td>Número de boleta: <%= nroboleta%></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Método de pago: <%= pago %></td><td></td><td>
+                                    <%
+                                        if(pago.equals("Transferencia")){
+                                    %>
+                                    <a href="datostransferencia.jsp">Ver información y datos de transferencia</a>
+                                    <%}%>
+                                </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
