@@ -24,14 +24,15 @@
         }
         
         BD bd = new BD();
-        String q = "select numero_boleta, sum(total_venta) as total_boleta, TO_CHAR(FECHA_BOLETA, 'DD-MM-YYYY') AS FECHA_BOLETA, NOMBRE_ESTADO, NOMBRE_TVT, estado_id_estado, metodo from venta VE " +
-                    " JOIN ESTADO ES "+
-                    " ON (VE.ESTADO_ID_ESTADO = ES.ID_ESTADO) " +
-                    " JOIN TIPO_VENTA TI " +
-                    " ON (VE.TIPO_VENTA_IDTIPOVENTA = TI.ID_TIPOVENTA) " +
-                    " JOIN METODO_ENTREGA ME " +
-                    " ON (VE.METODO_ENTREGA_ID_METODO = ME.ID_METODO) " +
-                    " group by numero_boleta, FECHA_BOLETA, NOMBRE_ESTADO, NOMBRE_TVT, estado_id_estado, METODO ";
+        String q = "select numero_boleta,  USUARIO_RUT_USER, " +
+                    "sum(total_venta) as total_boleta, TO_CHAR(FECHA_BOLETA, 'DD-MM-YYYY HH:MI:SS') AS FECHA_BOLETA, NOMBRE_ESTADO, NOMBRE_TVT, ve.estado_id_estado, metodo from venta VE " +
+                     "JOIN ESTADO ES " +
+                     "ON (VE.ESTADO_ID_ESTADO = ES.ID_ESTADO) " +
+                     "JOIN TIPO_VENTA TI  " +
+                     "ON (VE.TIPO_VENTA_IDTIPOVENTA = TI.ID_TIPOVENTA)  " +
+                     "JOIN METODO_ENTREGA ME  " +
+                     "ON (VE.METODO_ENTREGA_ID_METODO = ME.ID_METODO)  " +
+                     "group by numero_boleta, FECHA_BOLETA, NOMBRE_ESTADO, NOMBRE_TVT, ve.estado_id_estado, METODO , USUARIO_RUT_USER";
         ResultSet res = bd.read(q);
         
 
@@ -51,32 +52,44 @@
               });
             
         });
+        
+        function confirmacion()
+            {
+                if(confirm("¿Está seguro?"))
+                {
+                    return true;
+                }else
+                {
+                    return false;
+                }
+            }
+        
     </script>
     <body>
-        <div class="container" style="overflow-x:auto;">
-            <div class="row">
+        <div   style=" margin: 0 auto; width: 2000px; ">
+            
             <!-- Jumbotron Header -->
 
 
             <!-- Page Features -->
                 
-              <table id="tablacompras" class="table" style="width:100%">
+              <table id="tablacompras" class="table" style="width:100%; overflow-x:auto;" >
                   
                       <%
                             if(res.next())
                             {%>
                             <thead>
                                 <tr>
-                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th>
+                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>RUT ASOCIADO</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th>
                                     <th><b>TIPO VENTA</b></th><th><b>TIPO ENTREGA</b></th>
-                                    <th><b>VER DETALLE</b></th><th><b>ANULAR</b></th>
+                                    <th><b>VER DETALLE</b></th><th><b>ANULAR/ACTIVAR</b></th><th><b>VERIFICARCIÓN PAGO</b></th><th><b>COMPLETAR</b></th>
                                 </tr>
                             </thead>
                                <% 
                                 do {
                                     %>
                                   <tr>
-                                      <td><%= res.getString("numero_boleta") %></td><td><%= res.getString("fecha_boleta") %></td><td><%= res.getString("total_boleta") %></td><td><%= res.getString("nombre_estado") %></td>
+                                      <td><%= res.getString("numero_boleta") %></td><td><%= res.getString("USUARIO_RUT_USER") %></td><td><%= res.getString("fecha_boleta") %></td><td>$<%= res.getString("total_boleta") %></td><td><%= res.getString("nombre_estado") %></td>
                                       <td><%= res.getString("nombre_tvt") %></td><td><%= res.getString("metodo") %></td>
                                     <td>
                                     <form method="post" action="EspecificacionBoleta">
@@ -84,35 +97,78 @@
                                     </form>
                                     </td>
                                     <td>
-                                    <form method="post" action="AnularBoleta">
-                                        <input type="submit" value="Anular compra" name="submitboletaanu" id="submitboletaanu"><input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>" ><input name="estadoboleta" style="display: none" value="<%= res.getString("estado_id_estado")%>">
+                                        <%
+                                            if(res.getString("estado_id_Estado").equals("1")  || res.getString("estado_id_Estado").equals("3") || res.getString("estado_id_Estado").equals("4")){%>
+                                            <form method="post" action="AnularBoleta" onsubmit="return confirmacion()">
+                                                <input type="submit" value="Anular boleta" name="submitboletaanu" id="submitboletaanu">
+                                                <input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>" ><input name="estadoboleta" style="display: none" value="<%= res.getString("estado_id_estado")%>">
+                                            </form>
+                                            
+                                        <%}else{%>
+                                            <form method="post" action="ActivarBoleta" onsubmit="return confirmacion()">
+                                                <input type="submit" value="Activar Boleta" name="submitboletaanu" id="submitboletaanu"><input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>" ><input name="estadoboleta" style="display: none" value="<%= res.getString("estado_id_estado")%>">
+                                            </form>
+                                        <%}%>
+                                    </td>
+                                    
+                                    <td>
+                                    <form method="post" action="MarcarBoletaPagada" onsubmit="return confirmacion()">
+                                        <input type="submit" value="Marcar como pagada" name="submitboletaanu" id="submitboletaanu"
+                                               
+                                               <%if(!res.getString("estado_id_estado").equals("1"))
+                                               {%>
+                                                  
+                                               disabled="true"
+                                               
+                                                <%} %>
+                                         > 
+                                               <input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>" ><input name="estadoboleta" style="display: none" value="<%= res.getString("estado_id_estado")%>">
+                                    </form>
+                                    </td>
+                                    <td>
+                                    <form method="post" action="CompletaBoleta" onsubmit="return confirmacion()">
+                                        <input type="submit" value="Marcar como completada" name="submitboletaanu" id="submitboletaanu"
+                                               
+                                               
+                                                <%if(!res.getString("estado_id_estado").equals("4"))
+                                               {%>
+                                                  
+                                               disabled="true"
+                                               
+                                                <%} %>
+                                               
+                                               
+                                               ><input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>" ><input name="estadoboleta" style="display: none" value="<%= res.getString("estado_id_estado")%>">
                                     </form>
                                     </td>
                                   </tr>
                                 <% } while (res.next()); %>
                             <%}else
                             {%>
-                            <h4>No hay compras, compra aquí: </h4><a href="catalogo.jsp">Catálogo</a>
+                            <h4>No hay ventas registradas en el sistema</h4>
                             <%}%>
                           
                             <tfoot>
                                 <tr>
-                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th>
+                                    <th><b>NÚMERO DE BOLETA</b></th><th><b>RUT ASOCIADO</b></th><th><b>FECHA</b></th><th><b>VALOR TOTAL</b></th><th><b>ESTADO</b></th>
                                     <th><b>TIPO VENTA</b></th><th><b>TIPO ENTREGA</b></th>
-                                    <th><b>VER DETALLE</b></th><th><b>ANULAR</b></th>
+                                    <th><b>VER DETALLE</b></th><th><b>ANULAR/ACTIVAR</b></th><th><b>VERIFICARCIÓN PAGO</b></th><th><b>COMPLETAR</b></th>
                                 </tr>
                             </tfoot>
         
                       
                       
               </table>
-                 </div>           
+                           
             <!-- /.row -->
 
-          </div>
+        </div>
+                            
+                            <% bd.cerrarConexion(); %>
         <footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Ferretería Ferme 2019</p>
+      <p class="m-0 text-center text-white" style="text-align: right;"> Contacto: 2-212-1234,   contacto@ferme.cl</p>
     </div>
     <!-- /.container -->
   </footer>

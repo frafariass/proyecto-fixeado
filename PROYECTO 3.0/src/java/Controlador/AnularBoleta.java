@@ -40,7 +40,7 @@ public class AnularBoleta extends HttpServlet {
             {
                 String estado = request.getParameter("estadoboleta");
                 estado = estado.trim();
-                if(!estado.equals("1"))
+                if(!estado.equals("1") && !estado.equals("3") && !estado.equals("4"))
                 {
                     Mensaje mensaje = new Mensaje("El estado de la compra debe estar pendiente para poder anular, para devoluciones y garantía llamar al 2-234-4567", "javascript:window.history.back();", "&laquo; Volver");
                     request.getSession().setAttribute("mensaje1", mensaje);
@@ -50,7 +50,8 @@ public class AnularBoleta extends HttpServlet {
                     BD bd = new BD();
                     String q = "UPDATE VENTA SET ESTADO_ID_ESTADO = -1 WHERE NUMERO_BOLETA = " + request.getParameter("nroboleta");
                     bd.update(q);
-                    Mensaje mensaje = new Mensaje("Venta anulada exitosamente", "venbuscar.jsp", "&laquo; Volver");
+                    bd.cerrarConexion();
+                    Mensaje mensaje = new Mensaje("Venta anulada exitosamente", "index.jsp", "&laquo; Ir al inicio");
                     request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");
                 }

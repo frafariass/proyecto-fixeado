@@ -74,7 +74,7 @@ public class AgregarVenta extends HttpServlet {
                     q = "UPDATE PRODUCTO SET STOCK =" + (Integer.parseInt(res2.getString("stock"))-listaventa.getCantidad()) + " WHERE ID_PRODUCTO = '" + listaventa.getProducto_id_producto() + "'";
                     bd.update(q);
                 }
-                
+                bd.cerrarConexion();
                 request.getSession().setAttribute("listaventas1", null);
                 Mensaje mensaje = new Mensaje("Gracias por su compra", "miscompras.jsp", "&laquo; Click aquí para ir a mis compras");
                 request.getSession().setAttribute("mensaje1", mensaje);

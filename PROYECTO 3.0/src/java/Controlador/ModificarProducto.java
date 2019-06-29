@@ -135,18 +135,21 @@ public class ModificarProducto extends HttpServlet {
                 {
                     if(bd.insertarImagen(rutaarchivosubido, "producto", "imagen",  idprod, "id_producto"))
                     {
+                        bd.cerrarConexion();
                         request.getSession().setAttribute("probuscar1", null);
                         Mensaje mensaje = new Mensaje("El producto se ha modificado con éxito", "prodbuscar.jsp", "&laquo; Volver");
                         request.getSession().setAttribute("mensaje1", mensaje);
                         response.sendRedirect("error.jsp");
                     }else
                     {
+                        bd.cerrarConexion();
                         Mensaje mensaje = new Mensaje("Ha habido un problema al actualizar la imagen", "javascript:window.history.back();", "&laquo; Volver");
                         request.getSession().setAttribute("mensaje1", mensaje);
                         response.sendRedirect("error.jsp");
                     }
                 }else
                 {
+                    bd.cerrarConexion();
                     request.getSession().setAttribute("probuscar1", null);
                     Mensaje mensaje = new Mensaje("El producto se ha modificado con éxito", "prodbuscar.jsp", "&laquo; Volver");
                     request.getSession().setAttribute("mensaje1", mensaje);

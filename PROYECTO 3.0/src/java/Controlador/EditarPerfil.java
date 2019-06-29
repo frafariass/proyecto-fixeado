@@ -111,12 +111,14 @@ public class EditarPerfil extends HttpServlet {
                 bd.update(q);
                 if(!auxsaber.equals("modadmin"))
                 {
+                    bd.cerrarConexion();
                     request.getSession().setAttribute("usu1", usueditar);
                     Mensaje mensaje = new Mensaje("Datos modificados exitosamente", "index.jsp", "&laquo; Ir al inicio");
                     request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");
                 }else
                 {
+                    bd.cerrarConexion();
                     Usuario usucerrar = null;
                     request.getSession().setAttribute("usubuscar1", usucerrar);
                     request.getSession().setAttribute("usubuscar1", null);

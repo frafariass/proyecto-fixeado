@@ -402,16 +402,7 @@
                             valid = false;
                         }
                     }
-                    if(jQuery(this).attr('id') === 'apellido')
-                    {
-                        if(validarapellido())
-                        {                                
-                            valid = true;
-                        }else
-                        {
-                            valid = false;
-                        }
-                    }
+                    
                     jQuery(this).data('valid', true);
                 } else {
                     jQuery(this).data('valid', false);
@@ -434,7 +425,7 @@
                 if (valid === true) {
                     jQuery("#submitn").prop('disabled', false);
                 } else {
-                    jQuery("#submitn").prop('disabled', true);
+                    
                 }
             });
         });
@@ -615,7 +606,7 @@
   <div id="generarcampoadmin"></div>
     <!-- /.row -->
   <!-- /.container -->
-
+<% bd.cerrarConexion(); %>
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">

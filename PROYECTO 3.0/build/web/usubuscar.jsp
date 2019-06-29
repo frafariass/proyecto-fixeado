@@ -70,7 +70,7 @@
     </script>
     
     <body>
-        <div class="container" style="overflow-x:auto;;">
+        <div style="overflow-x:auto; margin: 0 auto; width: 1500px">
             <table id="tablausuarios" class="table">
                 <thead>
                     <tr>
@@ -124,6 +124,8 @@
                 </tfoot>
             </table>
         </div>
+                    
+                    <% bd.cerrarConexion(); %>
    <footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Ferretería Ferme 2019</p>

@@ -69,7 +69,7 @@ public class AgregarAOC extends HttpServlet {
                 q = "INSERT INTO ORDEN_COMPRA VALUES(" + idordenmax +", current_timestamp, " +total
                         + ", 1, " + idprov + ", " + cantidad + ", "+ nroocmax + ", '" + idprod + "')";
                 bd.update(q);
-                
+                bd.cerrarConexion();
                 Mensaje mensaje = new Mensaje("Orden de compra ingresada", "administrar.jsp", "&laquo; Ir a administrar");
                 request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");

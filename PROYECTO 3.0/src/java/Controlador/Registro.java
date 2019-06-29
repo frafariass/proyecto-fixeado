@@ -144,6 +144,17 @@ public class Registro extends HttpServlet {
                                            + "'"+apellido+"', '"+email+"', '"+clave+"', '"+direccion+"', "
                                 + "'"+telefono+"', "+2+", "+rubro+", "+idmaximo+", "+rol+", "+rutint+", " + comunaid + ")";
                         bd.update(q2);
+                        
+                        q = "SELECT ID_VENTA FROM VENTA WHERE USUARIO_RUT_USER = " + rutint;
+                        res = bd.read(q);
+                        if(res.next())
+                        {
+                            do {
+                                q = "UPDATE VENTA SET USUARIO_ID_USUARIO =" + idmaximo + " WHERE USUARIO_RUT_USER =" + rutint;
+                                bd.update(q);
+                            } while (res.next());
+                        }
+                        bd.cerrarConexion();
                         Mensaje mensaje = new Mensaje("Usuario registrado exitosamente", "index.jsp", "&laquo; Ir al inicio");
                         request.getSession().setAttribute("mensaje1", mensaje);
                         response.sendRedirect("error.jsp");

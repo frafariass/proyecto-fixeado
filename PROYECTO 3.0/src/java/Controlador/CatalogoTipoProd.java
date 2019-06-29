@@ -52,6 +52,7 @@ public class CatalogoTipoProd extends HttpServlet {
                 tipo.setId_tipoprod(Integer.parseInt(res.getString("id_tipoprod")));
                 tipo.setNombre_tipoprod(res.getString("NOMBRE_TIPOPROD"));
                 request.getSession().setAttribute("tipo1", tipo);
+                bd.cerrarConexion();
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("catalogotipoproducto.jsp");
                 requestDispatcher.forward(request, response);
             }catch(Exception e)

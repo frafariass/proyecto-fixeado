@@ -58,7 +58,6 @@
                                 <td>Método de entrega:</td><td>
                                     <select name="tipoentrega" id="tipoentrega">
                                         <option value="1">Presencial</option>
-                                        <option value="2">Envío</option>
                                     </select></td>
                             </tr>
                             <tr>

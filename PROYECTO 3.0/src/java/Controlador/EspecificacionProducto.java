@@ -68,6 +68,7 @@ public class EspecificacionProducto extends HttpServlet {
                 prod.setImagen(res.getString("imagen"));
                 prod.setNombre(res.getString("nombre"));
                 prod.setUsuario_id_proveedor(Integer.parseInt(res.getString("usuario_id_proveedor")));
+                bd.cerrarConexion();
                 request.getSession().setAttribute("prod1", prod);
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("especificacionproducto.jsp");
                 requestDispatcher.forward(request, response);

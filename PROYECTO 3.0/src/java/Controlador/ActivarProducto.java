@@ -41,6 +41,7 @@ public class ActivarProducto extends HttpServlet {
                 BD bd = new BD();
                 String q = "UPDATE PRODUCTO SET ESTADO_ID_ESTADO = 2 WHERE ID_PRODUCTO = " + request.getParameter("dato");
                 bd.update(q);
+                bd.cerrarConexion();
                 Mensaje mensaje = new Mensaje("El producto ha sido activado con éxito", "prodbuscar.jsp", "&laquo; Volver");
                 request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");

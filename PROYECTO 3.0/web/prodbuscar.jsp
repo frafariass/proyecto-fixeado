@@ -53,10 +53,16 @@
             return true;
         }
         
-        $(window).on('load', function(){
-            
-            
-        });
+        function confirmacion()
+            {
+                if(confirm("¿Está seguro?"))
+                {
+                    return true;
+                }else
+                {
+                    return false;
+                }
+            }
         
         $(document).ready(function() {
             $('#tablaproductos').DataTable({
@@ -105,12 +111,12 @@
                               <%
                                   if(res.getString("nombre_estado").equals("ACTIVO")){
                                   %>
-                                <form method="post" action="AnularProducto">
+                                  <form method="post" action="AnularProducto" onsubmit="return confirmacion()">
                                     <input type="submit" value="Anular" id="submitproducto"><input name="dato" style="display: none" value="<%= res.getString("id_producto")%>">
                                 </form>
                                 <%}else
                                 {%>
-                                  <form method="post" action="ActivarProducto">
+                                <form method="post" action="ActivarProducto" onsubmit="return confirmacion()">
                                     <input type="submit" value="Activar" id="submitproducto"><input name="dato" style="display: none" value="<%= res.getString("id_producto")%>">
                                     </form>
                                 <%}%>
@@ -132,7 +138,7 @@
                         </table>
                     </div>
             
-        
+        <% bd.cerrarConexion(); %>
         <footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Ferretería Ferme 2019</p>

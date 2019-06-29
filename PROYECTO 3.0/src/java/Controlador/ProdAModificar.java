@@ -67,6 +67,7 @@ public class ProdAModificar extends HttpServlet {
                 
                 probuscar.setImagen(res.getString("imagen"));
                 request.getSession().setAttribute("probuscar1", probuscar);
+                bd.cerrarConexion();
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("prodmodificar.jsp");
                 requestDispatcher.forward(request, response);
                 

@@ -75,11 +75,13 @@ public class BuscarProducto extends HttpServlet {
 
                         productos.add(pro);
                     } while (res.next());
+                    bd.cerrarConexion();
                     request.getSession().setAttribute("barrabuscar1", productos);
                     RequestDispatcher requestDispatcher = request.getRequestDispatcher("catalogobuscar.jsp");
                     requestDispatcher.forward(request, response);
                 }else
                 {
+                    bd.cerrarConexion();
                     Mensaje mensaje = new Mensaje("No se han encontrado productos", "javascript:window.history.back();", "&laquo; Volver");
                     request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");

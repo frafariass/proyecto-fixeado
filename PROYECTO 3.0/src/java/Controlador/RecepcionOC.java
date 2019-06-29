@@ -72,6 +72,7 @@ public class RecepcionOC extends HttpServlet {
                 
                 q = "INSERT INTO RECEPCION_OC VALUES("+ recepcionidmax + ", current_timestamp, " + idarecepcionar + ")";
                 bd.update(q);
+                bd.cerrarConexion();
                 Mensaje mensaje = new Mensaje("Orden de compra recepcionada", "administrar.jsp", "&laquo; Ir a administrar");
                 request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");

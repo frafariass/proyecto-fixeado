@@ -25,22 +25,30 @@ import java.util.Base64;
  */
 public class BD {
 
+    private Connection conexion;
+    
     public BD() {
+        try
+        {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conexion = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","FERRETERIA","123");
+        }catch(Exception e)
+        {
+            
+        }
     }
     
     public void update(String q) //se conecta a la BD con las credenciales que estamos usando 
     {
         try{
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection conexion = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","FERRETERIA","123");
+            
             Statement consulta = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE , ResultSet.CONCUR_UPDATABLE);
             String asd = "alter session set NLS_COMP=LINGUISTIC";
             consulta.executeUpdate(asd);
             asd = "alter session set NLS_SORT=BINARY_CI";
             consulta.executeUpdate(asd);
             consulta.executeUpdate(q);
-            conexion.close();
-        }catch(ClassNotFoundException | SQLException e)
+        }catch(Exception e)
         {
         }
         
@@ -49,8 +57,6 @@ public class BD {
     public ResultSet read(String q) //Ingresar la query en el argumento, pasos a seguir en los ejemplos abajo
     {
         try{
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection conexion = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","FERRETERIA","123");
             Statement consulta = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE , ResultSet.CONCUR_UPDATABLE);
             String asd = "alter session set NLS_COMP=LINGUISTIC";
             consulta.executeUpdate(asd);
@@ -59,24 +65,33 @@ public class BD {
             consulta = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE , ResultSet.CONCUR_READ_ONLY);  
             ResultSet res = consulta.executeQuery(q);
             return res;
-        }catch(ClassNotFoundException | SQLException e)
+        }catch(Exception e)
         {
             return null;
         }
         
     }
     
+    public void cerrarConexion()
+    {
+        try
+        {
+            conexion.close();
+        }catch(Exception e)
+        {
+            
+        }
+    }
+    
     public boolean insertarImagen(String imagen, String tabla, String columna, String id, String condicion) throws FileNotFoundException //se conecta a la BD con las credenciales que estamos usando 
     {
         try{
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection conexion = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","FERRETERIA","123");
             Statement consulta = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE , ResultSet.CONCUR_UPDATABLE);
             String q = "UPDATE " + tabla + " SET " + columna +" = '" + imagen + "' WHERE "+ condicion + " = '" + id + "'";
             consulta.executeUpdate(q);
             conexion.close();
             return true;
-        }catch(ClassNotFoundException | SQLException e)
+        }catch(Exception e)
         {
             return false;
         }

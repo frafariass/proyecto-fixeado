@@ -41,6 +41,17 @@
               });
             
         });
+        
+        function confirmacion()
+            {
+                if(confirm("¿Está seguro?"))
+                {
+                    return true;
+                }else
+                {
+                    return false;
+                }
+            }
     </script>
     <body>
         <div class="container" style="overflow-x:auto;">
@@ -74,9 +85,23 @@
                                     </form>
                                     </td>
                                     <td>
-                                    <form method="post" action="AnularBoleta">
-                                        <input type="submit" value="Anular compra" name="submitboletaanu" id="submitboletaanu"><input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>" ><input name="estadoboleta" style="display: none" value="<%= res.getString("estado_id_estado")%>">
+                                        
+                                        
+                                        <form method="post" action="AnularBoleta" onsubmit="return confirmacion()">
+                                        <input type="submit" value="Anular compra" name="submitboletaanu" id="submitboletaanu"
+                                               
+                                               <%if(!res.getString("estado_id_estado").equals("1"))
+                                               {%>
+                                                  
+                                               disabled="true"
+                                               
+                                                <%} %>
+                                               
+                                               
+                                               ><input name="nroboleta" style="display: none" value="<%= res.getString("numero_boleta")%>" ><input name="estadoboleta" style="display: none" value="<%= res.getString("estado_id_estado")%>">
                                     </form>
+                                    
+                                    
                                     </td>
                                   </tr>
                                 <% } while (res.next()); %>
@@ -104,7 +129,7 @@
 
           </div>
           <!-- /.container -->
-
+<% bd.cerrarConexion(); %>
           <!-- Footer -->
           <footer class="py-5 bg-dark">
             <div class="container">

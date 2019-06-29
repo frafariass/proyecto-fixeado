@@ -23,11 +23,22 @@ public class Venta {
     private int precio_unitario_producto;
     private int tipo_venta_idtipoventa;
     private int metodo_entrega_id_metodo;
+    private int usuario_rut_user;
 
     public Venta() {
     }
 
-    public Venta(String fecha_boleta, int total_venta, int tipo_venta_id_tipoventa, int estado_id_estado, int cantidad, String producto_id_producto, int numero_boleta, int id_venta, int usuario_id_usuario, int precio_unitario_producto, int tipo_venta_idtipoventa, int metodo_entrega_id_metodo) {
+    public int getUsuario_rut_user() {
+        return usuario_rut_user;
+    }
+
+    public void setUsuario_rut_user(int usuario_rut_user) {
+        this.usuario_rut_user = usuario_rut_user;
+    }
+    
+    
+
+    public Venta(String fecha_boleta, int total_venta, int tipo_venta_id_tipoventa, int estado_id_estado, int cantidad, String producto_id_producto, int numero_boleta, int id_venta, int usuario_id_usuario, int precio_unitario_producto, int tipo_venta_idtipoventa, int metodo_entrega_id_metodo, int usuario_rut_user) {
         this.fecha_boleta = fecha_boleta;
         this.total_venta = total_venta;
         this.tipo_venta_id_tipoventa = tipo_venta_id_tipoventa;
@@ -40,7 +51,10 @@ public class Venta {
         this.precio_unitario_producto = precio_unitario_producto;
         this.tipo_venta_idtipoventa = tipo_venta_idtipoventa;
         this.metodo_entrega_id_metodo = metodo_entrega_id_metodo;
+        this.usuario_rut_user = usuario_rut_user;
     }
+
+    
 
     public String getFecha_boleta() {
         return fecha_boleta;

@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lordp
  */
-@WebServlet(name = "AnularUsuario", urlPatterns = {"/AnularUsuario"})
-public class AnularUsuario extends HttpServlet {
+@WebServlet(name = "CompletaBoleta", urlPatterns = {"/CompletaBoleta"})
+public class CompletaBoleta extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,18 +36,24 @@ public class AnularUsuario extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            BD bd = new BD();
-            String q = "UPDATE USUARIO SET ESTADO_ID_ESTADO = -1 WHERE ID_USER = " + request.getParameter("iduser");
-            bd.update(q);
-            bd.cerrarConexion();
-            Mensaje mensaje = new Mensaje("Usuario anulado exitosamente", "usubuscar.jsp", "&laquo; Volver");
-            request.getSession().setAttribute("mensaje1", mensaje);
-            response.sendRedirect("error.jsp");
-        }catch(Exception e)
-        {
-            Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
-            request.getSession().setAttribute("mensaje1", mensaje);
-            response.sendRedirect("error.jsp");
+            try
+            {
+                String estado = request.getParameter("estadoboleta");
+                estado = estado.trim();
+                BD bd = new BD();
+                String q = "UPDATE VENTA SET ESTADO_ID_ESTADO = 3 WHERE NUMERO_BOLETA = " + request.getParameter("nroboleta");
+                bd.update(q);
+                bd.cerrarConexion();
+                Mensaje mensaje = new Mensaje("Venta completada exitosamente", "venbuscar.jsp", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
+                response.sendRedirect("error.jsp");
+                
+            }catch(Exception e)
+            {
+                Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");
+                request.getSession().setAttribute("mensaje1", mensaje);
+                response.sendRedirect("error.jsp");
+            }
         }
     }
 

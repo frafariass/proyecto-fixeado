@@ -50,6 +50,7 @@ public class AgregarAlCarro extends HttpServlet {
                 ven.setProducto_id_producto(idprod);
                 ven.setPrecio_unitario_producto(preciocompra);
                 listaventas.add(ven);
+                
                 request.getSession().setAttribute("listaventas1", listaventas);
                 Mensaje mensaje = new Mensaje("Producto agregado al carro exitosamente", "javascript:window.history.back();", "&laquo; Volver");
                 request.getSession().setAttribute("mensaje1", mensaje);

@@ -42,7 +42,7 @@ public class AnularOC extends HttpServlet {
                 BD bd = new BD();
                 String q = "UPDATE ORDEN_COMPRA SET ESTADO_ID_ESTADO = -1 WHERE ID_ORDEN =" + idaanular;
                 bd.update(q);
-                
+                bd.cerrarConexion();
                 Mensaje mensaje = new Mensaje("Orden de compra anulada", "administrar.jsp", "&laquo; Ir a administrar");
                 request.getSession().setAttribute("mensaje1", mensaje);
                 response.sendRedirect("error.jsp");

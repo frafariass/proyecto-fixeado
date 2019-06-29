@@ -39,10 +39,21 @@
               });
             
         });
+        
+        function confirmacion()
+            {
+                if(confirm("¿Está seguro?"))
+                {
+                    return true;
+                }else
+                {
+                    return false;
+                }
+            }
     </script>
     <body>
-        <div class="container" style="overflow-x:auto;">
-            <div class="row">
+        <div style="overflow-x:auto; margin: 0 auto; width: 1500px">
+            
             <!-- Jumbotron Header -->
 
 
@@ -77,7 +88,7 @@
                                     <td>
                                         <%if(res.getString("nombre_estado").equals("PENDIENTE"))
                                     {%>
-                                    <form method="post" action="AnularOC">
+                                    <form method="post" action="AnularOC" onsubmit="return confirmacion()">
                                         <input type="submit" value="Anular compra"><input name="idorden" style="display: none" value="<%= res.getString("ID_ORDEN")%>" >
                                     </form>
                                     <%} %>
@@ -100,9 +111,9 @@
                       
                       
               </table>
-                 </div>           
+                          
             <!-- /.row -->
-
+<% bd.cerrarConexion(); %>
           </div>
         <footer class="py-5 bg-dark">
     <div class="container">

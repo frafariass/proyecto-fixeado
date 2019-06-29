@@ -33,8 +33,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Mis órdenes de compra</title>
     </head>
+    
+    <script type="text/javascript">
+        function confirmacion()
+            {
+                if(confirm("¿Está seguro?"))
+                {
+                    return true;
+                }else
+                {
+                    return false;
+                }
+            }
+    </script>
     <body>
-        <div class="container" style="overflow-x:auto;">
+        <div class="container" style="overflow-x:auto; ;">
             <div class="row">
             <!-- Jumbotron Header -->
 
@@ -63,7 +76,7 @@
                                     <td>
                                         <%if(res.getString("nombre_estado").equals("PENDIENTE"))
                                     {%>
-                                    <form method="post" action="AnularOC">
+                                    <form method="post" action="AnularOC" onsubmit="return confirmacion()">
                                         <input type="submit" value="Anular compra"><input name="idorden" style="display: none" value="<%= res.getString("ID_ORDEN")%>" >
                                     </form>
                                     <%} %>
@@ -90,6 +103,8 @@
             <!-- /.row -->
 
           </div>
+                            
+                            <% bd.cerrarConexion(); %>
         <footer class="py-5 bg-dark">
     <div class="container">
         

@@ -272,7 +272,7 @@
 
 
   </div>
-        
+   <% bd.cerrarConexion(); %>     
         <footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Ferretería Ferme 2019</p>

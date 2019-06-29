@@ -77,7 +77,7 @@ public class UserAModificar extends HttpServlet {
                     usu.setRol_id_rol(rolid);
                     usu.setRut_user(rutuser);
                     usu.setComuna_comuna_id(comunaid);
-                    
+                    bd.cerrarConexion();
                     request.getSession().setAttribute("usubuscar1", usu);
                     RequestDispatcher requestDispatcher = request.getRequestDispatcher("editarperfil.jsp");
                     requestDispatcher.forward(request, response);

@@ -80,13 +80,15 @@ public class Login extends HttpServlet {
 
                     Usuario usu = new Usuario(dv,nombre,apellido,email,contrasena,direccion,fono,estado_id_estado,
                                             rubro_id,id_user,rol_id_rol,rutquery,comunaid);
-
+                    
+                    bd.cerrarConexion();
                     request.getSession().setAttribute("usu1", usu);
                     response.sendRedirect("index.jsp");
                 }catch(Exception e)
                 {
                     String rutarmado = rut + "-" + dvaux;
                     String mensaje2 = "El rut " + rutarmado + " no se encuentra registrado en el sistema o la contraseña es incorrecta";
+                    bd.cerrarConexion();
                     Mensaje mensaje = new Mensaje(mensaje2, "javascript:window.history.back();", "&laquo; Volver");
                     request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");

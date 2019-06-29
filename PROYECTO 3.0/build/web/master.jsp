@@ -29,7 +29,7 @@
         listaventas = new ArrayList<Venta>();
         request.getSession().setAttribute("listaventas1", listaventas);
     }
-
+    
 %>
 <!DOCTYPE html>
 <html>

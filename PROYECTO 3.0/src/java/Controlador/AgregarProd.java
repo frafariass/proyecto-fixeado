@@ -215,6 +215,7 @@ public class AgregarProd extends HttpServlet {
 
                         if(extension.equals(""))
                         {
+                            bd.cerrarConexion();
                             Mensaje mensaje = new Mensaje("El archivo ingresado NO es una imagen", "javascript:window.history.back();", "&laquo; Volver");
                             request.getSession().setAttribute("mensaje1", mensaje);
                             response.sendRedirect("error.jsp");
@@ -247,13 +248,14 @@ public class AgregarProd extends HttpServlet {
                 
                 if(rutaarchivosubido.equals(""))
                 {
+                    bd.cerrarConexion();
                     Mensaje mensaje = new Mensaje("El archivo ingresado NO es una imagen", "javascript:window.history.back();", "&laquo; Volver");
                     request.getSession().setAttribute("mensaje1", mensaje);
                     response.sendRedirect("error.jsp");
                 }else
                 {
 
-                    
+                    bd.cerrarConexion();
                         Mensaje mensaje = new Mensaje("El producto ha sido agregado con éxito", "administrar.jsp", "&laquo; Ir a administrar");
                         request.getSession().setAttribute("mensaje1", mensaje);
                         response.sendRedirect("error.jsp");
