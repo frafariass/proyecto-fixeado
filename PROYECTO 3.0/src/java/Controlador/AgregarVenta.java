@@ -77,7 +77,15 @@ public class AgregarVenta extends HttpServlet {
                 }
                 bd.cerrarConexion();
                 request.getSession().setAttribute("listaventas1", null);
-                response.sendRedirect("datostransferencia.jsp");
+                if(tipopago.equals("2"))
+                {
+                    response.sendRedirect("datostransferencia.jsp");
+                }else
+                {
+                    Mensaje mensaje = new Mensaje("Gracias por su compra", "miscompras.jsp", "&laquo; Ir a mis compras");
+                    request.getSession().setAttribute("mensaje1", mensaje);
+                    response.sendRedirect("error.jsp");
+                }
             }catch(Exception e)
             {
                 Mensaje mensaje = new Mensaje(e.getMessage(), "javascript:window.history.back();", "&laquo; Volver");

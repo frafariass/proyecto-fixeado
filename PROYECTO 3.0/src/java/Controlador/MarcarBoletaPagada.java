@@ -47,6 +47,7 @@ public class MarcarBoletaPagada extends HttpServlet {
                 String q3 = "SELECT * FROM VENTA WHERE NUMERO_BOLETA =" + nroboleta;
                 ResultSet res2 = bd.read(q3);
                 res2.next();
+                boolean todosconstock = true;
                 do {
                    String idprod = res2.getString("producto_id_producto");
                    int cantidad = Integer.parseInt(res2.getString("cantidad"));
@@ -54,18 +55,44 @@ public class MarcarBoletaPagada extends HttpServlet {
                    ResultSet res = bd.read(q2);
                    res.next();
                    int stock = Integer.parseInt(res.getString("stock"));
-                   stock = stock-cantidad;
-                   q2 = "update producto set stock = " + stock + " where id_producto = '" + idprod + "'";
-                   bd.update(q2);
+                   if(stock < cantidad)
+                   {
+                       todosconstock = false;
+                   }
                 } while (res2.next());
+                res2.first();
+                if(todosconstock)
+                {
+                    do {
+                       String idprod = res2.getString("producto_id_producto");
+                       int cantidad = Integer.parseInt(res2.getString("cantidad"));
+                       String q2 = "SELECT STOCK FROM PRODUCTO WHERE ID_PRODUCTO = '" + idprod + "'";
+                       ResultSet res = bd.read(q2);
+                       res.next();
+                       int stock = Integer.parseInt(res.getString("stock"));
+                       if(stock >= 1)
+                       {
+                           stock = stock-cantidad;
+                           q2 = "update producto set stock = " + stock + " where id_producto = '" + idprod + "'";
+                           bd.update(q2);
+                       }
+                    } while (res2.next());
+                    String q = "UPDATE VENTA SET ESTADO_ID_ESTADO = 4 WHERE NUMERO_BOLETA = " + nroboleta;
+                    bd.update(q);
+                    bd.cerrarConexion();
+                    Mensaje mensaje = new Mensaje("Venta marcada como pagada exitosamente", "venbuscar.jsp", "&laquo; Volver");
+                    request.getSession().setAttribute("mensaje1", mensaje);
+                    response.sendRedirect("error.jsp");
+                }else
+                {
+                    Mensaje mensaje = new Mensaje("No se puede pagar, hay productos que no tienen stock", "venbuscar.jsp", "&laquo; Volver");
+                    request.getSession().setAttribute("mensaje1", mensaje);
+                    response.sendRedirect("error.jsp");
+                }
+               
 
                 
-                String q = "UPDATE VENTA SET ESTADO_ID_ESTADO = 4 WHERE NUMERO_BOLETA = " + nroboleta;
-                bd.update(q);
-                bd.cerrarConexion();
-                Mensaje mensaje = new Mensaje("Venta marcada como pagada exitosamente", "venbuscar.jsp", "&laquo; Volver");
-                request.getSession().setAttribute("mensaje1", mensaje);
-                response.sendRedirect("error.jsp");
+                
                 
             }catch(Exception e)
             {

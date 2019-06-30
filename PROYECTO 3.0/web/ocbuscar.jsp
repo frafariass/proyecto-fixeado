@@ -80,7 +80,7 @@
                                     <td>
                                         <%if(res.getString("nombre_estado").equals("PENDIENTE"))
                                     {%>
-                                    <form method="post" action="RecepcionOC">
+                                    <form method="post" action="RecepcionOC" onsubmit="return confirmacion()">
                                         <input type="submit" value="Recepcionar OC"><input name="idorden" style="display: none" value="<%= res.getString("ID_ORDEN")%>">
                                     </form>
                                     <%} %>

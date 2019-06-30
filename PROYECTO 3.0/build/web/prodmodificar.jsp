@@ -147,7 +147,7 @@
         $(window).on('load', function()
         {
             
-            var nombre = "<%= probuscar.getNombre()%>;
+            var nombre = "<%= probuscar.getNombre()%>";
             var descripcion = "<%= probuscar.getDesc_producto()%>";
             var preciou = "<%= probuscar.getPrecio_unitario()%>";
             var stock = "<%= probuscar.getStock()%>";
@@ -263,7 +263,7 @@
                             <td>Imagen:</td><td><input type="file" name="imagen" id="imagen"><label ><font color="red" id="pimagen"></font> </label></td>
                         </tr>
                         <tr>
-                            <td><a href="javascript:window.history.back();">&laquo; Volver</a></td><td><input type="submit" value="Enviar" name="submitn"></td>
+                            <td><a href="javascript:window.history.back();">&laquo; Volver</a></td><td><input type="submit" value="Modificar" name="submitn"></td>
                         </tr>
                     </table>
                         <input type="hidden" style="display: none" name="idprod" id="idprod" value="<%= probuscar.getId_producto()%>">

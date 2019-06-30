@@ -98,7 +98,7 @@
                     <tr>
                         <td>Cantidad</td>
                         <td>
-                            <input class="form-control" type="number" id="cantid" name="cantid" value="1" min="1" onchange="actualizarTotal()">
+                            <input type="number" id="cantid" name="cantid" value="1" min="1" onchange="actualizarTotal()">
                         </td>
                     </tr>
                     <tr>
