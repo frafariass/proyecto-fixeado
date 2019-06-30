@@ -83,7 +83,7 @@
                             
                             <div class="carousel-item active">
                                 <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>">
-                                    <img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="First slide" width="900" height="350"></a>
+                                    <img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="First slide" style="width: 900px; height: 350px;"></a>
                               </div>
                                 
                             <% res.next(); }else
@@ -91,7 +91,7 @@
                             
                             <div class="carousel-item">
                                 <a href="http://localhost:11111/PROYECTO_3.0/EspecificacionProducto?dato=<%= res.getString("producto_id_producto") %>">
-                                    <img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="Second slide" width="900" height="350"></a>
+                                    <img class="d-block img-fluid" src="<% out.println(res.getString("IMAGEN")); %>" alt="Second slide" style="width: 900px; height: 350px;"></a>
                             </div>
 
                             <%res.next(); }

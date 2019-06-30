@@ -78,7 +78,7 @@ public class AgregarProd extends HttpServlet {
 
                    // Hay que comprobar si es un campo de formulario. Si no lo es, se guarda el fichero
                    // subido donde nos interese
-                   int contador = 1;
+                   
                    
                    if (!uploaded.isFormField()) {
                       // No es campo de formulario, guardamos el fichero en algún sitio   

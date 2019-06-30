@@ -116,7 +116,7 @@
         %>
                          <h5>Datos empleado:</h5>
                          <h5 class='card-text' style='font-size: small'>Fecha de vencimiento: <% out.println(fechavenc); %></h5>
-                         <h5 class='card-text' style='font-size: small'>Valor precio compra a proveedor: <% out.println(prod.getPrecio_unitario()); %></h5>
+                         <h5 class='card-text' style='font-size: small'>Valor precio compra a proveedor: $<% out.println(prod.getPrecio_unitario()); %></h5>
                          <h5 class='card-text' style='font-size: small'>Id proveedor asociado: <% out.println(prod.getUsuario_id_proveedor()); %></h5>
                          <h5 class='card-text' style='font-size: small'>Stock crítico: <% out.println(prod.getStock_critico()); %></h5>
                     

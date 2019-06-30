@@ -93,8 +93,8 @@
                         <%
                             do {%>
                             <tr>
-                                <td><%out.println(res.getString("id_producto"));%></td><td><%out.println(res.getString("nombre"));%></td><td><% out.println(res.getString("precio_unitario"));%></td>
-                                <td><%out.println(res.getString("precio_compra"));%></td><td><% out.println(Math.round(Integer.parseInt(res.getString("precio_compra"))*1.19));%></td><td><% out.println(res.getString("stock"));%></td>
+                                <td><%out.println(res.getString("id_producto"));%></td><td><%out.println(res.getString("nombre"));%></td><td>$<% out.println(res.getString("precio_unitario"));%></td>
+                                <td>$<%out.println(res.getString("precio_compra"));%></td><td>$<% out.println(Math.round(Integer.parseInt(res.getString("precio_compra"))*1.19));%></td><td><% out.println(res.getString("stock"));%></td>
                                 <td><% out.println(res.getString("stock_critico"));%></td><td><% out.println(res.getString("usuario_id_proveedor"));%></td><td><% out.println(res.getString("nombre_tipoprod"));%></td><td><% out.println(res.getString("nombre_familia"));%></td>
                                 <td><% out.println(res.getString("nombre_estado"));%></td>
                                 <td>

@@ -77,6 +77,20 @@
             }   
         }
         
+        function validarpreciou()
+        {
+            var preciou = document.getElementById("precioc").value;
+            if(preciou.length < 1)
+            {
+                document.getElementById("pprecioc").innerHTML = "* El precio compra no es válido";
+                return false;
+            }else
+            {
+                document.getElementById("pprecioc").innerHTML = "* ";
+                return true;
+            }   
+        }
+        
         function validarstock()
         {
             var stock = document.getElementById("stock").value;
@@ -116,10 +130,24 @@
             $(selectElement).empty().append( options );
         }
         
+        function calcularpreciocompra()
+        {
+            var preciounitario = $('#preciou').val();
+            var preciocompra = $('#precioc').val();
+            if(document.getElementById("calculoauto").checked)
+            {
+                $('#precioc').val(preciounitario*1.30);
+                document.getElementById("precioc").readOnly = true;
+            }else
+            {
+                document.getElementById("precioc").readOnly = false;
+            }
+        }
+        
         $(window).on('load', function()
         {
             
-            var nombre = "<%= probuscar.getNombre()%>";
+            var nombre = "<%= probuscar.getNombre()%>;
             var descripcion = "<%= probuscar.getDesc_producto()%>";
             var preciou = "<%= probuscar.getPrecio_unitario()%>";
             var stock = "<%= probuscar.getStock()%>";
@@ -132,7 +160,9 @@
             $('#stock').val(stock);
             $('#stockcri').val(stockcri);
             
-            
+            $("#calculoauto").on("paste keyup input", function() {
+                calcularpreciocompra();
+            });
             
             $("#nombre").on("paste keyup input", function() {
                 validarnombre();
@@ -207,23 +237,27 @@
                     <input type="hidden" style="display: none" id="idprod" name="idprod" value="<%= probuscar.getId_producto()%>">
                     <table class="table">
                         <tr>
-                            <td>Nombre:</td><td><input type="text" name="nombre" id="nombre"><label ><font color="red" id="pnombre">* </font> </label></td>
+                            <td>Nombre:</td><td><input type="text" name="nombre" id="nombre" value="<%= probuscar.getNombre()%>"><label ><font color="red" id="pnombre">* </font> </label></td>
                         </tr>
 
                         <tr>
-                            <td>Descripción:</td><td><textarea type="textarea" name="descripcion" id="descripcion"></textarea><label ><font color="red" id="pdescripcion">* </font> </label></td>
+                            <td>Descripción:</td><td><textarea type="textarea" name="descripcion" id="descripcion" value="<%= probuscar.getDesc_producto()%>"><%= probuscar.getDesc_producto()%></textarea><label ><font color="red" id="pdescripcion">* </font> </label></td>
                         </tr>
 
                         <tr>
-                            <td>Precio unitario:</td><td><input type="number" name="preciou" id="preciou"><label ><font color="red" id="ppreciou">* </font> </label></td>
+                            <td>Precio unitario:</td><td><input type="number" name="preciou" id="preciou" value="<%= probuscar.getPrecio_unitario()%>"><label ><font color="red" id="ppreciou">* </font> </label></td>
+                        </tr>
+                        <tr>
+                            <td>Precio compra:</td><td><input type="number" name="precioc" id="precioc" value="<%= probuscar.getPrecio_compra()%>"><label ><font color="red" id="pprecioc">* </font></label><br>
+                                <input type="checkbox" id="calculoauto" name="calculoauto">Calcular automaticamente</td>
                         </tr>
                         
                         <tr>
-                            <td>Stock:</td><td><input type="number" name="stock" id="stock"><label ><font color="red" id="pstock">* </font> </label></td>
+                            <td>Stock:</td><td><input type="number" name="stock" id="stock" value="<%= probuscar.getStock()%>"><label ><font color="red" id="pstock">* </font> </label></td>
                         </tr>
                         
                         <tr>
-                            <td>Stock crítico:</td><td><input type="number" name="stockcri" id="stockcri"><label ><font color="red" id="pstockcri">* </font> </label></td>
+                            <td>Stock crítico:</td><td><input type="number" name="stockcri" id="stockcri" value="<%= probuscar.getStock_critico()%>"><label ><font color="red" id="pstockcri">* </font> </label></td>
                         </tr>
                         <tr>
                             <td>Imagen:</td><td><input type="file" name="imagen" id="imagen"><label ><font color="red" id="pimagen"></font> </label></td>
@@ -232,6 +266,7 @@
                             <td><a href="javascript:window.history.back();">&laquo; Volver</a></td><td><input type="submit" value="Enviar" name="submitn"></td>
                         </tr>
                     </table>
+                        <input type="hidden" style="display: none" name="idprod" id="idprod" value="<%= probuscar.getId_producto()%>">
                 </form>
             </div>
         </div>
