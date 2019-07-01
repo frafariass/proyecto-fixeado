@@ -82,7 +82,10 @@ public class Registro extends HttpServlet {
                         if(request.getParameter("tiporegistro").equals("regadmin"))
                         {
                             rol = Integer.parseInt(request.getParameter("selectrol"));
-                            rubro = Integer.parseInt(request.getParameter("selectrubro"));
+                            if(request.getParameter("selectrubro") != null)
+                            {
+                                rubro = Integer.parseInt(request.getParameter("selectrubro"));
+                            }
                         }
 
                         char digitochar = digitorutingresado.charAt(0);

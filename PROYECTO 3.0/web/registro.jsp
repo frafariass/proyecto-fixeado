@@ -283,7 +283,7 @@
         //SI NO ESTAN LLENOS, EL SUBMIT SE DESHABILITA
         $(window).on('load', function() {  
             
-            
+            document.getElementById('selectrubro').disabled = true;
             var rolactual = -2;
             <%
                 if(usu != null){%> rolactual = <%= usu.getRol_id_rol()%>
@@ -340,6 +340,17 @@
                 cifrado();
             });
             
+            $("#selectrol").on("change", function() {
+                var seleccionado = $('#selectrol').val();
+                if(seleccionado === "5")
+                {
+                    document.getElementById('selectrubro').disabled = false;
+                }else
+                {
+                    $('#selectrubro').val(1);
+                    document.getElementById('selectrubro').disabled = true;
+                }
+            });
 
             
             $("#direccion").on("paste keyup input", function() {
@@ -586,11 +597,11 @@
                         <tr>
                             <td>Teléfono de contacto:</td><td><input type="number" name="telefono" id="telefono"><label ><font color="red" id="ptelefono" name="ptelefono">* </font></label></td>
                         </tr>
-                        <tr id="trrubro">
-                        <td>Rubro:</td><td><select id='selectrubro' name='selectrubro'></select></td>
-                        </tr>
                         <tr id="trrol">
-                        <td>Rol:</td><td><select id='selectrol' name='selectrol'></select></td>
+                            <td>Rol:</td><td><select id='selectrol' name='selectrol'></select></td>
+                        </tr>
+                        <tr id="trrubro">
+                            <td>Rubro:</td><td><select id='selectrubro' name='selectrubro'></select></td>
                         </tr>
                         <tr>
                             <td><a href="javascript:window.history.back();">&laquo; Volver</a></td><td><input type="submit" value="Enviar" name="submitn" id="submitn"></td>

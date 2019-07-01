@@ -64,26 +64,35 @@ public class Login extends HttpServlet {
                 
                 try
                 {
-                    int rutquery = Integer.parseInt(res.getString("rut_user"));
-                    char dv = res.getString("dv_user").charAt(0);
-                    String nombre = res.getString("nombre_user");
-                    String apellido = res.getString("apellido_user");
-                    String email = res.getString("email_user");
-                    String contrasena = res.getString("contrasena");
-                    String direccion = res.getString("direccion_user");
-                    String fono = res.getString("fono_user");
-                    int estado_id_estado = Integer.parseInt(res.getString("estado_id_estado"));
-                    int rubro_id = Integer.parseInt(res.getString("rubro_id_rubro"));
-                    int rol_id_rol = Integer.parseInt(res.getString("rol_id_rol"));
-                    int id_user = Integer.parseInt(res.getString("id_user"));
-                    int comunaid = Integer.parseInt(res.getString("comuna_comuna_id"));
+                    if(res.getString("estado_id_estado").equals("-1"))
+                    {
+                        Mensaje mensaje = new Mensaje("El usuario está anulado", "javascript:window.history.back();", "&laquo; Volver");
+                        request.getSession().setAttribute("mensaje1", mensaje);
+                        response.sendRedirect("error.jsp");
+                    }else
+                    {
+                        int rutquery = Integer.parseInt(res.getString("rut_user"));
+                        char dv = res.getString("dv_user").charAt(0);
+                        String nombre = res.getString("nombre_user");
+                        String apellido = res.getString("apellido_user");
+                        String email = res.getString("email_user");
+                        String contrasena = res.getString("contrasena");
+                        String direccion = res.getString("direccion_user");
+                        String fono = res.getString("fono_user");
+                        int estado_id_estado = Integer.parseInt(res.getString("estado_id_estado"));
+                        int rubro_id = Integer.parseInt(res.getString("rubro_id_rubro"));
+                        int rol_id_rol = Integer.parseInt(res.getString("rol_id_rol"));
+                        int id_user = Integer.parseInt(res.getString("id_user"));
+                        int comunaid = Integer.parseInt(res.getString("comuna_comuna_id"));
 
-                    Usuario usu = new Usuario(dv,nombre,apellido,email,contrasena,direccion,fono,estado_id_estado,
-                                            rubro_id,id_user,rol_id_rol,rutquery,comunaid);
+                        Usuario usu = new Usuario(dv,nombre,apellido,email,contrasena,direccion,fono,estado_id_estado,
+                                                rubro_id,id_user,rol_id_rol,rutquery,comunaid);
+
+                        bd.cerrarConexion();
+                        request.getSession().setAttribute("usu1", usu);
+                        response.sendRedirect("index.jsp");
+                    }
                     
-                    bd.cerrarConexion();
-                    request.getSession().setAttribute("usu1", usu);
-                    response.sendRedirect("index.jsp");
                 }catch(Exception e)
                 {
                     String rutarmado = rut + "-" + dvaux;
